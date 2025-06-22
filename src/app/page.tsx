@@ -1,51 +1,56 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const CONTENT_WIDTH = 1510;
 const CONTENT_HEIGHT = 850;
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeElement, setIframeElement] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
-      if (containerRef.current && iframeRef.current) {
-        const containerWidth = containerRef.current.clientWidth;
-        const containerHeight = containerRef.current.clientHeight;
+      if (!containerRef.current) return;
 
-        // Use the container width to determine scale, maintaining aspect ratio
-        const scale = containerWidth / CONTENT_WIDTH;
+      const containerWidth = containerRef.current.clientWidth;
+      const containerHeight = containerRef.current.clientHeight;
+      const scale = containerWidth / CONTENT_WIDTH;
+      const height = CONTENT_HEIGHT * scale;
+      const translateY = (containerHeight - height) / 2;
+
+      // Create or update iframe with correct dimensions
+      if (!iframeElement) {
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://api.seyu.hu/backend/backend/slideshow?event-id=1779&slideshow-id=2202&date-from=1748728800000&enable-poster=0&token=eyJhbGciOiJIUzI1NiJ9.eyJzbGlkZXNob3dJZCI6MjIwMn0.iLS_ebzWrDt665-bUo2FhGN7dNGer2gSvUSfo7Uwfqc';
+        iframe.className = 'border-0 absolute origin-top-left rounded-[20px]';
+        iframe.allowFullscreen = true;
+        iframe.style.width = `${CONTENT_WIDTH}px`;
+        iframe.style.height = `${CONTENT_HEIGHT}px`;
+        iframe.style.transform = `translate(0px, ${translateY}px) scale(${scale})`;
         
-        // Calculate height for vertical centering
-        const height = CONTENT_HEIGHT * scale;
-        const translateY = (containerHeight - height) / 2;
-
-        // Apply transform
-        iframeRef.current.style.transform = `translate(0px, ${translateY}px) scale(${scale})`;
-        iframeRef.current.style.width = `${CONTENT_WIDTH}px`;
-        iframeRef.current.style.height = `${CONTENT_HEIGHT}px`;
+        containerRef.current.innerHTML = '';
+        containerRef.current.appendChild(iframe);
+        setIframeElement(iframe);
+      } else {
+        // Just update dimensions for existing iframe
+        (iframeElement as HTMLElement).style.width = `${CONTENT_WIDTH}px`;
+        (iframeElement as HTMLElement).style.height = `${CONTENT_HEIGHT}px`;
+        (iframeElement as HTMLElement).style.transform = `translate(0px, ${translateY}px) scale(${scale})`;
       }
     };
 
-    handleResize(); // Initial resize
+    handleResize(); // Initial creation and sizing
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [iframeElement]);
 
   return (
     <main className="bg-scroll flex items-center justify-center h-full w-full">
       <div ref={containerRef} className="w-[90vw] aspect-video relative overflow-hidden rounded-[20px]">
-        <iframe
-          src="https://api.seyu.hu/backend/backend/slideshow?event-id=1779&slideshow-id=2202&date-from=1748728800000&enable-poster=0&token=eyJhbGciOiJIUzI1NiJ9.eyJzbGlkZXNob3dJZCI6MjIwMn0.iLS_ebzWrDt665-bUo2FhGN7dNGer2gSvUSfo7Uwfqc"
-          ref={iframeRef}
-          className="border-0 absolute origin-top-left rounded-[20px]"
-          allowFullScreen
-        />
       </div>
     </main>
   );
