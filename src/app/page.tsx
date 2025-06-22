@@ -1,105 +1,105 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import styled from 'styled-components';
 
-const CONTENT_WIDTH = 1510;
-const CONTENT_HEIGHT = 850;
-const ASPECT_RATIO = CONTENT_HEIGHT / CONTENT_WIDTH;
+// Original content dimensions
+const ORIGINAL_WIDTH = 1510;
+const ORIGINAL_HEIGHT = 850;
+const ASPECT_RATIO = 850/1510;
+
+const IFRAME_URL = 'https://api.seyu.hu/backend/backend/slideshow?event-id=1779&slideshow-id=2202&date-from=1748728800000&enable-poster=0&token=eyJhbGciOiJIUzI1NiJ9.eyJzbGlkZXNob3dJZCI6MjIwMn0.iLS_ebzWrDt665-bUo2FhGN7dNGer2gSvUSfo7Uwfqc';
+
+const Container = styled.div`
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  overflow: hidden;
+`;
+
+const IframeWrapper = styled.div`
+  background: transparent;
+  overflow: hidden;
+  position: relative;
+  border-radius: 20px;
+  border: 3px solid white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+`;
+
+const ResponsiveIframe = styled.iframe`
+  border: none;
+  background: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+`;
 
 export default function Home() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [iframeElement, setIframeElement] = useState<HTMLIFrameElement | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function getComputedDimensions(containerWidth: number) {
-      // Calculate dimensions while maintaining aspect ratio
-      const width = Math.min(containerWidth, CONTENT_WIDTH);
-      const height = width * ASPECT_RATIO;
-      return { width, height };
-    }
+    const calculateDimensions = () => {
+      if (!wrapperRef.current || !iframeRef.current) return;
 
-    function createOrUpdateIframe() {
-      if (!containerRef.current) return;
+      // Get viewport dimensions
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
 
-      const containerWidth = containerRef.current.clientWidth;
-      const containerHeight = containerRef.current.clientHeight;
-      const { width, height } = getComputedDimensions(containerWidth);
+      let targetWidth, targetHeight;
 
-      // Center position calculation
-      const left = Math.max(0, (containerWidth - width) / 2);
-      const top = Math.max(0, (containerHeight - height) / 2);
-
-      const styles = {
-        position: 'absolute',
-        left: left + 'px',
-        top: top + 'px',
-        width: width + 'px',
-        height: height + 'px',
-        border: '3px solid white',
-        borderRadius: '20px',
-        boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
-        backgroundColor: '#000' // Add background color for smoother loading
-      };
-
-      if (!iframeElement) {
-        try {
-          const iframe = document.createElement('iframe');
-          iframe.src = 'https://api.seyu.hu/backend/backend/slideshow?event-id=1779&slideshow-id=2202&date-from=1748728800000&enable-poster=0&token=eyJhbGciOiJIUzI1NiJ9.eyJzbGlkZXNob3dJZCI6MjIwMn0.iLS_ebzWrDt665-bUo2FhGN7dNGer2gSvUSfo7Uwfqc';
-          iframe.setAttribute('allowfullscreen', 'true');
-          iframe.setAttribute('frameborder', '0');
-          
-          // Apply all styles
-          Object.assign(iframe.style, styles);
-
-          if (containerRef.current.firstChild) {
-            containerRef.current.removeChild(containerRef.current.firstChild);
-          }
-          containerRef.current.appendChild(iframe);
-          setIframeElement(iframe);
-        } catch (err) {
-          console.error('Error creating iframe:', err);
-        }
+      // Calculate the maximum size that maintains the original aspect ratio
+      if ((viewportWidth / viewportHeight) > (ORIGINAL_WIDTH / ORIGINAL_HEIGHT)) {
+        // Screen is wider than content - height is limiting factor
+        targetHeight = viewportHeight * 0.9; // 90% of viewport height
+        targetWidth = Math.floor(targetHeight / ASPECT_RATIO);
       } else {
-        try {
-          // Update existing iframe
-          Object.assign(iframeElement.style, styles);
-        } catch (err) {
-          console.error('Error updating iframe:', err);
-        }
+        // Screen is narrower than content - width is limiting factor
+        targetWidth = viewportWidth * 0.9; // 90% of viewport width
+        targetHeight = Math.floor(targetWidth * ASPECT_RATIO);
       }
-    }
 
-    // Initial creation
-    createOrUpdateIframe();
+      // Set wrapper to target size
+      wrapperRef.current.style.width = `${targetWidth}px`;
+      wrapperRef.current.style.height = `${targetHeight}px`;
 
-    // Handle resize
-    let resizeTimer: NodeJS.Timeout;
-    function handleResize() {
-      // Debounce resize events
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(createOrUpdateIframe, 100);
-    }
+      // Calculate scale (how much we need to scale the original content)
+      const scale = targetWidth / ORIGINAL_WIDTH;
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', handleResize);
-      return () => {
-        window.removeEventListener('resize', handleResize);
-        clearTimeout(resizeTimer);
-      };
-    }
-  }, [iframeElement]);
+      // Set iframe to original size and scale it
+      iframeRef.current.style.width = `${ORIGINAL_WIDTH}px`;
+      iframeRef.current.style.height = `${ORIGINAL_HEIGHT}px`;
+      iframeRef.current.style.transform = `scale(${scale})`;
+
+      console.log('Dimensions:', {
+        viewport: `${viewportWidth}x${viewportHeight}`,
+        target: `${targetWidth}x${targetHeight}`,
+        scale: `${(scale * 100).toFixed(3)}%`,
+        finalSize: `${Math.round(ORIGINAL_WIDTH * scale)}x${Math.round(ORIGINAL_HEIGHT * scale)}`,
+        aspectRatio: (targetWidth / targetHeight).toFixed(3)
+      });
+    };
+
+    calculateDimensions();
+    window.addEventListener('resize', calculateDimensions);
+
+    return () => window.removeEventListener('resize', calculateDimensions);
+  }, []);
 
   return (
-    <main className="bg-scroll flex items-center justify-center h-full w-full">
-      <div 
-        ref={containerRef} 
-        className="w-[90vw] aspect-video relative overflow-hidden"
-        style={{
-          minHeight: '200px', // Ensure minimum height for very small screens
-          backgroundColor: 'rgba(0,0,0,0.1)' // Visual placeholder while loading
-        }}
-      >
-      </div>
-    </main>
+    <Container>
+      <IframeWrapper ref={wrapperRef}>
+        <ResponsiveIframe
+          ref={iframeRef}
+          src={IFRAME_URL}
+          title="Slideshow"
+          allow="fullscreen"
+        />
+      </IframeWrapper>
+    </Container>
   );
 }
