@@ -54,7 +54,7 @@ export default function Home() {
         Welcome to Picito! Select an iframe configuration below or visit the{' '}
         <Link href="/admin" style={{ color: '#0070f3' }}>admin page</Link> to manage configurations
         or check out our{' '}
-        <Link href="/docs/RESPONSIVE_IFRAME.md" style={{ color: '#0070f3' }}>technical guide</Link> to learn how it works.
+        <Link href="/docs/guide" style={{ color: '#0070f3' }}>technical guide</Link>
       </p>
       <Grid>
         {Object.values(configs).map(config => (
