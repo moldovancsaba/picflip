@@ -6,6 +6,7 @@
 - **Language**: TypeScript
 - **Database**: MongoDB
 - **Styling**: Styled Components
+- **Authentication**: JWT (jose)
 - **Deployment**: Vercel
 - **Development Tools**:
   - npm (Package Manager)
@@ -18,36 +19,43 @@
 2. `/src/app/layout.tsx` - Root layout component
 3. `/src/app/admin/page.tsx` - Admin interface
 4. `/src/app/iframe/[id]/page.tsx` - Dynamic iframe routes
-5. `/src/app/docs/guide/page.tsx` - Documentation guide page
-6. `/src/app/docs/guide/layout.tsx` - Documentation layout
-7. `/src/app/api/settings/route.ts` - API route for settings
+5. `/src/app/login/page.tsx` - Login page component
+6. `/src/app/login/layout.tsx` - Login page layout
+7. `/src/app/docs/guide/page.tsx` - Documentation guide page
+8. `/src/app/docs/guide/layout.tsx` - Documentation layout
+9. `/src/app/api/settings/route.ts` - API route for settings
+10. `/src/app/api/auth/login/route.ts` - Authentication API endpoint
 
 ### Components
-8. `/src/components/IframeViewer.tsx` - Iframe viewing component
-9. `/src/components/Loading.tsx` - Loading state component
+11. `/src/components/IframeViewer.tsx` - Iframe viewing component
+12. `/src/components/Loading.tsx` - Loading state component
+13. `/src/components/LoginForm.tsx` - Email login form component
 
 ### Library and Utilities
-10. `/src/lib/db.ts` - Database connection utilities
-11. `/src/lib/settings-context.tsx` - Settings context provider
-12. `/src/lib/styled.tsx` - Styled components utilities
-13. `/src/lib/types.ts` - TypeScript type definitions
+14. `/src/lib/db.ts` - Database connection utilities
+15. `/src/lib/auth.ts` - Authentication utilities
+16. `/src/lib/settings-context.tsx` - Settings context provider
+17. `/src/lib/styled.tsx` - Styled components utilities
+18. `/src/lib/types.ts` - TypeScript type definitions
 
 ### Models
-14. `/src/models/Settings.ts` - Settings database model
+19. `/src/models/Settings.ts` - Settings database model
+20. `/src/models/User.ts` - User database model
 
 ### Configuration Files
-15. `/next.config.ts` - Next.js configuration
-16. `/tsconfig.json` - TypeScript configuration
-17. `/vercel.json` - Vercel deployment configuration
-18. `/package.json` - Project dependencies and scripts
+21. `/next.config.ts` - Next.js configuration
+22. `/tsconfig.json` - TypeScript configuration
+23. `/vercel.json` - Vercel deployment configuration
+24. `/package.json` - Project dependencies and scripts
+25. `/src/middleware.ts` - Authentication middleware
 
 ### Documentation Files
-19. `/README.md` - Project overview and setup instructions
-20. `/LEARNINGS.md` - Development learnings and insights
-21. `/RELEASE_NOTES.md` - Version history and changes
-22. `/ROADMAP.md` - Project roadmap
-23. `/TASKLIST.md` - Task tracking
-24. `/docs/RESPONSIVE_IFRAME.md` - Technical guide for iframe implementation
+26. `/README.md` - Project overview and setup instructions
+27. `/LEARNINGS.md` - Development learnings and insights
+28. `/RELEASE_NOTES.md` - Version history and changes
+29. `/ROADMAP.md` - Project roadmap
+30. `/TASKLIST.md` - Task tracking
+31. `/docs/RESPONSIVE_IFRAME.md` - Technical guide for iframe implementation
 
 ## Deployment
 
@@ -58,8 +66,12 @@ The application is deployed to Vercel and is accessible at:
 
 ## Application Flow
 
-1. The application serves a main page that provides access to both the admin interface and documentation.
-2. The admin interface allows configuration of multiple iframes through a MongoDB-backed API.
-3. Each iframe configuration is accessible through a dynamic route at `/iframe/[id]`.
-4. All styling is handled through styled-components to ensure consistent theming and responsive design.
-5. The application uses a context provider to manage and distribute iframe settings across components.
+1. Users can access the application through email-only authentication at `/login`.
+2. New users are automatically registered on first login with default user role.
+3. Authentication is handled via JWT tokens stored in HTTP-only cookies.
+4. Protected routes (admin, users, organizations) require valid authentication.
+5. The main page provides access to the admin interface and documentation.
+6. The admin interface allows configuration of multiple iframes through a MongoDB-backed API.
+7. Each iframe configuration is accessible through a dynamic route at `/iframe/[id]`.
+8. All styling is handled through styled-components to ensure consistent theming and responsive design.
+9. The application uses a context provider to manage and distribute iframe settings across components.
