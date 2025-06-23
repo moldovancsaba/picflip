@@ -25,13 +25,34 @@ const Container = styled.div<{ $bgColor: string }>`
   overflow: hidden;
 `;
 
-const IframeWrapper = styled.div`
+const IframeWrapper = styled.div<{ $hAlign: string, $vAlign: string }>`
   background: transparent;
   overflow: hidden;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  ${props => {
+    switch (props.$hAlign) {
+      case 'left': return 'left: 0; transform: translateX(0);';
+      case 'right': return 'right: 0; transform: translateX(0);';
+      default: return 'left: 50%; transform: translateX(-50%);';
+    }
+  }}
+  ${props => {
+    switch (props.$vAlign) {
+      case 'top': return 'top: 0; transform: translateY(0);';
+      case 'bottom': return 'bottom: 0; transform: translateY(0);';
+      default: return 'top: 50%; transform: translateY(-50%);';
+    }
+  }}
+  ${props => {
+    // Combine transforms based on alignment
+    const transforms = [];
+    if (props.$hAlign === 'center') transforms.push('translateX(-50%)');
+    if (props.$vAlign === 'middle') transforms.push('translateY(-50%)');
+    if (transforms.length > 0) {
+      return `transform: ${transforms.join(' ')};`;
+    }
+    return '';
+  }}
   margin: 0;
   padding: 0;
 `;
@@ -98,7 +119,11 @@ export default function Home() {
   return (
     <Container $bgColor={settings.backgroundColor}>
       <GlobalStyle />
-      <IframeWrapper ref={wrapperRef}>
+      <IframeWrapper 
+        ref={wrapperRef}
+        $hAlign={settings.horizontalAlignment}
+        $vAlign={settings.verticalAlignment}
+      >
         <ResponsiveIframe
           ref={iframeRef}
           src={settings.contentUrl}

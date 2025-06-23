@@ -63,6 +63,27 @@ const SizeInput = styled.div`
   }
 `;
 
+const AlignmentGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  width: fit-content;
+`;
+
+const AlignmentButton = styled.button<{ $active: boolean }>`
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  background-color: ${props => props.$active ? '#0070f3' : 'white'};
+  color: ${props => props.$active ? 'white' : 'black'};
+  cursor: pointer;
+  border-radius: 4px;
+  min-width: 80px;
+
+  &:hover {
+    background-color: ${props => props.$active ? '#0051cc' : '#f5f5f5'};
+  }
+`;
+
 export default function AdminPage() {
   const { settings, updateSettings } = useSettings();
   const router = useRouter();
@@ -160,6 +181,60 @@ export default function AdminPage() {
               required
             />
           </SizeInput>
+        </FormGroup>
+
+        <FormGroup>
+          <Label>Horizontal Alignment</Label>
+          <AlignmentGrid>
+            <AlignmentButton
+              type="button"
+              onClick={() => handleChange('horizontalAlignment', 'left')}
+              $active={formData.horizontalAlignment === 'left'}
+            >
+              Left
+            </AlignmentButton>
+            <AlignmentButton
+              type="button"
+              onClick={() => handleChange('horizontalAlignment', 'center')}
+              $active={formData.horizontalAlignment === 'center'}
+            >
+              Center
+            </AlignmentButton>
+            <AlignmentButton
+              type="button"
+              onClick={() => handleChange('horizontalAlignment', 'right')}
+              $active={formData.horizontalAlignment === 'right'}
+            >
+              Right
+            </AlignmentButton>
+          </AlignmentGrid>
+        </FormGroup>
+
+        <FormGroup>
+          <Label>Vertical Alignment</Label>
+          <AlignmentGrid>
+            <AlignmentButton
+              type="button"
+              onClick={() => handleChange('verticalAlignment', 'top')}
+              $active={formData.verticalAlignment === 'top'}
+            >
+              Top
+            </AlignmentButton>
+            <AlignmentButton
+              type="button"
+              onClick={() => handleChange('verticalAlignment', 'middle')}
+              $active={formData.verticalAlignment === 'middle'}
+            >
+              Middle
+            </AlignmentButton>
+            <AlignmentButton
+              type="button"
+              onClick={() => handleChange('verticalAlignment', 'bottom')}
+              $active={formData.verticalAlignment === 'bottom'}
+            >
+              Bottom
+            </AlignmentButton>
+          </AlignmentGrid>
         </FormGroup>
 
         <Button type="submit" disabled={!isDirty}>

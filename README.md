@@ -28,8 +28,29 @@ The application can be configured through the admin interface available at `/adm
 - **Original Content Size** - The width and height of the original content (e.g., 1400×1244)
 - **Aspect Ratio** - The desired aspect ratio for display (e.g., 9:8)
 - **Background Color** - The background color in hex format (e.g., #FF0000)
+- **Horizontal Alignment** - Position content left, center, or right
+- **Vertical Alignment** - Position content top, middle, or bottom
 
-Settings are automatically saved to localStorage and persist across page reloads.
+All settings are automatically saved to localStorage and persist across page reloads.
+
+### Content Alignment
+
+The content can be positioned in 9 different ways using the alignment controls:
+
+```
++-------------------+
+| TL    TC     TR  |
+|                   |
+| ML    MC     MR  |
+|                   |
+| BL    BC     BR  |
++-------------------+
+
+T = Top    M = Middle    B = Bottom
+L = Left   C = Center    R = Right
+```
+
+This gives you full control over where the scaled content appears within the viewport while maintaining aspect ratio.
 
 ## How It Works
 

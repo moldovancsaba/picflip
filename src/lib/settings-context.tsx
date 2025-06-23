@@ -2,6 +2,9 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 
+type HorizontalAlignment = 'left' | 'center' | 'right';
+type VerticalAlignment = 'top' | 'middle' | 'bottom';
+
 interface Settings {
   contentUrl: string;
   originalWidth: number;
@@ -9,6 +12,8 @@ interface Settings {
   aspectRatioX: number;
   aspectRatioY: number;
   backgroundColor: string;
+  horizontalAlignment: HorizontalAlignment;
+  verticalAlignment: VerticalAlignment;
 }
 
 const defaultSettings: Settings = {
@@ -18,6 +23,8 @@ const defaultSettings: Settings = {
   aspectRatioX: 9,
   aspectRatioY: 8,
   backgroundColor: '#FF0000',
+  horizontalAlignment: 'center',
+  verticalAlignment: 'middle',
 };
 
 interface SettingsContextType {
