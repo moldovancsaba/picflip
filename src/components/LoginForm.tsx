@@ -85,7 +85,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [privacyAccepted, setPrivacyAccepted] = useState('');
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -161,7 +161,7 @@ export default function LoginForm() {
       
       {error && <ErrorMessage>{error}</ErrorMessage>}
       
-      <Button
+      <Button type="submit" disabled={isLoading}>
         {isLoading ? 'Logging in...' : 'Continue with Email'}
       </Button>
     </Form>
