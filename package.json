@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@types/styled-components": "^5.1.34",
+    "jose": "^6.0.11",
     "marked": "^15.0.12",
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.0",
