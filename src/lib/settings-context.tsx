@@ -12,6 +12,7 @@ interface Settings {
   aspectRatioX: number;
   aspectRatioY: number;
   backgroundColor: string;
+  backgroundImageUrl: string;
   horizontalAlignment: HorizontalAlignment;
   verticalAlignment: VerticalAlignment;
 }
@@ -23,6 +24,7 @@ const defaultSettings: Settings = {
   aspectRatioX: 9,
   aspectRatioY: 8,
   backgroundColor: '#FF0000',
+  backgroundImageUrl: '',
   horizontalAlignment: 'center',
   verticalAlignment: 'middle',
 };

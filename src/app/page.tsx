@@ -15,13 +15,18 @@ const GlobalStyle = createGlobalStyle`
 
 import { useSettings } from '@/lib/settings-context';
 
-const Container = styled.div<{ $bgColor: string }>`
+const Container = styled.div<{ $bgColor: string; $bgImage: string }>`
   position: fixed;
   inset: 0;
   margin: 0;
   padding: 0;
   display: block;
   background-color: ${props => props.$bgColor};
+  ${props => props.$bgImage && `
+    background-image: url('${props.$bgImage}');
+    background-repeat: repeat;
+    background-position: center;
+  `}
   overflow: hidden;
 `;
 
@@ -117,7 +122,10 @@ export default function Home() {
   }, []);
 
   return (
-    <Container $bgColor={settings.backgroundColor}>
+    <Container 
+      $bgColor={settings.backgroundColor}
+      $bgImage={settings.backgroundImageUrl}
+    >
       <GlobalStyle />
       <IframeWrapper 
         ref={wrapperRef}

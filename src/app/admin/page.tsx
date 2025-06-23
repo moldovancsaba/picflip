@@ -184,6 +184,17 @@ export default function AdminPage() {
         </FormGroup>
 
         <FormGroup>
+          <Label htmlFor="backgroundImageUrl">Background Image URL</Label>
+          <Input
+            id="backgroundImageUrl"
+            type="url"
+            value={formData.backgroundImageUrl}
+            onChange={(e) => handleChange('backgroundImageUrl', e.target.value)}
+            placeholder="Leave empty for solid background color"
+          />
+        </FormGroup>
+
+        <FormGroup>
           <Label>Horizontal Alignment</Label>
           <AlignmentGrid>
             <AlignmentButton

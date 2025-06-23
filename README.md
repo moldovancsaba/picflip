@@ -28,8 +28,23 @@ The application can be configured through the admin interface available at `/adm
 - **Original Content Size** - The width and height of the original content (e.g., 1400×1244)
 - **Aspect Ratio** - The desired aspect ratio for display (e.g., 9:8)
 - **Background Color** - The background color in hex format (e.g., #FF0000)
+- **Background Image URL** - Optional URL for a tiled background image
 - **Horizontal Alignment** - Position content left, center, or right
 - **Vertical Alignment** - Position content top, middle, or bottom
+
+### Background Settings
+
+You can set either a solid background color or a tiled background image (or both):
+
+1. **Solid Color**
+   - Use the color picker or enter a hex code
+   - Applied as the base background color
+
+2. **Tiled Image**
+   - Enter a URL to an image
+   - Image will be tiled (repeated) to cover the entire viewport
+   - Leave empty to use only the solid color
+   - If both are set, the image is displayed on top of the background color
 
 All settings are automatically saved to localStorage and persist across page reloads.
 
