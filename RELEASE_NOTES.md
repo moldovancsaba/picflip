@@ -1,5 +1,37 @@
 # Release Notes
 
+## Version 1.0.0 (2025-06-23T22:13:41.000Z)
+
+### Major Features
+- Complete user authentication system with email-only login
+- Organization management with roles and permissions
+- Enhanced iFrame project management
+- Contact form and message management system
+- Comprehensive data management with MongoDB
+
+### Breaking Changes
+- URL structure updated to support organizations (/organisation/iframe/slug)
+- Configuration renamed to iFrame throughout the application
+- New authentication system replaces previous direct access
+
+### Technical Improvements
+- Added JWT authentication
+- Enhanced MongoDB schemas for all entities
+- Implemented role-based access control
+- Added audit logging system
+- Improved backup procedures
+
+### Documentation
+- Updated all documentation to reflect new features
+- Added Terms & Conditions and Privacy Policy
+- Enhanced technical guides for new functionality
+
+### Security
+- Email-based authentication system
+- Role-based access control
+- Organization-level permissions
+- Rate limiting for contact form
+
 ## Version 0.1.1 (2025-04-13T12:34:56.789Z)
 
 ### Changes
