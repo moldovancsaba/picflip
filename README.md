@@ -1,8 +1,8 @@
-# PicFlip - Responsive iFrame Content Scaler
+# Picito - Responsive iFrame Content Scaler
 
-PicFlip is a React-based web application that perfectly scales iframe content while maintaining aspect ratio. It's specifically designed to handle iframes with fixed-size content that needs to be displayed responsively across different screen sizes.
+Picito is a React-based web application that perfectly scales iframe content while maintaining aspect ratio. It's specifically designed to handle iframes with fixed-size content that needs to be displayed responsively across different screen sizes.
 
-**Live Demo:** [https://picflip-2cjlj0odg-narimato.vercel.app](https://picflip-2cjlj0odg-narimato.vercel.app)
+**Live Demo:** [https://picito-3zj1vyy0j-narimato.vercel.app](https://picito-3zj1vyy0j-narimato.vercel.app)
 
 ## Technologies Used
 
@@ -10,6 +10,7 @@ PicFlip is a React-based web application that perfectly scales iframe content wh
 - **React 19** - UI library
 - **TypeScript** - Type safety and better developer experience
 - **styled-components** - CSS-in-JS styling solution
+- **MongoDB** - Database for storing configurations
 
 ## Key Features
 
@@ -19,15 +20,16 @@ PicFlip is a React-based web application that perfectly scales iframe content wh
 - Smooth resize handling
 - Zero content distortion
 - Admin interface for configuration (/admin)
+- MongoDB integration for persistent storage
 
 ## Configuration
 
 The application can be configured through the admin interface available at `/admin`. This page allows you to modify:
 
 - **Content URL** - The URL of the iframe content
-- **Original Content Size** - The width and height of the original content (e.g., 1400×1244)
-- **Aspect Ratio** - The desired aspect ratio for display (e.g., 9:8)
-- **Background Color** - The background color in hex format (e.g., #FF0000)
+- **Original Content Size** - The width and height of the original content (e.g., 1920×1080)
+- **Aspect Ratio** - The desired aspect ratio for display (e.g., 16:9)
+- **Background Color** - The background color in hex format (e.g., #FFFFFF)
 - **Background Image URL** - Optional URL for a tiled background image
 - **Horizontal Alignment** - Position content left, center, or right
 - **Vertical Alignment** - Position content top, middle, or bottom
@@ -46,7 +48,7 @@ You can set either a solid background color or a tiled background image (or both
    - Leave empty to use only the solid color
    - If both are set, the image is displayed on top of the background color
 
-All settings are automatically saved to localStorage and persist across page reloads.
+All settings are automatically saved to MongoDB and persist across deployments.
 
 ### Content Alignment
 
@@ -130,8 +132,8 @@ The application uses a sophisticated scaling algorithm to maintain the aspect ra
 
 1. **Original Content Dimensions**
    ```typescript
-   const ORIGINAL_WIDTH = 1400;
-   const ORIGINAL_HEIGHT = 1244;
+   const ORIGINAL_WIDTH = 1920;
+   const ORIGINAL_HEIGHT = 1080;
    ```
 
 2. **Scaling Calculation**
@@ -158,7 +160,7 @@ The application uses a sophisticated scaling algorithm to maintain the aspect ra
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/moldovancsaba/picflip.git
+   git clone https://github.com/moldovancsaba/picito.git
    ```
 
 2. Install dependencies
@@ -196,7 +198,15 @@ The project is configured for deployment on Vercel with zero configuration neede
     /admin
       /page.tsx   # Admin interface for configuration
     /layout.tsx   # Root layout with styled-components setup
+    /api
+      /settings  # MongoDB API endpoints
   /lib
     /styled.tsx   # Styled-components registry for Next.js
     /settings-context.tsx # Settings management and persistence
+    /db.ts       # MongoDB connection utility
+  /models
+    /Settings.ts # MongoDB schema and model
+  /components
+    /Loading.tsx # Loading spinner component
+    /IframeViewer.tsx # Reusable iframe component
 ```
