@@ -189,24 +189,28 @@ The application uses a sophisticated scaling algorithm to maintain the aspect ra
 
 The project is configured for deployment on Vercel with zero configuration needed.
 
+## Documentation
+
+Detailed project documentation is available in the following files:
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - Complete technical architecture and file structure
+- [LEARNINGS.md](./LEARNINGS.md) - Development insights and key learnings
+- [RELEASE_NOTES.md](./RELEASE_NOTES.md) - Version history and changes
+- [ROADMAP.md](./ROADMAP.md) - Project development roadmap
+- [TASKLIST.md](./TASKLIST.md) - Task tracking and progress
+- [docs/RESPONSIVE_IFRAME.md](./docs/RESPONSIVE_IFRAME.md) - Technical guide for iframe implementation
+
 ## Project Structure
+
+For a complete overview of the project structure and technology stack, please refer to [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+Key directories:
 
 ```
 /src
-  /app
-    /page.tsx     # Main component with iframe scaling logic
-    /admin
-      /page.tsx   # Admin interface for configuration
-    /layout.tsx   # Root layout with styled-components setup
-    /api
-      /settings  # MongoDB API endpoints
-  /lib
-    /styled.tsx   # Styled-components registry for Next.js
-    /settings-context.tsx # Settings management and persistence
-    /db.ts       # MongoDB connection utility
-  /models
-    /Settings.ts # MongoDB schema and model
-  /components
-    /Loading.tsx # Loading spinner component
-    /IframeViewer.tsx # Reusable iframe component
+  /app            # Next.js app router components
+  /components     # Reusable React components
+  /lib            # Utilities and context providers
+  /models         # Database models
+/docs            # Technical documentation
 ```
