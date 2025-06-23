@@ -11,7 +11,7 @@ export async function GET() {
       // Create default settings if none exist
       settings = await Settings.create({
         projectName: 'New Project',
-        configs: new Map()
+        configs: {}
       });
     }
 
@@ -35,7 +35,8 @@ export async function PUT(request: Request) {
       settings = await Settings.create(body);
     } else {
       settings.projectName = body.projectName;
-      settings.configs = body.configs;
+      // Convert object to Map for mongoose
+      settings.configs = new Map(Object.entries(body.configs));
       await settings.save();
     }
 

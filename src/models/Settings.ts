@@ -25,7 +25,30 @@ const iframeConfigSchema = new mongoose.Schema({
 
 const settingsSchema = new mongoose.Schema({
   projectName: { type: String, required: true },
-  configs: { type: Map, of: iframeConfigSchema }
+  configs: {
+    type: Map,
+    of: new mongoose.Schema({
+      id: String,
+      name: String,
+      contentUrl: String,
+      originalWidth: Number,
+      originalHeight: Number,
+      aspectRatioX: Number,
+      aspectRatioY: Number,
+      backgroundColor: String,
+      backgroundImageUrl: { type: String, default: '' },
+      horizontalAlignment: { 
+        type: String, 
+        enum: ['left', 'center', 'right'],
+        default: 'center'
+      },
+      verticalAlignment: { 
+        type: String, 
+        enum: ['top', 'middle', 'bottom'],
+        default: 'middle'
+      }
+    }, { _id: false })
+  }
 });
 
 export default mongoose.models.Settings || mongoose.model('Settings', settingsSchema);
