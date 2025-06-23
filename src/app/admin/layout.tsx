@@ -68,7 +68,22 @@ const MainContent = styled.main`
   padding: 2rem;
 `;
 
+const NavSection = styled.div`
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+`;
+
+const MainLink = styled(NavLink)`
+  color: #10b981 !important; // Green color for the main page link
+  
+  &:hover {
+    color: #059669 !important;
+  }
+`;
+
 const navItems = [
+  { href: '/', label: 'Main Page', isMain: true },
   { href: '/admin', label: 'Dashboard' },
   { href: '/admin/users', label: 'Users' },
   { href: '/admin/organizations', label: 'Organizations' },
@@ -100,14 +115,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Nav>
         <NavContent>
           <NavLinks>
-            {navItems.map(({ href, label }) => (
-              <NavLink 
-                key={href} 
-                href={href}
-                $active={pathname === href}
-              >
-                {label}
-              </NavLink>
+            {navItems.map(({ href, label, isMain }) => (
+              isMain ? (
+                <MainLink
+                  key={href}
+                  href={href}
+                  $active={pathname === href}
+                >
+                  {label}
+                </MainLink>
+              ) : (
+                <NavLink
+                  key={href}
+                  href={href}
+                  $active={pathname === href}
+                >
+                  {label}
+                </NavLink>
+              )
             ))}
           </NavLinks>
           <LogoutButton onClick={handleLogout}>
