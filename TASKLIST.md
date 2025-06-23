@@ -2,19 +2,19 @@
 
 ## Epic 1: User Authentication & Management (Added: 2025-06-23T22:11:41.000Z)
 
-### User Story 1.1: Email-Only Login
-- [ ] Implement email input form
-- [ ] Add email validation (RFC 5322)
-- [ ] Create JWT authentication system
-- [ ] Implement session management
-- [ ] Add success message and redirection
+### User Story 1.1: Email-Only Login (Completed: 2025-06-23T22:16:31.000Z)
+- [x] Implement email input form
+- [x] Add email validation (RFC 5322)
+- [x] Create JWT authentication system
+- [x] Implement session management
+- [x] Add success message and redirection
 
-### User Story 1.2: Automatic Account Creation
-- [ ] Create user database schema
-- [ ] Implement email existence check
-- [ ] Add automatic account creation
-- [ ] Set up default user role assignment
-- [ ] Add creation notification system
+### User Story 1.2: Automatic Account Creation (Completed: 2025-06-23T22:16:31.000Z)
+- [x] Create user database schema
+- [x] Implement email existence check
+- [x] Add automatic account creation
+- [x] Set up default user role assignment
+- [x] Add creation notification system
 
 ### User Story 1.3: User Management Interface
 - [ ] Create admin/users page
