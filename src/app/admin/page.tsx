@@ -201,17 +201,7 @@ export default function AdminPage() {
 
   return (
     <Container>
-      <h1>{settings.projectName} Admin Settings</h1>
-      <FormGroup style={{ maxWidth: '600px', marginBottom: '2rem' }}>
-        <Label htmlFor="projectName">Project Name</Label>
-        <Input
-          id="projectName"
-          type="text"
-          value={settings.projectName}
-          onChange={(e) => updateProjectName(e.target.value)}
-          required
-        />
-      </FormGroup>
+      <h1>Picito Admin Settings</h1>
       <Grid>
         <ConfigList>
           {Object.values(configs).map(config => (
