@@ -201,7 +201,6 @@ export default function AdminPage() {
 
   return (
     <Container>
-      <h1>Picito Admin Settings</h1>
       <Grid>
         <ConfigList>
           {Object.values(configs).map(config => (
