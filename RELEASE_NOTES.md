@@ -1,5 +1,34 @@
 # Release Notes
 
+## Version 1.2.0 (2025-06-23T23:02:09.000Z)
+
+### Features
+- Complete user authentication with JWT implementation
+- Role-based access control system
+- User management interface for admins
+- Terms & Privacy acceptance tracking
+- Global navigation with conditional items
+
+### Improvements
+- Enhanced header with user context
+- Streamlined admin navigation
+- Added role-based route protection
+- Improved session management
+- Added legal document components
+
+### Documentation
+- Updated architecture documentation
+- Added user management guides
+- Enhanced technical documentation
+- Added legal documents
+
+### Security
+- JWT-based authentication
+- Protected API routes
+- Role-based access control
+- Secure cookie handling
+- Legal acceptance enforcement
+
 ## Version 1.1.0 (2025-06-23T22:48:54.000Z)
 
 ### Features
