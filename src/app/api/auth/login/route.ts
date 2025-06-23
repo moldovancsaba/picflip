@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import User from '@/models/User';
 import { createToken, setUserCookie } from '@/lib/auth';
 import dbConnect from '@/lib/db';
+import { seedDatabase } from '@/lib/seed';
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest) {
     }
 
     await dbConnect();
+    await seedDatabase();
 
     // Find or create user
     const user = await User.findOneAndUpdate(
