@@ -127,15 +127,14 @@ const NewConfigButton = styled(Button)`
 
 export default function AdminPage() {
   const { settings, configs, getConfig, updateConfig, createConfig, deleteConfig, isLoading } = useSettings();
-
-  if (isLoading) {
-    return <Loading />;
-  }
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [formData, setFormData] = useState<IframeConfig | null>(null);
   const [isDirty, setIsDirty] = useState(false);
 
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
