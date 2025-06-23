@@ -1,13 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import { getSession } from '@/lib/auth';
 import Settings from '@/models/Settings';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await dbConnect();
 
-    const session = await getSession();
+    const session = await getSession(req);
 
     let settings = await Settings.findOne();
     if (!settings) {
@@ -33,9 +33,18 @@ export async function GET() {
   }
 }
 
-export async function PUT(request: Request) {
+export async function PUT(req: NextRequest) {
   try {
-    const body = await request.json();
+    const session = await getSession(req);
+    
+    if (!session || session.role !== 'admin') {
+      return NextResponse.json(
+        { message: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const body = await req.json();
     await dbConnect();
 
     let settings = await Settings.findOne();
@@ -46,7 +55,13 @@ export async function PUT(request: Request) {
       await settings.save();
     }
 
-    return NextResponse.json(settings);
+    return NextResponse.json({
+      configs: settings.configs,
+      user: {
+        email: session.email,
+        role: session.role
+      }
+    });
   } catch (error) {
     console.error('Database Error:', error);
     return NextResponse.json(
