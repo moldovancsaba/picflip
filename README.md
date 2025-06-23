@@ -18,6 +18,18 @@ PicFlip is a React-based web application that perfectly scales iframe content wh
 - Perfectly centered content
 - Smooth resize handling
 - Zero content distortion
+- Admin interface for configuration (/admin)
+
+## Configuration
+
+The application can be configured through the admin interface available at `/admin`. This page allows you to modify:
+
+- **Content URL** - The URL of the iframe content
+- **Original Content Size** - The width and height of the original content (e.g., 1400×1244)
+- **Aspect Ratio** - The desired aspect ratio for display (e.g., 9:8)
+- **Background Color** - The background color in hex format (e.g., #FF0000)
+
+Settings are automatically saved to localStorage and persist across page reloads.
 
 ## How It Works
 
@@ -145,7 +157,10 @@ The project is configured for deployment on Vercel with zero configuration neede
 /src
   /app
     /page.tsx     # Main component with iframe scaling logic
+    /admin
+      /page.tsx   # Admin interface for configuration
     /layout.tsx   # Root layout with styled-components setup
   /lib
     /styled.tsx   # Styled-components registry for Next.js
+    /settings-context.tsx # Settings management and persistence
 ```

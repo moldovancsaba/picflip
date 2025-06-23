@@ -15,23 +15,6 @@ const GlobalStyle = createGlobalStyle`
 
 import { useSettings } from '@/lib/settings-context';
 
-const AdminLink = styled.a`
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-family: system-ui;
-  z-index: 1000;
-  
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-  }
-`;
-
 const Container = styled.div<{ $bgColor: string }>`
   position: fixed;
   inset: 0;
@@ -115,7 +98,6 @@ export default function Home() {
   return (
     <Container $bgColor={settings.backgroundColor}>
       <GlobalStyle />
-      <AdminLink href="/admin">⚙️ Settings</AdminLink>
       <IframeWrapper ref={wrapperRef}>
         <ResponsiveIframe
           ref={iframeRef}
