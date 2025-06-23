@@ -1,14 +1,49 @@
 "use client";
 
 import { useSettings } from '@/lib/settings-context';
+import { IframeConfig } from '@/lib/types';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const Container = styled.div`
-  max-width: 800px;
+  max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  align-items: start;
+`;
+
+const ConfigList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 4px;
+`;
+
+const ConfigItem = styled.button<{ $active: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: ${props => props.$active ? '#0070f3' : 'white'};
+  color: ${props => props.$active ? 'white' : 'black'};
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1rem;
+
+  &:hover {
+    background: ${props => props.$active ? '#0051cc' : '#f0f0f0'};
+  }
 `;
 
 const Form = styled.form`
@@ -84,32 +119,96 @@ const AlignmentButton = styled.button<{ $active: boolean }>`
   }
 `;
 
-export default function AdminPage() {
-  const { settings, updateSettings } = useSettings();
-  const router = useRouter();
-  const [formData, setFormData] = useState(settings);
-  const [isDirty, setIsDirty] = useState(false);
+const NewConfigButton = styled(Button)`
+  width: 100%;
+  margin-top: auto;
+`;
 
-  useEffect(() => {
-    setFormData(settings);
-  }, [settings]);
+export default function AdminPage() {
+  const { configs, getConfig, updateConfig, createConfig, deleteConfig } = useSettings();
+  const router = useRouter();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [formData, setFormData] = useState<IframeConfig | null>(null);
+  const [isDirty, setIsDirty] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updateSettings(formData);
+    if (!formData || !selectedId) return;
+    
+    updateConfig(selectedId, formData);
     setIsDirty(false);
-    router.push('/');
+    router.push(`/iframe/${selectedId}`);
   };
 
-  const handleChange = (field: keyof typeof formData, value: string | number) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleChange = (field: keyof IframeConfig, value: string | number) => {
+    if (!formData) return;
+    setFormData(prev => ({ ...prev!, [field]: value }));
     setIsDirty(true);
+  };
+
+  const handleSelect = (id: string) => {
+    const config = getConfig(id);
+    if (!config) return;
+    
+    setSelectedId(id);
+    setFormData(config);
+    setIsDirty(false);
+  };
+
+  const handleCreate = () => {
+    const id = prompt('Enter a unique ID for the new configuration:');
+    if (!id) return;
+    
+    const newConfig: IframeConfig = {
+      id,
+      name: id.charAt(0).toUpperCase() + id.slice(1),
+      contentUrl: '',
+      originalWidth: 1400,
+      originalHeight: 1244,
+      aspectRatioX: 9,
+      aspectRatioY: 8,
+      backgroundColor: '#000000',
+      backgroundImageUrl: '',
+      horizontalAlignment: 'center',
+      verticalAlignment: 'middle',
+    };
+
+    createConfig(newConfig);
+    setSelectedId(id);
+    setFormData(newConfig);
+    setIsDirty(true);
+  };
+
+  const handleDelete = () => {
+    if (!selectedId || !confirm('Are you sure you want to delete this configuration?')) return;
+    
+    deleteConfig(selectedId);
+    setSelectedId(null);
+    setFormData(null);
+    setIsDirty(false);
   };
 
   return (
     <Container>
-      <h1>PicFlip Admin Settings</h1>
-      <Form onSubmit={handleSubmit}>
+      <h1>Picito Admin Settings</h1>
+      <Grid>
+        <ConfigList>
+          {Object.values(configs).map(config => (
+            <ConfigItem
+              key={config.id}
+              onClick={() => handleSelect(config.id)}
+              $active={selectedId === config.id}
+            >
+              {config.name}
+            </ConfigItem>
+          ))}
+          <NewConfigButton type="button" onClick={handleCreate}>
+            + Add New Configuration
+          </NewConfigButton>
+        </ConfigList>
+
+        {formData ? (
+          <Form onSubmit={handleSubmit}>
         <FormGroup>
           <Label htmlFor="contentUrl">Content URL</Label>
           <Input
@@ -248,10 +347,21 @@ export default function AdminPage() {
           </AlignmentGrid>
         </FormGroup>
 
-        <Button type="submit" disabled={!isDirty}>
-          Save Changes
-        </Button>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <Button type="submit" disabled={!isDirty}>
+            Save Changes
+          </Button>
+          <Button type="button" onClick={handleDelete} style={{ backgroundColor: '#dc3545' }}>
+            Delete Configuration
+          </Button>
+        </div>
       </Form>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            Select a configuration to edit or create a new one
+          </div>
+        )}
+      </Grid>
     </Container>
   );
 }
