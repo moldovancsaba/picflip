@@ -30,11 +30,11 @@
 - [x] Add acceptance timestamp storage
 - [x] Create acceptance validation
 
-### User Story 1.5: Conditional Navigation
-- [ ] Update navigation component
-- [ ] Add role-based visibility
-- [ ] Implement smooth transitions
-- [ ] Add client-side route guards
+### User Story 1.5: Conditional Navigation (Completed: 2025-06-23T22:54:51.000Z)
+- [x] Update navigation component
+- [x] Add role-based visibility
+- [x] Implement smooth transitions
+- [x] Add client-side route guards
 
 ## Epic 2: Organization Management
 
