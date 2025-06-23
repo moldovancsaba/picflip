@@ -63,29 +63,20 @@ export default function Home() {
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
 
-      let targetWidth, targetHeight;
+      // Calculate scales to fit width and height while maintaining aspect ratio
+      const scaleToFitWidth = viewportWidth / ORIGINAL_WIDTH;
+      const scaleToFitHeight = viewportHeight / ORIGINAL_HEIGHT;
 
-      // Always maximize to fill screen while maintaining aspect ratio
-      // Try both width and height-based scaling and use the larger one
-      const widthBasedHeight = Math.floor(viewportWidth * (9/8));
-      const heightBasedWidth = Math.floor(viewportHeight * (8/9));
-      
-      if (widthBasedHeight <= viewportHeight) {
-        // If scaling by width fits in viewport, use that
-        targetWidth = viewportWidth;
-        targetHeight = widthBasedHeight;
-      } else {
-        // Otherwise scale by height
-        targetWidth = heightBasedWidth;
-        targetHeight = viewportHeight;
-      }
+      // Use the smaller scale to ensure content fits within viewport
+      const scale = Math.min(scaleToFitWidth, scaleToFitHeight);
+
+      // Calculate final dimensions
+      const targetWidth = Math.round(ORIGINAL_WIDTH * scale);
+      const targetHeight = Math.round(ORIGINAL_HEIGHT * scale);
 
       // Set wrapper to target size
       wrapperRef.current.style.width = `${targetWidth}px`;
       wrapperRef.current.style.height = `${targetHeight}px`;
-
-      // Calculate scale (how much we need to scale the original content)
-      const scale = targetWidth / ORIGINAL_WIDTH;
 
       // Set iframe to original size and scale it
       iframeRef.current.style.width = `${ORIGINAL_WIDTH}px`;
