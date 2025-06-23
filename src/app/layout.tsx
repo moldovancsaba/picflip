@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StyledComponentsRegistry from "../lib/styled";
+import { SettingsProvider } from "../lib/settings-context";
 
 export const metadata: Metadata = {
   title: "PicFlip",
@@ -18,7 +19,9 @@ export default function RootLayout({
       </head>
       <body>
         <StyledComponentsRegistry>
-          {children}
+          <SettingsProvider>
+            {children}
+          </SettingsProvider>
         </StyledComponentsRegistry>
       </body>
     </html>

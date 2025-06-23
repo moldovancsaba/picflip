@@ -13,19 +13,32 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-// Original content dimensions
-const ORIGINAL_WIDTH = 1400;
-const ORIGINAL_HEIGHT = 1244;
+import { useSettings } from '@/lib/settings-context';
 
-const IFRAME_URL = 'https://api.seyu.hu/backend/backend/slideshow?event-id=1769&slideshow-id=2192&enable-poster=0&token=eyJhbGciOiJIUzI1NiJ9.eyJzbGlkZXNob3dJZCI6MjE5Mn0.GpxJfbgRUdkuI-NdT3e6qCQ7KNhdmq-MTvShHC5e-CU';
+const AdminLink = styled.a`
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-family: system-ui;
+  z-index: 1000;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+`;
 
-const Container = styled.div`
+const Container = styled.div<{ $bgColor: string }>`
   position: fixed;
   inset: 0;
   margin: 0;
   padding: 0;
   display: block;
-  background-color: red;
+  background-color: ${props => props.$bgColor};
   overflow: hidden;
 `;
 
@@ -52,6 +65,7 @@ const ResponsiveIframe = styled.iframe`
 `;
 
 export default function Home() {
+  const { settings } = useSettings();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -64,23 +78,23 @@ export default function Home() {
       const viewportHeight = window.innerHeight;
 
       // Calculate scales to fit width and height while maintaining aspect ratio
-      const scaleToFitWidth = viewportWidth / ORIGINAL_WIDTH;
-      const scaleToFitHeight = viewportHeight / ORIGINAL_HEIGHT;
+      const scaleToFitWidth = viewportWidth / settings.originalWidth;
+      const scaleToFitHeight = viewportHeight / settings.originalHeight;
 
       // Use the smaller scale to ensure content fits within viewport
       const scale = Math.min(scaleToFitWidth, scaleToFitHeight);
 
       // Calculate final dimensions
-      const targetWidth = Math.round(ORIGINAL_WIDTH * scale);
-      const targetHeight = Math.round(ORIGINAL_HEIGHT * scale);
+      const targetWidth = Math.round(settings.originalWidth * scale);
+      const targetHeight = Math.round(settings.originalHeight * scale);
 
       // Set wrapper to target size
       wrapperRef.current.style.width = `${targetWidth}px`;
       wrapperRef.current.style.height = `${targetHeight}px`;
 
       // Set iframe to original size and scale it
-      iframeRef.current.style.width = `${ORIGINAL_WIDTH}px`;
-      iframeRef.current.style.height = `${ORIGINAL_HEIGHT}px`;
+      iframeRef.current.style.width = `${settings.originalWidth}px`;
+      iframeRef.current.style.height = `${settings.originalHeight}px`;
       iframeRef.current.style.transform = `translate(-50%, -50%) scale(${scale})`;
 
       // console.log('Dimensions:', {
@@ -99,12 +113,13 @@ export default function Home() {
   }, []);
 
   return (
-    <Container>
+    <Container $bgColor={settings.backgroundColor}>
       <GlobalStyle />
+      <AdminLink href="/admin">⚙️ Settings</AdminLink>
       <IframeWrapper ref={wrapperRef}>
         <ResponsiveIframe
           ref={iframeRef}
-          src={IFRAME_URL}
+          src={settings.contentUrl}
           title="Slideshow"
           allow="fullscreen"
         />
