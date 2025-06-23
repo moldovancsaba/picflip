@@ -47,11 +47,14 @@ export async function POST(req: NextRequest) {
       role: user.role
     });
 
+    // Create response with user data
     const response = NextResponse.json({
       message: 'Login successful',
       user: {
         email: user.email,
-        role: user.role
+        role: user.role,
+        lastLoginAt: user.lastLoginAt,
+        createdAt: user.createdAt
       }
     });
 

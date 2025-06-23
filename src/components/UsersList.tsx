@@ -105,10 +105,10 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
               </Select>
             </Td>
             <DateCell>
-              {user.lastLoginAt ? new Date(user.lastLoginAt).toISOString().replace('Z', '.000Z') : 'Never'}
+              {user.lastLoginAt ? new Date(user.lastLoginAt).toISOString().slice(0, -1) + '.000Z' : 'Never'}
             </DateCell>
             <DateCell>
-              {new Date(user.createdAt).toISOString().replace('Z', '.000Z')}
+              {user.createdAt ? new Date(user.createdAt).toISOString().slice(0, -1) + '.000Z' : 'N/A'}
             </DateCell>
           </tr>
         ))}
