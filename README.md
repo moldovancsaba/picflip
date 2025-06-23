@@ -1,36 +1,151 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PicFlip - Responsive iFrame Content Scaler
+
+PicFlip is a React-based web application that perfectly scales iframe content while maintaining aspect ratio. It's specifically designed to handle iframes with fixed-size content that needs to be displayed responsively across different screen sizes.
+
+## Technologies Used
+
+- **Next.js 15.3.4** - React framework for production
+- **React 19** - UI library
+- **TypeScript** - Type safety and better developer experience
+- **styled-components** - CSS-in-JS styling solution
+
+## Key Features
+
+- Maintains exact 9:8 aspect ratio
+- Responsive scaling that works on any screen size
+- Perfectly centered content
+- Smooth resize handling
+- Zero content distortion
+
+## How It Works
+
+### Responsive iFrame Container
+
+The application uses a three-layer approach to achieve perfect scaling:
+
+1. **Container Layer** (`Container` styled-component)
+   - Fixed positioning to cover the entire viewport
+   - Removes any default spacing (margin, padding)
+   - Handles overflow management
+
+```typescript
+const Container = styled.div`
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  display: block;
+  overflow: hidden;
+`;
+```
+
+2. **Wrapper Layer** (`IframeWrapper` styled-component)
+   - Positions content in the center of the viewport
+   - Maintains aspect ratio during scaling
+   - Handles content overflow
+
+```typescript
+const IframeWrapper = styled.div`
+  background: transparent;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 0;
+`;
+```
+
+3. **iFrame Layer** (`ResponsiveIframe` styled-component)
+   - Centers the iframe content
+   - Applies scaling transformation
+   - Removes default iframe styling
+
+```typescript
+const ResponsiveIframe = styled.iframe`
+  border: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  margin: 0;
+  padding: 0;
+`;
+```
+
+### Content Scaling Logic
+
+The application uses a sophisticated scaling algorithm to maintain the aspect ratio while maximizing the content size:
+
+1. **Original Content Dimensions**
+   ```typescript
+   const ORIGINAL_WIDTH = 1400;
+   const ORIGINAL_HEIGHT = 1244;
+   ```
+
+2. **Scaling Calculation**
+   ```typescript
+   // Calculate both width and height-based scaling
+   const widthBasedHeight = Math.floor(viewportWidth * (9/8));
+   const heightBasedWidth = Math.floor(viewportHeight * (8/9));
+   
+   // Choose the scaling that fits the viewport while maximizing size
+   if (widthBasedHeight <= viewportHeight) {
+     targetWidth = viewportWidth;
+     targetHeight = widthBasedHeight;
+   } else {
+     targetWidth = heightBasedWidth;
+     targetHeight = viewportHeight;
+   }
+   ```
+
+3. **Apply Scaling**
+   ```typescript
+   const scale = targetWidth / ORIGINAL_WIDTH;
+   iframeRef.current.style.transform = `translate(-50%, -50%) scale(${scale})`;
+   ```
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
+   ```bash
+   git clone https://github.com/moldovancsaba/picflip.git
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+
+3. Run the development server
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Build and Deployment
+
+1. Create a production build
+   ```bash
+   npm run build
+   ```
+
+2. Start the production server
+   ```bash
+   npm start
+   ```
+
+The project is configured for deployment on Vercel with zero configuration needed.
+
+## Project Structure
+
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+/src
+  /app
+    /page.tsx     # Main component with iframe scaling logic
+    /layout.tsx   # Root layout with styled-components setup
+  /lib
+    /styled.tsx   # Styled-components registry for Next.js
+```
