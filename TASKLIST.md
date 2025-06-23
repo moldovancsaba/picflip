@@ -38,12 +38,12 @@
 
 ## Epic 2: Organization Management
 
-### User Story 2.1: Organization Creation
-- [ ] Create organization database schema
-- [ ] Implement organization CRUD operations
-- [ ] Add logo upload functionality
-- [ ] Create organization listing page
-- [ ] Add archive functionality
+### User Story 2.1: Organization Creation (Completed: 2025-06-23T23:03:58.000Z)
+- [x] Create organization database schema
+- [x] Implement organization CRUD operations
+- [x] Add logo upload functionality
+- [x] Create organization listing page
+- [x] Add archive functionality
 
 ### User Story 2.2: Organization Membership
 - [ ] Create member management interface
