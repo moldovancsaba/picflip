@@ -52,7 +52,9 @@ export default function Home() {
       <h1>Picito - Responsive iFrame Viewer</h1>
       <p>
         Welcome to Picito! Select an iframe configuration below or visit the{' '}
-        <Link href="/admin" style={{ color: '#0070f3' }}>admin page</Link> to manage configurations.
+        <Link href="/admin" style={{ color: '#0070f3' }}>admin page</Link> to manage configurations
+        or check out our{' '}
+        <Link href="/docs/RESPONSIVE_IFRAME.md" style={{ color: '#0070f3' }}>technical guide</Link> to learn how it works.
       </p>
       <Grid>
         {Object.values(configs).map(config => (

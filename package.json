@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@types/styled-components": "^5.1.34",
+    "marked": "^15.0.12",
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.0",
     "next": "15.3.4",
