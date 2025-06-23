@@ -11,7 +11,7 @@ PicFlip is a React-based web application that perfectly scales iframe content wh
 
 ## Key Features
 
-- Maintains exact 9:8 aspect ratio
+- Maintains content's natural aspect ratio
 - Responsive scaling that works on any screen size
 - Perfectly centered content
 - Smooth resize handling
@@ -86,18 +86,16 @@ The application uses a sophisticated scaling algorithm to maintain the aspect ra
 
 2. **Scaling Calculation**
    ```typescript
-   // Calculate both width and height-based scaling
-   const widthBasedHeight = Math.floor(viewportWidth * (9/8));
-   const heightBasedWidth = Math.floor(viewportHeight * (8/9));
-   
-   // Choose the scaling that fits the viewport while maximizing size
-   if (widthBasedHeight <= viewportHeight) {
-     targetWidth = viewportWidth;
-     targetHeight = widthBasedHeight;
-   } else {
-     targetWidth = heightBasedWidth;
-     targetHeight = viewportHeight;
-   }
+   // Calculate scales to fit width and height while maintaining aspect ratio
+   const scaleToFitWidth = viewportWidth / ORIGINAL_WIDTH;
+   const scaleToFitHeight = viewportHeight / ORIGINAL_HEIGHT;
+
+   // Use the smaller scale to ensure content fits within viewport
+   const scale = Math.min(scaleToFitWidth, scaleToFitHeight);
+
+   // Calculate final dimensions
+   const targetWidth = Math.round(ORIGINAL_WIDTH * scale);
+   const targetHeight = Math.round(ORIGINAL_HEIGHT * scale);
    ```
 
 3. **Apply Scaling**
