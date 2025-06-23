@@ -71,7 +71,8 @@ The application is deployed to Vercel and is accessible at:
 3. Authentication is handled via JWT tokens stored in HTTP-only cookies.
 4. Protected routes (admin, users, organizations) require valid authentication.
 5. The main page provides access to the admin interface and documentation.
-6. The admin interface allows configuration of multiple iframes through a MongoDB-backed API.
-7. Each iframe configuration is accessible through a dynamic route at `/iframe/[id]`.
-8. All styling is handled through styled-components to ensure consistent theming and responsive design.
-9. The application uses a context provider to manage and distribute iframe settings across components.
+6. Legal acceptance for Terms & Conditions and Privacy Policy enforced.
+7. The admin interface allows configuration of multiple iframes through a MongoDB-backed API.
+8. Each iframe configuration is accessible through a dynamic route at `/iframe/[id]`.
+9. All styling is handled through styled-components to ensure consistent theming and responsive design.
+10. The application uses a context provider to manage and distribute iframe settings across components.

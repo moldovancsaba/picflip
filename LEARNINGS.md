@@ -18,6 +18,8 @@ This document captures key learnings and insights from developing Picito.
 - MongoDB Atlas provides reliable cloud database solution
 - Mongoose schemas help maintain data consistency
 - Connection pooling important for production performance
+- Schema versioning and migrations need careful planning
+- User data requires additional security considerations
 
 ## UI/UX Insights
 
@@ -69,5 +71,7 @@ This document captures key learnings and insights from developing Picito.
 - Monitor styled-components performance impact
 - Consider alternatives to MongoDB for simpler deployments
 - Review and optimize error handling
+- Improve user authentication flow
+- Enhance legal acceptance tracking
 
-Last Updated: 2025-06-23T19:13:44Z
+Last Updated: 2025-06-23T22:48:54.000Z

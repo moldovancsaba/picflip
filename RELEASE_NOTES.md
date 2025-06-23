@@ -1,5 +1,32 @@
 # Release Notes
 
+## Version 1.1.0 (2025-06-23T22:48:54.000Z)
+
+### Features
+- Email-only authentication with JWT tokens
+- User management interface with role-based access control
+- Terms & Conditions and Privacy Policy implementation
+- Legal acceptance tracking with timestamps
+- Enhanced admin interface with secure access
+
+### Technical Improvements
+- Added user model with MongoDB integration
+- Implemented middleware-based authentication
+- Added legal document components with shared styles
+- Improved error handling and validation
+- Enhanced session management
+
+### Documentation
+- Updated architecture documentation with auth components
+- Added user authentication flow documentation
+- Updated project structure documentation
+
+### Security
+- Secure cookie-based token storage
+- Role-based access control for admin features
+- Legal acceptance requirements for new users
+- Protected API routes with middleware
+
 ## Version 1.0.0 (2025-06-23T22:13:41.000Z)
 
 ### Major Features
