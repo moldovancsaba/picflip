@@ -49,6 +49,13 @@
 23. `/TASKLIST.md` - Task tracking
 24. `/docs/RESPONSIVE_IFRAME.md` - Technical guide for iframe implementation
 
+## Deployment
+
+The application is deployed to Vercel and is accessible at:
+- Production: https://picito.vercel.app
+- Admin Interface: https://picito.vercel.app/admin
+- Documentation: https://picito.vercel.app/docs/guide
+
 ## Application Flow
 
 1. The application serves a main page that provides access to both the admin interface and documentation.

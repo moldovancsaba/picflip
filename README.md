@@ -2,7 +2,7 @@
 
 Picito is a React-based web application that perfectly scales iframe content while maintaining aspect ratio. It's specifically designed to handle iframes with fixed-size content that needs to be displayed responsively across different screen sizes.
 
-**Live Demo:** [https://picito-3zj1vyy0j-narimato.vercel.app](https://picito-3zj1vyy0j-narimato.vercel.app)
+**Live Demo:** [https://picito.vercel.app](https://picito.vercel.app)
 
 ## Technologies Used
 
