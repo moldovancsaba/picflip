@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import StyledComponentsRegistry from "../lib/styled";
 import { SettingsProvider } from "../lib/settings-context";
+import Header from "../components/Header";
 
 export const metadata: Metadata = {
   title: "Picito",
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body>
         <StyledComponentsRegistry>
           <SettingsProvider>
+            <Header />
             {children}
           </SettingsProvider>
         </StyledComponentsRegistry>

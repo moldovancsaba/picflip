@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
+import { getSession } from '@/lib/auth';
 import Settings from '@/models/Settings';
 
 export async function GET() {
   try {
     await dbConnect();
-    
+
+    const session = await getSession();
+
     let settings = await Settings.findOne();
     if (!settings) {
       // Create default settings if none exist
@@ -14,7 +17,13 @@ export async function GET() {
       });
     }
 
-    return NextResponse.json(settings);
+    return NextResponse.json({
+      configs: settings.configs,
+      user: session ? {
+        email: session.email,
+        role: session.role
+      } : null
+    });
   } catch (error) {
     console.error('Database Error:', error);
     return NextResponse.json(
