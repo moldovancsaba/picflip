@@ -6,6 +6,8 @@ export interface IUser {
   lastLoginAt: Date;
   createdAt: Date;
   updatedAt: Date;
+  termsAcceptedAt: Date | null;
+  privacyAcceptedAt: Date | null;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -22,6 +24,14 @@ const userSchema = new mongoose.Schema<IUser>({
     default: 'user'
   },
   lastLoginAt: { 
+    type: Date,
+    default: null
+  },
+  termsAcceptedAt: {
+    type: Date,
+    default: null
+  },
+  privacyAcceptedAt: {
     type: Date,
     default: null
   }

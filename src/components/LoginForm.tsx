@@ -54,6 +54,27 @@ const Button = styled.button`
   }
 `;
 
+const CheckboxGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+
+  label {
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  a {
+    color: #0070f3;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
 const ErrorMessage = styled.div`
   color: #dc2626;
   font-size: 0.9rem;
@@ -63,11 +84,18 @@ const ErrorMessage = styled.div`
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!termsAccepted || !privacyAccepted) {
+      setError('You must accept the Terms and Privacy Policy to continue');
+      return;
+    }
+
     setError('');
     setIsLoading(true);
 
@@ -110,10 +138,30 @@ export default function LoginForm() {
           disabled={isLoading}
         />
       </InputGroup>
+
+      <CheckboxGroup>
+        <input
+          type="checkbox"
+          id="terms"
+          checked={termsAccepted}
+          onChange={(e) => setTermsAccepted(e.target.checked)}
+        />
+        <label htmlFor="terms">I accept the <a href="/legal/terms" target="_blank" rel="noopener noreferrer">Terms and Conditions</a></label>
+      </CheckboxGroup>
+
+      <CheckboxGroup>
+        <input
+          type="checkbox"
+          id="privacy"
+          checked={privacyAccepted}
+          onChange={(e) => setPrivacyAccepted(e.target.checked)}
+        />
+        <label htmlFor="privacy">I accept the <a href="/legal/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></label>
+      </CheckboxGroup>
       
       {error && <ErrorMessage>{error}</ErrorMessage>}
       
-      <Button type="submit" disabled={isLoading}>
+      <Button
         {isLoading ? 'Logging in...' : 'Continue with Email'}
       </Button>
     </Form>

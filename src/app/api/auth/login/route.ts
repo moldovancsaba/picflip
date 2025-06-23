@@ -6,7 +6,7 @@ import { seedDatabase } from '@/lib/seed';
 
 export async function POST(req: NextRequest) {
   try {
-    const { email } = await req.json();
+    const { email, termsAccepted, privacyAccepted } = await req.json();
 
     if (!email) {
       return NextResponse.json(
@@ -34,7 +34,9 @@ export async function POST(req: NextRequest) {
       { 
         $set: { 
           role: isAdminEmail ? 'admin' : 'user',
-          lastLoginAt: new Date() 
+          lastLoginAt: new Date(),
+          termsAcceptedAt: termsAccepted ? new Date() : null,
+          privacyAcceptedAt: privacyAccepted ? new Date() : null
         }
       },
       { 
