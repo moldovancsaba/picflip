@@ -10,7 +10,7 @@ export async function GET() {
     if (!settings) {
       // Create default settings if none exist
       settings = await Settings.create({
-        projectName: 'Picito',
+        projectName: 'New Project',
         configs: new Map()
       });
     }

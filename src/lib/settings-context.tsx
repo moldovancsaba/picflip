@@ -3,21 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { IframeConfig } from './types';
 
-const defaultConfigs: Record<string, IframeConfig> = {
-  asroma: {
-    id: 'asroma',
-    name: 'AS Roma',
-    contentUrl: 'https://api.seyu.hu/backend/backend/slideshow?event-id=1769&slideshow-id=2192&enable-poster=0&token=eyJhbGciOiJIUzI1NiJ9.eyJzbGlkZXNob3dJZCI6MjE5Mn0.GpxJfbgRUdkuI-NdT3e6qCQ7KNhdmq-MTvShHC5e-CU',
-    originalWidth: 1400,
-    originalHeight: 1244,
-    aspectRatioX: 9,
-    aspectRatioY: 8,
-    backgroundColor: '#FF0000',
-    backgroundImageUrl: '',
-    horizontalAlignment: 'center',
-    verticalAlignment: 'middle',
-  },
-};
+const defaultConfigs: Record<string, IframeConfig> = {};
 
 interface Settings {
   projectName: string;
@@ -39,7 +25,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<Settings>({
-    projectName: 'Picito',
+    projectName: 'New Project',
     configs: defaultConfigs
   });
   const [isLoading, setIsLoading] = useState(true);
