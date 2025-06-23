@@ -45,18 +45,18 @@ const Card = styled(Link)`
 `;
 
 export default function Home() {
-  const { configs } = useSettings();
+  const { settings, configs } = useSettings();
 
   return (
     <Container>
-      <h1>Picito - Responsive iFrame Viewer</h1>
+      <h1>{settings.projectName} - Responsive iFrame Viewer</h1>
       <p>
-        Welcome to Picito! Select an iframe configuration below or visit the{' '}
+        Welcome to {settings.projectName}! Select an iframe configuration below or visit the{' '}
         <Link href="/admin" style={{ color: '#0070f3' }}>admin page</Link> to manage configurations.
       </p>
       <Grid>
         {Object.values(configs).map(config => (
-          <Card key={config.id} href={`/iframe/${config.id}`}>
+          <Card key={config.id} href={`/iframe/${config.id.replace(/\s+/g, '_')}`}>
             <h2>{config.name}</h2>
             <p>{config.originalWidth}×{config.originalHeight}</p>
           </Card>

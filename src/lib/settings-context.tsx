@@ -19,63 +19,96 @@ const defaultConfigs: Record<string, IframeConfig> = {
   },
 };
 
+interface Settings {
+  projectName: string;
+  configs: Record<string, IframeConfig>;
+}
+
 interface SettingsContextType {
+  settings: Settings;
   configs: Record<string, IframeConfig>;
   getConfig: (id: string) => IframeConfig | undefined;
   updateConfig: (id: string, newConfig: Partial<IframeConfig>) => void;
   createConfig: (config: IframeConfig) => void;
   deleteConfig: (id: string) => void;
+  updateProjectName: (name: string) => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
-  const [configs, setConfigs] = useState<Record<string, IframeConfig>>(defaultConfigs);
+  const [settings, setSettings] = useState<Settings>({
+    projectName: 'Picito',
+    configs: defaultConfigs
+  });
 
   useEffect(() => {
-    // Load configs from localStorage on mount
-    const savedConfigs = localStorage.getItem('picito-configs');
-    if (savedConfigs) {
-      setConfigs(JSON.parse(savedConfigs));
+    // Load settings from localStorage on mount
+    const savedSettings = localStorage.getItem('picito-settings');
+    if (savedSettings) {
+      setSettings(JSON.parse(savedSettings));
     }
   }, []);
 
-  const saveConfigs = (newConfigs: Record<string, IframeConfig>) => {
-    localStorage.setItem('picito-configs', JSON.stringify(newConfigs));
+  const saveSettings = (newSettings: Settings) => {
+    localStorage.setItem('picito-settings', JSON.stringify(newSettings));
   };
 
-  const getConfig = (id: string) => configs[id];
+  const updateProjectName = (name: string) => {
+    setSettings(prev => {
+      const updated = { ...prev, projectName: name };
+      saveSettings(updated);
+      return updated;
+    });
+  };
+
+  const getConfig = (id: string) => settings.configs[id];
 
   const updateConfig = (id: string, newConfig: Partial<IframeConfig>) => {
-    setConfigs(prev => {
-      if (!prev[id]) return prev;
+    setSettings(prev => {
+      if (!prev.configs[id]) return prev;
       const updated = {
         ...prev,
-        [id]: { ...prev[id], ...newConfig }
+        configs: {
+          ...prev.configs,
+          [id]: { ...prev.configs[id], ...newConfig }
+        }
       };
-      saveConfigs(updated);
+      saveSettings(updated);
       return updated;
     });
   };
 
   const createConfig = (config: IframeConfig) => {
-    setConfigs(prev => {
-      const updated = { ...prev, [config.id]: config };
-      saveConfigs(updated);
+    setSettings(prev => {
+      const updated = {
+        ...prev,
+        configs: { ...prev.configs, [config.id]: config }
+      };
+      saveSettings(updated);
       return updated;
     });
   };
 
   const deleteConfig = (id: string) => {
-    setConfigs(prev => {
-      const { [id]: _, ...rest } = prev;
-      saveConfigs(rest);
-      return rest;
+    setSettings(prev => {
+      const { [id]: _, ...rest } = prev.configs;
+      const updated = { ...prev, configs: rest };
+      saveSettings(updated);
+      return updated;
     });
   };
 
   return (
-    <SettingsContext.Provider value={{ configs, getConfig, updateConfig, createConfig, deleteConfig }}>
+    <SettingsContext.Provider value={{
+      settings,
+      configs: settings.configs,
+      getConfig,
+      updateConfig,
+      createConfig,
+      deleteConfig,
+      updateProjectName
+    }}>
       {children}
     </SettingsContext.Provider>
   );

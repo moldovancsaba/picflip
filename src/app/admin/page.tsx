@@ -125,11 +125,12 @@ const NewConfigButton = styled(Button)`
 `;
 
 export default function AdminPage() {
-  const { configs, getConfig, updateConfig, createConfig, deleteConfig } = useSettings();
+  const { settings, configs, getConfig, updateConfig, createConfig, deleteConfig, updateProjectName } = useSettings();
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [formData, setFormData] = useState<IframeConfig | null>(null);
   const [isDirty, setIsDirty] = useState(false);
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,12 +157,17 @@ export default function AdminPage() {
   };
 
   const handleCreate = () => {
-    const id = prompt('Enter a unique ID for the new configuration:');
-    if (!id) return;
+    const rawId = prompt('Enter a unique ID for the new configuration (e.g., "asroma", "juventus"):');
+    if (!rawId) return;
+    
+    const configName = prompt('Enter a display name for the configuration (e.g., "AS Roma", "Juventus"):');
+    if (!configName) return;
+    
+    const id = rawId.toLowerCase().replace(/\s+/g, '_');
     
     const newConfig: IframeConfig = {
       id,
-      name: id.charAt(0).toUpperCase() + id.slice(1),
+      name: configName,
       contentUrl: '',
       originalWidth: 1400,
       originalHeight: 1244,
@@ -190,7 +196,17 @@ export default function AdminPage() {
 
   return (
     <Container>
-      <h1>Picito Admin Settings</h1>
+      <h1>{settings.projectName} Admin Settings</h1>
+      <FormGroup style={{ maxWidth: '600px', marginBottom: '2rem' }}>
+        <Label htmlFor="projectName">Project Name</Label>
+        <Input
+          id="projectName"
+          type="text"
+          value={settings.projectName}
+          onChange={(e) => updateProjectName(e.target.value)}
+          required
+        />
+      </FormGroup>
       <Grid>
         <ConfigList>
           {Object.values(configs).map(config => (
@@ -209,6 +225,17 @@ export default function AdminPage() {
 
         {formData ? (
           <Form onSubmit={handleSubmit}>
+        <FormGroup>
+          <Label htmlFor="name">Configuration Name</Label>
+          <Input
+            id="name"
+            type="text"
+            value={formData.name}
+            onChange={(e) => handleChange('name', e.target.value)}
+            required
+          />
+        </FormGroup>
+
         <FormGroup>
           <Label htmlFor="contentUrl">Content URL</Label>
           <Input

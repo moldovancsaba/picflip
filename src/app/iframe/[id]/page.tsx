@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
 export default function IframePage() {
   const { id } = useParams();
   const { getConfig } = useSettings();
-  const config = getConfig(id as string);
+  const config = getConfig((id as string).replace(/_+/g, ' '));
 
   if (!config) {
     return <div>Iframe configuration not found</div>;
