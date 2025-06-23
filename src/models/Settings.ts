@@ -24,7 +24,6 @@ const iframeConfigSchema = new mongoose.Schema({
 });
 
 const settingsSchema = new mongoose.Schema({
-  projectName: { type: String, required: true },
   configs: {
     type: Map,
     of: new mongoose.Schema({

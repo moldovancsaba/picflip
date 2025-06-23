@@ -49,9 +49,9 @@ export default function Home() {
 
   return (
     <Container>
-      <h1>{settings.projectName} - Responsive iFrame Viewer</h1>
+      <h1>Picito - Responsive iFrame Viewer</h1>
       <p>
-        Welcome to {settings.projectName}! Select an iframe configuration below or visit the{' '}
+        Welcome to Picito! Select an iframe configuration below or visit the{' '}
         <Link href="/admin" style={{ color: '#0070f3' }}>admin page</Link> to manage configurations.
       </p>
       <Grid>

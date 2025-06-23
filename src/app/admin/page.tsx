@@ -126,7 +126,7 @@ const NewConfigButton = styled(Button)`
 `;
 
 export default function AdminPage() {
-  const { settings, configs, getConfig, updateConfig, createConfig, deleteConfig, updateProjectName, isLoading } = useSettings();
+  const { settings, configs, getConfig, updateConfig, createConfig, deleteConfig, isLoading } = useSettings();
 
   if (isLoading) {
     return <Loading />;

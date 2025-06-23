@@ -10,7 +10,6 @@ export async function GET() {
     if (!settings) {
       // Create default settings if none exist
       settings = await Settings.create({
-        projectName: 'New Project',
         configs: {}
       });
     }
@@ -34,8 +33,6 @@ export async function PUT(request: Request) {
     if (!settings) {
       settings = await Settings.create(body);
     } else {
-      settings.projectName = body.projectName;
-      // Convert object to Map for mongoose
       settings.configs = new Map(Object.entries(body.configs));
       await settings.save();
     }

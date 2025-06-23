@@ -6,7 +6,6 @@ import { IframeConfig } from './types';
 const defaultConfigs: Record<string, IframeConfig> = {};
 
 interface Settings {
-  projectName: string;
   configs: Record<string, IframeConfig>;
 }
 
@@ -17,7 +16,6 @@ interface SettingsContextType {
   updateConfig: (id: string, newConfig: Partial<IframeConfig>) => void;
   createConfig: (config: IframeConfig) => void;
   deleteConfig: (id: string) => void;
-  updateProjectName: (name: string) => void;
   isLoading: boolean;
 }
 
@@ -25,7 +23,6 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<Settings>({
-    projectName: 'New Project',
     configs: defaultConfigs
   });
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +33,6 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       .then(res => res.json())
       .then(data => {
         setSettings({
-          projectName: data.projectName || 'Picito',
           configs: data.configs || defaultConfigs
         });
         setIsLoading(false);
@@ -58,14 +54,6 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Failed to save settings:', error);
     }
-  };
-
-  const updateProjectName = (name: string) => {
-    setSettings(prev => {
-      const updated = { ...prev, projectName: name };
-      saveSettings(updated);
-      return updated;
-    });
   };
 
   const getConfig = (id: string) => settings.configs[id];
@@ -113,7 +101,6 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       updateConfig,
       createConfig,
       deleteConfig,
-      updateProjectName,
       isLoading
     }}>
       {children}

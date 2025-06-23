@@ -3,7 +3,7 @@ import StyledComponentsRegistry from "../lib/styled";
 import { SettingsProvider } from "../lib/settings-context";
 
 export const metadata: Metadata = {
-  title: "PicFlip",
+  title: "Picito",
   description: "Image processing app - 2025-04-13T12:34:56.789Z",
 };
 
