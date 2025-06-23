@@ -5,6 +5,7 @@ import { IframeConfig } from '@/lib/types';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Loading from '@/components/Loading';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -125,7 +126,11 @@ const NewConfigButton = styled(Button)`
 `;
 
 export default function AdminPage() {
-  const { settings, configs, getConfig, updateConfig, createConfig, deleteConfig, updateProjectName } = useSettings();
+  const { settings, configs, getConfig, updateConfig, createConfig, deleteConfig, updateProjectName, isLoading } = useSettings();
+
+  if (isLoading) {
+    return <Loading />;
+  }
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [formData, setFormData] = useState<IframeConfig | null>(null);

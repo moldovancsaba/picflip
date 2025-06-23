@@ -32,6 +32,7 @@ interface SettingsContextType {
   createConfig: (config: IframeConfig) => void;
   deleteConfig: (id: string) => void;
   updateProjectName: (name: string) => void;
+  isLoading: boolean;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -41,17 +42,36 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     projectName: 'Picito',
     configs: defaultConfigs
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Load settings from localStorage on mount
-    const savedSettings = localStorage.getItem('picito-settings');
-    if (savedSettings) {
-      setSettings(JSON.parse(savedSettings));
-    }
+    // Load settings from API on mount
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        setSettings({
+          projectName: data.projectName || 'Picito',
+          configs: data.configs || defaultConfigs
+        });
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Failed to load settings:', error);
+        setIsLoading(false);
+      });
   }, []);
 
-  const saveSettings = (newSettings: Settings) => {
-    localStorage.setItem('picito-settings', JSON.stringify(newSettings));
+  const saveSettings = async (newSettings: Settings) => {
+    try {
+      const response = await fetch('/api/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newSettings)
+      });
+      if (!response.ok) throw new Error('Failed to save settings');
+    } catch (error) {
+      console.error('Failed to save settings:', error);
+    }
   };
 
   const updateProjectName = (name: string) => {
@@ -107,7 +127,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       updateConfig,
       createConfig,
       deleteConfig,
-      updateProjectName
+      updateProjectName,
+      isLoading
     }}>
       {children}
     </SettingsContext.Provider>
