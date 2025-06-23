@@ -23,12 +23,12 @@
 - [x] Create user account controls
 - [x] Add sorting and filtering
 
-### User Story 1.4: Terms & Privacy Acceptance
-- [ ] Create Terms & Conditions page
-- [ ] Create Privacy Policy page
-- [ ] Implement acceptance checkboxes
-- [ ] Add acceptance timestamp storage
-- [ ] Create acceptance validation
+### User Story 1.4: Terms & Privacy Acceptance (Completed: 2025-06-23T22:39:37.000Z)
+- [x] Create Terms & Conditions page
+- [x] Create Privacy Policy page
+- [x] Implement acceptance checkboxes
+- [x] Add acceptance timestamp storage
+- [x] Create acceptance validation
 
 ### User Story 1.5: Conditional Navigation
 - [ ] Update navigation component
