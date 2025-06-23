@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const AdminLayout = styled.div`
   min-height: 100vh;
@@ -21,11 +21,33 @@ const NavContent = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
+  justify-content: space-between;
 `;
 
 interface NavLinkProps {
   $active: boolean;
 }
+
+const NavLinks = styled.div`
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+`;
+
+const LogoutButton = styled.button`
+  padding: 0.5rem 1rem;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #dc2626;
+  }
+`;
 
 const NavLink = styled(Link)<NavLinkProps>`
   color: ${props => props.$active ? '#0070f3' : '#374151'};
@@ -54,20 +76,43 @@ const navItems = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error('Logout failed');
+      }
+
+      router.push('/login');
+      router.refresh();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
   return (
     <AdminLayout>
       <Nav>
         <NavContent>
-          {navItems.map(({ href, label }) => (
-            <NavLink 
-              key={href} 
-              href={href}
-              $active={pathname === href}
-            >
-              {label}
-            </NavLink>
-          ))}
+          <NavLinks>
+            {navItems.map(({ href, label }) => (
+              <NavLink 
+                key={href} 
+                href={href}
+                $active={pathname === href}
+              >
+                {label}
+              </NavLink>
+            ))}
+          </NavLinks>
+          <LogoutButton onClick={handleLogout}>
+            Logout
+          </LogoutButton>
         </NavContent>
       </Nav>
       <MainContent>

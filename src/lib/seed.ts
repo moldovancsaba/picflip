@@ -11,11 +11,11 @@ export async function seedDatabase() {
     if (!adminExists) {
       // Create admin user
       await User.create({
-        email: 'admin@picito.com',
+        email: 'moldovancsaba@gmail.com',
         role: 'admin',
         lastLoginAt: new Date()
       });
-      console.log('Created admin user: admin@picito.com');
+      console.log('Created admin user: moldovancsaba@gmail.com');
     }
   } catch (error) {
     console.error('Error seeding database:', error);
