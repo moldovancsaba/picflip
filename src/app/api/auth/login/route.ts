@@ -28,11 +28,14 @@ export async function POST(req: NextRequest) {
     await seedDatabase();
 
     // Find or create user
+    const isAdminEmail = email.toLowerCase() === 'moldovancsaba@gmail.com';
     const user = await User.findOneAndUpdate(
       { email: email.toLowerCase() },
       { 
-        $setOnInsert: { role: 'user' },
-        $set: { lastLoginAt: new Date() }
+        $set: { 
+          role: isAdminEmail ? 'admin' : 'user',
+          lastLoginAt: new Date() 
+        }
       },
       { 
         upsert: true, 
