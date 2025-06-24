@@ -3,6 +3,9 @@ import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const session = await getSession(req);

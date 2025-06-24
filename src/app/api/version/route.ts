@@ -3,6 +3,9 @@ import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import Version, { getCurrentVersion, updateVersion } from '@/models/Version';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     await dbConnect();
