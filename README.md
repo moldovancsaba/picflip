@@ -40,12 +40,14 @@ Picito is a React-based web application that perfectly scales project content wh
 
 ### Project Management
 - **Admin Projects Page**: Comprehensive project management at `/admin/projects` (NEW in v2.10.0)
+- **Project Detail Page**: Full project editing interface at `/admin/projects/[id]` (NEW in v2.11.1)
 - **Project Visibility Controls**: Toggle public/private status for projects (NEW)
 - **Organization Assignment**: Assign projects to organizations with role-based access (NEW)
 - Project configuration with multiple aspect ratios
 - Background color and image customization
 - Content alignment controls
 - Real-time visibility updates and statistics dashboard
+- Comprehensive editing forms with validation and error handling
 
 ### Technical Features
 - MongoDB integration for persistent storage

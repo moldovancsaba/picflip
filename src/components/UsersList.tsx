@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { IUser } from '@/models/User';
+import { Organisation } from '@/lib/types';
 
 const Table = styled.table`
   width: 100%;
@@ -69,11 +70,104 @@ interface UsersListProps {
 
 export function UsersList({ users, onRoleChange }: UsersListProps) {
   const [changingRole, setChangingRole] = useState<string | null>(null);
+  const [organizations, setOrganizations] = useState<Organisation[]>([]);
+  const [userMemberships, setUserMemberships] = useState<Record<string, any[]>>({});
+  const [loadingMemberships, setLoadingMemberships] = useState<Set<string>>(new Set());
+  
+  useEffect(() => {
+    fetchOrganizations();
+    // Auto-load memberships for all users
+    users.forEach(user => {
+      fetchUserMemberships(user.email);
+    });
+  }, [users]);
+  
+  const fetchOrganizations = async () => {
+    try {
+      const response = await fetch('/api/organisations?admin=true');
+      if (response.ok) {
+        const data = await response.json();
+        setOrganizations(data.organisations);
+      }
+    } catch (err) {
+      console.error('Failed to fetch organizations:', err);
+    }
+  };
+  
+  const fetchUserMemberships = async (userEmail: string) => {
+    if (loadingMemberships.has(userEmail)) return;
+    
+    setLoadingMemberships(prev => new Set(prev).add(userEmail));
+    try {
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(userEmail)}/memberships`);
+      if (response.ok) {
+        const data = await response.json();
+        setUserMemberships(prev => ({ ...prev, [userEmail]: data.memberships }));
+      }
+    } catch (err) {
+      console.error('Failed to fetch user memberships:', err);
+    } finally {
+      setLoadingMemberships(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(userEmail);
+        return newSet;
+      });
+    }
+  };
 
   const handleRoleChange = async (email: string, newRole: 'admin' | 'user') => {
     setChangingRole(email);
     await onRoleChange(email, newRole);
     setChangingRole(null);
+  };
+  
+  const handleAssignToOrganization = async (userEmail: string, organizationId: string) => {
+    if (!organizationId) return;
+    
+    try {
+      const response = await fetch(`/api/organisations/${organizationId}/members`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          email: userEmail,
+          role: 'member'
+        }),
+      });
+      
+      if (response.ok) {
+        // Refresh the user's memberships
+        await fetchUserMemberships(userEmail);
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to assign user: ${errorData.error || 'Unknown error'}`);
+      }
+    } catch (err) {
+      console.error('Failed to assign user to organization:', err);
+      alert('Failed to assign user to organization');
+    }
+  };
+  
+  const handleRemoveFromOrganization = async (userEmail: string, membershipId: string, orgName: string) => {
+    if (!confirm(`Remove ${userEmail} from "${orgName}"?`)) return;
+    
+    try {
+      const response = await fetch(`/api/organisations/membership/${membershipId}`, {
+        method: 'DELETE',
+      });
+      
+      if (response.ok) {
+        // Refresh the user's memberships
+        await fetchUserMemberships(userEmail);
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to remove user: ${errorData.error || 'Unknown error'}`);
+      }
+    } catch (err) {
+      console.error('Failed to remove user from organization:', err);
+      alert('Failed to remove user from organization');
+    }
   };
 
   if (users.length === 0) {
@@ -86,6 +180,7 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
         <tr>
           <Th>Email</Th>
           <Th>Role</Th>
+          <Th>Organizations</Th>
           <Th>Last Login</Th>
           <Th>Created At</Th>
         </tr>
@@ -103,6 +198,88 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
               </Select>
+            </Td>
+            <Td>
+              {userMemberships[user.email] ? (
+                <div>
+                  {userMemberships[user.email].map((membership: any) => (
+                    <div key={membership._id} style={{ 
+                      marginBottom: '0.25rem', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'space-between',
+                      background: '#f8f9fa',
+                      padding: '0.375rem 0.5rem',
+                      borderRadius: '4px',
+                      border: '1px solid #e5e7eb'
+                    }}>
+                      <div>
+                        <span style={{ fontWeight: 500 }}>{membership.organisation.name}</span>
+                        <span style={{ 
+                          color: '#6b7280', 
+                          fontSize: '0.75rem', 
+                          marginLeft: '0.5rem',
+                          background: '#f3f4f6',
+                          padding: '0.125rem 0.375rem',
+                          borderRadius: '12px'
+                        }}>
+                          {membership.role}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => handleRemoveFromOrganization(user.email, membership._id, membership.organisation.name)}
+                        style={{
+                          background: '#dc2626',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '3px',
+                          padding: '0.125rem 0.375rem',
+                          fontSize: '0.65rem',
+                          cursor: 'pointer',
+                          fontWeight: 500
+                        }}
+                        title={`Remove from ${membership.organisation.name}`}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                  {userMemberships[user.email].length === 0 && (
+                    <span style={{ color: '#6b7280', fontStyle: 'italic' }}>No organizations</span>
+                  )}
+                </div>
+              ) : loadingMemberships.has(user.email) ? (
+                <span style={{ color: '#6b7280' }}>Loading...</span>
+              ) : (
+                <button
+                  onClick={() => fetchUserMemberships(user.email)}
+                  style={{
+                    background: '#0070f3',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '0.25rem 0.5rem',
+                    fontSize: '0.75rem',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Load
+                </button>
+              )}
+              <div style={{ marginTop: '0.5rem' }}>
+                <Select
+                  value=""
+                  onChange={(e) => handleAssignToOrganization(user.email, e.target.value)}
+                  style={{ fontSize: '0.75rem' }}
+                >
+                  <option value="">Assign to organization...</option>
+                  {organizations.map((org) => (
+                    <option key={org._id} value={org._id}>
+                      {org.name}
+                    </option>
+                  ))}
+                </Select>
+              </div>
             </Td>
             <DateCell>
               {user.lastLoginAt ? new Date(user.lastLoginAt).toISOString().slice(0, -1) + '.000Z' : 'Never'}

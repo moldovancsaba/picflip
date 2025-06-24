@@ -258,4 +258,165 @@ This document captures key learnings and insights from developing Picito.
 4. **Documentation**: Comprehensive updates to architecture and implementation docs
 5. **Version Management**: Following established versioning rules maintains consistency
 
-Last Updated: 2025-06-24T13:23:34.054Z
+## 9. Epic 5.1 - Admin Project Detail Page (2025-06-24T15:40:54Z)
+
+### Key Technical Learnings
+
+1. **Dynamic Routing**: Next.js App Router dynamic routes `[id]` require proper parameter handling with `useParams()`
+2. **Form State Management**: Complex forms with multiple sections benefit from single state object approach
+3. **Styled Components**: Using `$` prefix for transient props prevents DOM warnings (`$isPublic` vs `isPublic`)
+4. **API Integration**: PATCH operations need careful data structuring to match backend validation schemas
+5. **Test Strategy**: Jest/RTL tests require proper mocking of Next.js navigation hooks (`useRouter`, `useParams`)
+
+### Implementation Insights
+
+1. **Component Architecture**: Breaking forms into logical sections improves maintainability and user experience
+2. **Loading States**: Separate loading states for initial fetch vs save operations provide better UX feedback
+3. **Error Handling**: Comprehensive error boundaries with specific error messages improve user understanding
+4. **Validation**: Client-side validation combined with server-side validation provides defense in depth
+5. **Metadata Display**: ISO 8601 timestamp formatting ensures consistent data presentation
+
+### Testing Challenges
+
+1. **Async Mock Management**: Complex async operations in tests require careful fetch mock setup
+2. **DOM Assertion Issues**: Color input values in tests render differently than expected (lowercase hex)
+3. **Navigation Mocking**: Router hooks need proper mocking to test redirect behaviors
+4. **Act Warnings**: React state updates in tests need proper `act()` wrapping for async operations
+5. **Error Simulation**: Testing error scenarios requires careful mock response structuring
+
+### UI/UX Patterns
+
+1. **Form Sections**: Logical grouping with clear section titles improves form comprehension
+2. **Two-Column Layout**: Grid layout for related fields (width/height, aspect ratios) improves space usage
+3. **Toggle Components**: Custom styled toggle switches provide better visual feedback than checkboxes
+4. **Metadata Presentation**: Read-only metadata in separate section maintains clear form/data separation
+5. **Navigation Flow**: Back buttons and breadcrumbs essential for detail page navigation
+
+### Performance Considerations
+
+1. **State Updates**: Debouncing not needed for form inputs as updates are local until save
+2. **API Calls**: Single PATCH with all form data more efficient than field-by-field updates
+3. **Component Rendering**: Proper key usage and state structure prevents unnecessary re-renders
+4. **Loading Component**: Reusing existing Loading component maintains consistency and reduces bundle size
+
+### Security Implementation
+
+1. **Authorization**: 401 redirects properly handle unauthorized access attempts
+2. **Data Validation**: Backend validation schemas prevent malformed data submission
+3. **Role Checking**: Admin-only access enforced at both route and API levels
+4. **Error Messages**: Security-conscious error messages don't expose system internals
+
+### Time Management
+
+- **Estimated**: 2 hours for complete implementation with tests
+- **Actual**: ~3 hours including test debugging and styling refinements
+- **Challenges**: Test mocking complexity and styled-components prop warnings took extra time
+- **Success Factors**:
+  - Building on established API patterns from Epic 4.1
+  - Reusing UI components and styling patterns
+  - Comprehensive test coverage from the start
+
+### Technical Debt Considerations
+
+1. **Test Maintenance**: Complex async mocks may need refactoring as test suite grows
+2. **Form Validation**: Client-side validation could be enhanced with form libraries
+3. **Type Safety**: Some TypeScript assertions could be improved with better interface design
+4. **Error Handling**: Global error boundary could improve error handling consistency
+5. **Component Reusability**: Form components could be extracted for reuse across admin pages
+
+## 10. Issue Resolution Summary - Organization Editing Bug (2025-06-24T15:54:22Z)
+
+### Problem Identified
+- **Error**: "Failed to execute 'json' on 'Response': Une..." when trying to rename an organization
+- **Root Cause**: Frontend code was calling the wrong API endpoint `/api/organisations/${id}` instead of `/api/admin/organizations/${id}`
+- **Impact**: Organization editing functionality was completely broken
+
+### Solution Implemented
+1. **Fixed API Endpoint**: Updated the organization editing function to use the correct admin endpoint
+2. **Enhanced Error Handling**: Added robust JSON response parsing with fallback error handling
+3. **Improved Error Messages**: Better error message extraction from API responses
+
+### Technical Changes
+- **File Modified**: `/src/app/admin/organizations/page.tsx`
+- **Line 518**: Changed from `/api/organisations/${organizationToEdit._id}` to `/api/admin/organizations/${organizationToEdit._id}`
+- **Error Handling**: Added try-catch wrapper for JSON parsing failures
+
+### Documentation Updates
+- **LEARNINGS.md**: Added detailed bug fix analysis and prevention strategies
+- **RELEASE_NOTES.md**: Documented the critical bug fix in version 2.11.3
+- **Version**: Updated package.json to version 2.11.3
+
+### Verification
+- **Build Test**: `npm run build` passed successfully
+- **API Verification**: Confirmed `/api/admin/organizations/[id]` has the PATCH method
+- **Error Resilience**: Improved handling of malformed API responses
+
+### Result
+The organization renaming functionality should now work correctly, and the enhanced error handling will prevent similar issues in the future.
+
+## 10.1. Technical Details - Organization Editing API Endpoint Bug Fix
+
+### Issue Description
+- **Error**: "Failed to execute 'json' on 'Response': Une..." when trying to rename an organization
+- **Root Cause**: Frontend code was calling wrong API endpoint `/api/organisations/${id}` instead of `/api/admin/organizations/${id}`
+- **Impact**: Organization editing functionality completely broken
+
+### Investigation Process
+1. **Error Analysis**: "Failed to execute 'json' on 'Response'" suggested API response parsing issues
+2. **Endpoint Discovery**: Found that PATCH method only exists in `/api/admin/organizations/[id]/route.ts`
+3. **Code Review**: `/api/organisations/[id]/route.ts` only has DELETE method, not PATCH
+4. **Frontend Fix**: Updated organization editing to use correct admin endpoint
+
+### Technical Fix Details
+- **File Modified**: `/src/app/admin/organizations/page.tsx`
+- **Line Changed**: Line 518 in `handleEditOrganization` function
+- **Before**: `fetch('/api/organisations/${organizationToEdit._id}')`
+- **After**: `fetch('/api/admin/organizations/${organizationToEdit._id}')`
+
+### Additional Improvements
+- **Enhanced Error Handling**: Added try-catch for JSON parsing failures
+- **Better Error Messages**: Improved error message extraction from API responses
+- **Fallback Handling**: Default error message when JSON parsing fails
+
+### Code Quality Improvements
+```typescript
+// Before - could fail on JSON parsing
+if (!response.ok) {
+  const errorData = await response.json();
+  throw new Error(errorData.error || 'Failed to update organization');
+}
+
+// After - robust error handling
+if (!response.ok) {
+  let errorMessage = 'Failed to update organization';
+  try {
+    const errorData = await response.json();
+    errorMessage = errorData.message || errorData.error || errorMessage;
+  } catch (jsonError) {
+    console.error('Error parsing response:', jsonError);
+  }
+  throw new Error(errorMessage);
+}
+```
+
+### Prevention Strategies
+1. **API Documentation**: Maintain clear documentation of available endpoints
+2. **TypeScript Helpers**: Create typed API client functions
+3. **Integration Testing**: Test API endpoints with frontend components
+4. **Error Handling Standards**: Consistent error handling patterns across frontend
+5. **Endpoint Naming**: Clear distinction between admin and user endpoints
+
+### Testing Verification
+- **Build Test**: `npm run build` passed successfully
+- **Route Verification**: Confirmed `/api/admin/organizations/[id]` has PATCH method
+- **Error Handling**: Improved resilience to malformed API responses
+- **User Experience**: Organization editing should now work correctly
+
+### Learning Points
+1. **API Endpoint Consistency**: Different endpoint paths for different permission levels
+2. **Error Message Debugging**: Truncated error messages indicate JSON parsing issues
+3. **Response Handling**: Always handle cases where API response is not valid JSON
+4. **Development Workflow**: Build testing catches many integration issues early
+5. **Documentation Importance**: Clear API documentation prevents endpoint confusion
+
+Last Updated: 2025-06-24T15:50:27Z

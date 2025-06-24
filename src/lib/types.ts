@@ -4,6 +4,7 @@ export type VerticalAlignment = 'top' | 'middle' | 'bottom';
 export interface IframeConfig {
   id: string;
   name: string;
+  slug?: string;
   contentUrl: string;
   originalWidth: number;
   originalHeight: number;

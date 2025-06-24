@@ -325,6 +325,7 @@ const ConfirmDeleteButton = styled(ConfirmButton)`
 
 interface OrganizationFormData {
   name: string;
+  slug: string;
   description: string;
 }
 
@@ -335,12 +336,15 @@ export default function OrganizationsPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [organizationToDelete, setOrganizationToDelete] = useState<IOrganisation | null>(null);
+  const [organizationToEdit, setOrganizationToEdit] = useState<IOrganisation | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [expandedOrganizations, setExpandedOrganizations] = useState<Set<string>>(new Set());
   const [formData, setFormData] = useState<OrganizationFormData>({
     name: '',
+    slug: '',
     description: ''
   });
   
@@ -440,7 +444,7 @@ export default function OrganizationsPage() {
       const data = await response.json();
       setSuccess('Organization created successfully');
       setShowCreateModal(false);
-      setFormData({ name: '', description: '' });
+      setFormData({ name: '', slug: '', description: '' });
       
       // Refresh the list
       await fetchOrganizations();
@@ -496,11 +500,73 @@ export default function OrganizationsPage() {
     setShowDeleteModal(true);
   };
 
+  const openEditModal = (organization: IOrganisation) => {
+    setOrganizationToEdit(organization);
+    setFormData({
+      name: organization.name,
+      slug: organization.slug,
+      description: organization.description || ''
+    });
+    setShowEditModal(true);
+  };
+
+  const handleEditOrganization = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!organizationToEdit) return;
+    
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/admin/organizations/${organizationToEdit._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.status === 401) {
+        router.push('/login');
+        return;
+      }
+
+      if (!response.ok) {
+        let errorMessage = 'Failed to update organization';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch (jsonError) {
+          // If JSON parsing fails, use the default message
+          console.error('Error parsing response:', jsonError);
+        }
+        throw new Error(errorMessage);
+      }
+
+      setSuccess('Organization updated successfully');
+      setShowEditModal(false);
+      setOrganizationToEdit(null);
+      setFormData({ name: '', slug: '', description: '' });
+      
+      // Refresh the list
+      await fetchOrganizations();
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccess(null), 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update organization');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const closeModals = () => {
     setShowCreateModal(false);
+    setShowEditModal(false);
     setShowDeleteModal(false);
     setOrganizationToDelete(null);
-    setFormData({ name: '', description: '' });
+    setOrganizationToEdit(null);
+    setFormData({ name: '', slug: '', description: '' });
     setError(null);
   };
 
@@ -536,9 +602,28 @@ export default function OrganizationsPage() {
                   <OrganizationName>{org.name}</OrganizationName>
                   <OrganizationSlug>/{org.slug}</OrganizationSlug>
                 </div>
-                <DeleteButton onClick={() => openDeleteModal(org)}>
-                  Delete
-                </DeleteButton>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button
+                    onClick={() => openEditModal(org)}
+                    style={{
+                      background: '#10b981',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      padding: '0.5rem 1rem',
+                      fontSize: '0.875rem',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.2s',
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.background = '#059669'}
+                    onMouseOut={(e) => e.currentTarget.style.background = '#10b981'}
+                  >
+                    Edit
+                  </button>
+                  <DeleteButton onClick={() => openDeleteModal(org)}>
+                    Delete
+                  </DeleteButton>
+                </div>
               </OrganizationHeader>
               
               {org.description && (
@@ -626,6 +711,67 @@ export default function OrganizationsPage() {
                 </CancelButton>
                 <ConfirmButton type="submit" disabled={isSubmitting}>
                   {isSubmitting ? 'Creating...' : 'Create Organization'}
+                </ConfirmButton>
+              </ModalActions>
+            </form>
+          </ModalContent>
+        </Modal>
+      )}
+
+      {/* Edit Organization Modal */}
+      {showEditModal && organizationToEdit && (
+        <Modal onClick={(e) => e.target === e.currentTarget && closeModals()}>
+          <ModalContent>
+            <ModalTitle>Edit Organization</ModalTitle>
+            <form onSubmit={handleEditOrganization}>
+              <FormGroup>
+                <Label htmlFor="edit-name">Organization Name *</Label>
+                <Input
+                  id="edit-name"
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  minLength={2}
+                  maxLength={100}
+                  disabled={isSubmitting}
+                />
+              </FormGroup>
+              
+              <FormGroup>
+                <Label htmlFor="edit-slug">Organization Slug *</Label>
+                <Input
+                  id="edit-slug"
+                  type="text"
+                  value={formData.slug}
+                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                  pattern="[a-z0-9-]+"
+                  placeholder="organization-slug-example"
+                  title="Slug can only contain lowercase letters, numbers, and hyphens"
+                  required
+                  minLength={1}
+                  maxLength={50}
+                  disabled={isSubmitting}
+                />
+              </FormGroup>
+              
+              <FormGroup>
+                <Label htmlFor="edit-description">Description</Label>
+                <TextArea
+                  id="edit-description"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  maxLength={500}
+                  disabled={isSubmitting}
+                />
+              </FormGroup>
+              
+              <ModalActions>
+                <CancelButton type="button" onClick={closeModals} disabled={isSubmitting}>
+                  Cancel
+                </CancelButton>
+                <ConfirmButton type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? 'Updating...' : 'Update Organization'}
                 </ConfirmButton>
               </ModalActions>
             </form>

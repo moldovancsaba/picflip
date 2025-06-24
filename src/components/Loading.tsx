@@ -7,7 +7,7 @@ const spin = keyframes`
   100% { transform: rotate(360deg); }
 `;
 
-const LoadingContainer = styled.div`
+const LoadingContainer = styled.div<{ className?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,9 +24,22 @@ const Spinner = styled.div`
   animation: ${spin} 1s linear infinite;
 `;
 
-export default function Loading() {
+interface LoadingProps {
+  className?: string;
+  minHeight?: string;
+  background?: string;
+}
+
+export default function Loading({ 
+  className, 
+  minHeight = '100vh', 
+  background = '#f5f5f5' 
+}: LoadingProps = {}) {
   return (
-    <LoadingContainer>
+    <LoadingContainer 
+      className={className}
+      style={{ minHeight, background }}
+    >
       <Spinner />
     </LoadingContainer>
   );

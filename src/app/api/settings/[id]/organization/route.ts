@@ -97,25 +97,28 @@ export async function PATCH(
         );
       }
 
-      // Check if user is a member of the organization
-      const membership = await OrganisationMembership.findOne({
-        userId: session.id,
-        organisationId: organisationId
-      });
+      // Allow admins to assign to any organization, others need membership
+      if (session.role !== 'admin') {
+        // Check if user is a member of the organization
+        const membership = await OrganisationMembership.findOne({
+          userId: session.id,
+          organisationId: organisationId
+        });
 
-      if (!membership) {
-        return NextResponse.json(
-          { error: 'Access denied - not a member of this organization' },
-          { status: 403 }
-        );
-      }
+        if (!membership) {
+          return NextResponse.json(
+            { error: 'Access denied - not a member of this organization' },
+            { status: 403 }
+          );
+        }
 
-      // Only owners and admins can assign projects
-      if (!['owner', 'admin'].includes(membership.role)) {
-        return NextResponse.json(
-          { error: 'Access denied - insufficient permissions' },
-          { status: 403 }
-        );
+        // Only owners and admins can assign projects
+        if (!['owner', 'admin'].includes(membership.role)) {
+          return NextResponse.json(
+            { error: 'Access denied - insufficient permissions' },
+            { status: 403 }
+          );
+        }
       }
     }
 

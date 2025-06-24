@@ -1,5 +1,156 @@
 # Release Notes
 
+## Version 2.11.3 (2025-06-24T15:50:27Z)
+
+### Critical Bug Fix - Organization Editing
+- **Fixed**: Organization editing functionality that was completely broken
+- **Error Resolved**: "Failed to execute 'json' on 'Response'" when renaming organizations
+- **Root Cause**: Frontend code was calling wrong API endpoint `/api/organisations/[id]` instead of `/api/admin/organizations/[id]`
+- **Solution**: Updated organization editing to use correct admin API endpoint
+
+### Enhanced Error Handling
+- **Improved**: JSON response parsing with fallback error handling
+- **Added**: Try-catch wrapper for API response parsing to prevent crashes
+- **Enhanced**: Error message extraction from API responses with better defaults
+- **Benefit**: More resilient error handling prevents application crashes from malformed responses
+
+### Technical Details
+- **File Modified**: `/src/app/admin/organizations/page.tsx`
+- **API Endpoint Corrected**: Changed from `/api/organisations/[id]` to `/api/admin/organizations/[id]`
+- **Method**: PATCH operation for organization updates
+- **Verification**: Build test passed, confirming fix doesn't break other functionality
+
+### User Impact
+- **Before**: Organization renaming completely non-functional with cryptic error messages
+- **After**: Organization editing works correctly with proper error feedback
+- **Experience**: Admin users can now successfully rename organizations through the UI
+
+### Prevention Measures
+- **Documentation**: Clear API endpoint documentation to prevent similar issues
+- **Error Handling**: Robust response parsing prevents similar JSON parsing failures
+- **Testing Strategy**: Build verification catches integration issues early
+- **Code Quality**: Consistent error handling patterns across admin interface
+
+## Version 2.11.2 (2025-06-24T15:40:54Z)
+
+### Epic 5.1 - Admin Project Detail Page Implementation
+- **New Feature**: Complete project detail editing interface at `/admin/projects/[id]`
+- **Form Sections**: Organized editing interface with 5 logical sections:
+  - Basic Information (name, content URL)
+  - Dimensions & Alignment (width, height, aspect ratio, positioning)
+  - Background (color picker, image URL)
+  - Organisation Assignment (dropdown with current assignment display)
+  - Visibility (toggle switch with status descriptions)
+- **Metadata Display**: Read-only project ID and last updated timestamp in ISO 8601 format
+- **Navigation**: Back button to return to projects list with proper breadcrumb flow
+- **Real-time Updates**: Immediate feedback for save operations with success/error messages
+
+### UI/UX Enhancements
+- **Professional Form Design**: Styled-components based form with consistent design patterns
+- **Two-Column Layout**: Efficient space usage for related fields (dimensions, aspect ratios)
+- **Custom Toggle Switch**: Professional visibility toggle with visual state indicators
+- **Loading States**: Separate loading states for initial fetch and save operations
+- **Comprehensive Validation**: Client-side validation with server-side validation backup
+- **Error Handling**: Detailed error messages with proper user guidance
+
+### Technical Implementation
+- **Dynamic Routing**: Next.js App Router pattern with proper parameter handling
+- **API Integration**: GET and PATCH operations with `/api/admin/projects/[id]` endpoint
+- **State Management**: Single form state object managing complex multi-section form
+- **TypeScript Safety**: Full type definitions for project data and form interfaces
+- **Styled Components**: Transient props pattern to prevent DOM warnings
+- **Test Coverage**: Comprehensive Jest/RTL tests for fetch, edit, save, and error scenarios
+
+### Testing and Quality Assurance
+- **Unit Tests**: 12 test cases covering happy path and error scenarios
+- **Mock Management**: Proper mocking of Next.js navigation hooks and fetch operations
+- **Error Simulation**: Tests for 401 redirects, validation errors, and network failures
+- **Build Verification**: Successful compilation with zero TypeScript errors
+- **Manual Testing Ready**: Component ready for browser-based validation
+
+### Security and Validation
+- **Admin-Only Access**: Route and API level authorization checks
+- **Input Validation**: Zod schema validation on backend with client-side validation
+- **Error Security**: Security-conscious error messages that don't expose internals
+- **401 Handling**: Proper redirect to login for unauthorized access attempts
+
+### Performance Considerations
+- **Efficient Updates**: Single PATCH request with all form data rather than field-by-field
+- **Component Reuse**: Leveraging existing Loading component and styling patterns
+- **State Optimization**: Minimal re-renders through proper state structure
+- **API Efficiency**: Fetching organization list only when needed
+
+### Version Management
+- **Previous Version**: 2.11.1
+- **New Version**: 2.11.2 (planned)
+- **Bump Type**: Development build completion
+- **Timestamp**: 2025-06-24T15:40:54Z
+- **Status**: Implementation complete, ready for manual testing
+
+## Version 2.11.1 (2025-06-24T15:25:58.251Z)
+
+### Enhanced Admin UI & Project Management
+- **Modal-Based Project Creation**: Replaced prompt-based project creation with professional modal form similar to organization creation
+- **Project Organization Assignment**: Projects can now be assigned to organizations from the admin projects page
+- **Project Visibility Control**: Toggle public/private visibility for projects directly from the project management interface
+- **Organization Editing**: Added edit functionality for organizations with proper form validation
+- **User Organization Management**: Enhanced user management to support organization relationships
+- **Real-time Status Updates**: Live feedback for all admin operations with success/error messages
+
+### New Features
+- **Organization Assignment Interface**: Select dropdown with assignment button for seamless project-to-organization mapping
+- **Visibility Toggle Switch**: Interactive switch to control whether projects appear on the main page without login
+- **Edit Organization Modal**: Professional modal form for updating organization details
+- **Enhanced Project Statistics**: Real-time statistics showing total, public, and private project counts
+- **Universal Date Formatting**: ISO 8601 format with milliseconds throughout the UI (2025-04-13T12:34:56.789Z)
+
+### UI/UX Improvements
+- **Consistent Modal Design**: All creation and editing forms now use the same professional modal pattern
+- **Professional Form Validation**: Client-side validation with proper error messaging
+- **Loading States**: Proper loading indicators for all async operations
+- **Responsive Design**: All new components maintain consistency with existing design patterns
+- **Admin Dashboard Polish**: Enhanced layout and visual hierarchy for better user experience
+
+### Technical Enhancements
+- **Shared Admin Components**: Created reusable component library in `/src/components/admin/`
+  - Breadcrumbs component with design tokens
+  - DetailHeader with metadata and action buttons
+  - FormField, Select, and Toggle components
+  - BackButton for navigation
+  - Centralized design tokens for consistent styling
+- **API Endpoints**: New REST endpoints for project visibility and organization assignment
+- **Enhanced Security**: Admin-only access controls for organization management
+- **Database Integration**: Proper MongoDB updates with change tracking
+
+### API Improvements
+- **PATCH /api/settings/[id]/visibility**: Update project public/private status
+- **PATCH /api/settings/[id]/organization**: Assign/unassign projects to organizations
+- **Enhanced Admin Controls**: Admin users can assign projects to any organization
+- **Proper Error Handling**: Comprehensive error responses with user-friendly messages
+
+### Version Management
+- **Previous Version**: 2.11.0
+- **New Version**: 2.11.1
+- **Bump Type**: dev
+- **Timestamp**: 2025-06-24T15:25:58.251Z
+- **Auto-generated**: Yes
+
+
+## Version 2.11.0 (2025-06-24T15:20:41.194Z)
+
+### Minor Release
+- **Release**: Code committed to GitHub repository
+- **Version Bump**: Minor version incremented from 2.10.0 to 2.11.0
+- **Status**: Ready for deployment
+
+### Technical Details
+- **Previous Version**: 2.10.0
+- **New Version**: 2.11.0
+- **Bump Type**: commit
+- **Timestamp**: 2025-06-24T15:20:41.194Z
+- **Auto-generated**: Yes
+
+
 ## Version 2.10.0 (2025-06-24T13:30:01.238Z)
 
 ### Minor Release

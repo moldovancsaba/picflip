@@ -25,13 +25,16 @@
 8. `/src/app/docs/guide/layout.tsx` - Documentation layout
 9. `/src/app/organisations/page.tsx` - Organisation listing page (Added: 2025-01-08T10:15:30.789Z)
 10. `/src/app/organisations/[id]/page.tsx` - Organisation detail page (Added: 2025-01-08T10:15:30.789Z)
-11. `/src/app/api/settings/route.ts` - API route for settings
-12. `/src/app/api/auth/login/route.ts` - Authentication API endpoint
-13. `/src/app/api/admin/users/route.ts` - User management API endpoint
-14. `/src/app/api/organisations/route.ts` - Organisation management API
-15. `/src/app/api/organisations/[id]/members/route.ts` - Organisation member management API
-16. `/src/app/api/organisations/[id]/members/[userId]/route.ts` - Individual member operations API
-17. `/src/app/api/version/route.ts` - Application version management API
+11. `/src/app/admin/projects/page.tsx` - Admin projects management page
+12. `/src/app/admin/projects/[id]/page.tsx` - Admin project detail page (Added: 2025-06-24T15:40:54Z)
+13. `/src/app/api/settings/route.ts` - API route for settings
+14. `/src/app/api/auth/login/route.ts` - Authentication API endpoint
+15. `/src/app/api/admin/users/route.ts` - User management API endpoint
+16. `/src/app/api/admin/projects/[id]/route.ts` - Project detail API endpoint (Added: 2025-06-24T15:40:54Z)
+17. `/src/app/api/organisations/route.ts` - Organisation management API
+18. `/src/app/api/organisations/[id]/members/route.ts` - Organisation member management API
+19. `/src/app/api/organisations/[id]/members/[userId]/route.ts` - Individual member operations API
+20. `/src/app/api/version/route.ts` - Application version management API
 
 ### Components
 11. `/src/components/IframeViewer.tsx` - Project viewing component

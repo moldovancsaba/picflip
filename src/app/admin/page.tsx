@@ -1,10 +1,10 @@
 "use client";
 
 import { useSettings } from '@/lib/settings-context';
-import { IframeConfig } from '@/lib/types';
+import { IframeConfig, Organisation } from '@/lib/types';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Loading from '@/components/Loading';
 
 const Container = styled.div`
@@ -125,6 +125,101 @@ const NewConfigButton = styled(Button)`
   margin-top: auto;
 `;
 
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+`;
+
+const ModalTitle = styled.h2`
+  margin: 0 0 1rem 0;
+  color: #333;
+`;
+
+const ModalLabel = styled.label`
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #374151;
+  font-weight: 500;
+`;
+
+const ModalInput = styled.input`
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 1rem;
+  
+  &:focus {
+    outline: none;
+    border-color: #0070f3;
+    box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+  }
+`;
+
+const ModalActions = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+`;
+
+const CancelButton = styled.button`
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background: #e5e7eb;
+  }
+`;
+
+const ConfirmButton = styled.button`
+  background: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background: #0051cc;
+  }
+  
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
+
+interface ProjectFormData {
+  id: string;
+  name: string;
+}
 
 export default function AdminPage() {
   const { settings, configs, getConfig, updateConfig, createConfig, deleteConfig, isLoading } = useSettings();
@@ -132,6 +227,29 @@ export default function AdminPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [formData, setFormData] = useState<IframeConfig | null>(null);
   const [isDirty, setIsDirty] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [projectFormData, setProjectFormData] = useState<ProjectFormData>({
+    id: '',
+    name: ''
+  });
+  const [organizations, setOrganizations] = useState<Organisation[]>([]);
+  
+  useEffect(() => {
+    fetchOrganizations();
+  }, []);
+  
+  const fetchOrganizations = async () => {
+    try {
+      const response = await fetch('/api/organisations?admin=true');
+      if (response.ok) {
+        const data = await response.json();
+        setOrganizations(data.organisations);
+      }
+    } catch (err) {
+      console.error('Failed to fetch organizations:', err);
+    }
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -146,7 +264,7 @@ export default function AdminPage() {
     router.push(`/iframe/${selectedId}`);
   };
 
-  const handleChange = (field: keyof IframeConfig, value: string | number) => {
+  const handleChange = (field: keyof IframeConfig, value: string | number | null) => {
     if (!formData) return;
     setFormData(prev => ({ ...prev!, [field]: value }));
     setIsDirty(true);
@@ -162,33 +280,47 @@ export default function AdminPage() {
   };
 
   const handleCreate = () => {
-    const rawId = prompt('Enter a unique ID for the new project (e.g., "asroma", "juventus"):');
-    if (!rawId) return;
-    
-    const projectName = prompt('Enter a display name for the project (e.g., "AS Roma Live Stream", "Company Presentation"):');
-    if (!projectName) return;
-    
-    const id = rawId.toLowerCase().replace(/\s+/g, '_');
-    
-    const newConfig: IframeConfig = {
-      id,
-      name: projectName,
-      contentUrl: '',
-      originalWidth: 1920,
-      originalHeight: 1080,
-      aspectRatioX: 16,
-      aspectRatioY: 9,
-      backgroundColor: '#000000',
-      backgroundImageUrl: '',
-      horizontalAlignment: 'center',
-      verticalAlignment: 'middle',
-      isPublic: false // Default to private for security
-    };
+    setShowCreateModal(true);
+  };
 
-    createConfig(newConfig);
-    setSelectedId(id);
-    setFormData(newConfig);
-    setIsDirty(true);
+  const handleCreateProject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const id = projectFormData.id.toLowerCase().replace(/\s+/g, '_');
+      
+      const newConfig: IframeConfig = {
+        id,
+        name: projectFormData.name,
+        contentUrl: '',
+        originalWidth: 1920,
+        originalHeight: 1080,
+        aspectRatioX: 16,
+        aspectRatioY: 9,
+        backgroundColor: '#000000',
+        backgroundImageUrl: '',
+        horizontalAlignment: 'center',
+        verticalAlignment: 'middle',
+        isPublic: false // Default to private for security
+      };
+
+      createConfig(newConfig);
+      setSelectedId(id);
+      setFormData(newConfig);
+      setIsDirty(true);
+      setShowCreateModal(false);
+      setProjectFormData({ id: '', name: '' });
+    } catch (err) {
+      console.error('Error creating project:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const closeModal = () => {
+    setShowCreateModal(false);
+    setProjectFormData({ id: '', name: '' });
   };
 
   const handleDelete = () => {
@@ -230,6 +362,19 @@ export default function AdminPage() {
             onChange={(e) => handleChange('name', e.target.value)}
             required
             placeholder="e.g., AS Roma Live Stream, Company Presentation"
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <Label htmlFor="slug">Project Slug</Label>
+          <Input
+            id="slug"
+            type="text"
+            value={formData.slug || ''}
+            onChange={(e) => handleChange('slug', e.target.value)}
+            pattern="[a-z0-9-]+"
+            placeholder="project-slug-example"
+            title="Slug can only contain lowercase letters, numbers, and hyphens"
           />
         </FormGroup>
 
@@ -318,6 +463,33 @@ export default function AdminPage() {
         </FormGroup>
 
         <FormGroup>
+          <Label htmlFor="organisationId">Organization Assignment</Label>
+          <select
+            id="organisationId"
+            value={formData.organisationId || ''}
+            onChange={(e) => handleChange('organisationId', e.target.value || null)}
+            style={{
+              padding: '0.5rem',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              fontSize: '1rem',
+              width: '100%',
+              background: 'white'
+            }}
+          >
+            <option value="">Personal Project</option>
+            {organizations.map((org) => (
+              <option key={org._id} value={org._id}>
+                {org.name}
+              </option>
+            ))}
+          </select>
+          <div style={{ fontSize: '0.875rem', color: '#666', marginTop: '0.25rem' }}>
+            Select an organization to assign this project, or keep it as a personal project
+          </div>
+        </FormGroup>
+
+        <FormGroup>
           <Label>Horizontal Alignment</Label>
           <AlignmentGrid>
             <AlignmentButton
@@ -386,6 +558,55 @@ export default function AdminPage() {
           </div>
         )}
       </Grid>
+
+      {/* Create Project Modal */}
+      {showCreateModal && (
+        <Modal onClick={(e) => e.target === e.currentTarget && closeModal()}>
+          <ModalContent>
+            <ModalTitle>Create New Project</ModalTitle>
+            <form onSubmit={handleCreateProject}>
+              <FormGroup>
+                <ModalLabel htmlFor="project-id">Project ID *</ModalLabel>
+                <ModalInput
+                  id="project-id"
+                  type="text"
+                  value={projectFormData.id}
+                  onChange={(e) => setProjectFormData({ ...projectFormData, id: e.target.value })}
+                  required
+                  placeholder="e.g., asroma, juventus, company-demo"
+                  pattern="[a-zA-Z0-9_-]+"
+                  title="Only letters, numbers, underscores, and hyphens allowed"
+                  disabled={isSubmitting}
+                />
+              </FormGroup>
+              
+              <FormGroup>
+                <ModalLabel htmlFor="project-name">Project Name *</ModalLabel>
+                <ModalInput
+                  id="project-name"
+                  type="text"
+                  value={projectFormData.name}
+                  onChange={(e) => setProjectFormData({ ...projectFormData, name: e.target.value })}
+                  required
+                  placeholder="e.g., AS Roma Live Stream, Company Presentation"
+                  minLength={2}
+                  maxLength={100}
+                  disabled={isSubmitting}
+                />
+              </FormGroup>
+              
+              <ModalActions>
+                <CancelButton type="button" onClick={closeModal} disabled={isSubmitting}>
+                  Cancel
+                </CancelButton>
+                <ConfirmButton type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? 'Creating...' : 'Create Project'}
+                </ConfirmButton>
+              </ModalActions>
+            </form>
+          </ModalContent>
+        </Modal>
+      )}
     </Container>
   );
 }

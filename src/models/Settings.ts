@@ -4,6 +4,14 @@ import { IframeConfig } from '@/lib/types';
 const iframeConfigSchema = new mongoose.Schema({
   id: { type: String, required: true },
   name: { type: String, required: true },
+  slug: { 
+    type: String, 
+    required: false,
+    lowercase: true,
+    trim: true,
+    match: [/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens'],
+    maxlength: [50, 'Slug cannot exceed 50 characters']
+  },
   contentUrl: { type: String, required: true },
   originalWidth: { type: Number, required: true },
   originalHeight: { type: Number, required: true },
@@ -38,6 +46,12 @@ const settingsSchema = new mongoose.Schema({
     of: new mongoose.Schema({
       id: String,
       name: String,
+      slug: { 
+        type: String, 
+        required: false,
+        lowercase: true,
+        trim: true
+      },
       contentUrl: String,
       originalWidth: Number,
       originalHeight: Number,

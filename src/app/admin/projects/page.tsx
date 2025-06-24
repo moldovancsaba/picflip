@@ -24,6 +24,27 @@ const Title = styled.h1`
   margin: 0;
 `;
 
+const EditOrgButton = styled.button`
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: 0.5rem;
+  
+  &:hover {
+    background: #059669;
+  }
+  
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
 const ProjectsList = styled.div`
   display: grid;
   gap: 1rem;
@@ -241,8 +262,11 @@ export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<IframeConfig[]>([]);
   const [organizations, setOrganizations] = useState<Organisation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [showOrgModal, setShowOrgModal] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<IframeConfig | null>(null);
+  const [assigningOrg, setAssigningOrg] = useState(false);
   const [updatingVisibility, setUpdatingVisibility] = useState<Set<string>>(new Set());
   const [updatingOrganization, setUpdatingOrganization] = useState<Set<string>>(new Set());
   const [selectedOrganizations, setSelectedOrganizations] = useState<Record<string, string>>({});
