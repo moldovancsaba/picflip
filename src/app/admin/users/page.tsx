@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { UsersList } from '@/components/UsersList';
 import { IUser } from '@/models/User';
 import Loading from '@/components/Loading';
-import Link from 'next/link';
 
 const UsersContainer = styled.div`
   padding: 2rem;
@@ -47,45 +46,6 @@ const ErrorMessage = styled.div`
   margin-bottom: 1rem;
 `;
 
-const AdminNav = styled.div`
-  background: #f8f9fa;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-`;
-
-const AdminNavTitle = styled.h2`
-  margin: 0 0 1rem 0;
-  color: #333;
-  font-size: 1.5rem;
-`;
-
-const AdminNavLinks = styled.div`
-  display: flex;
-  gap: 1rem;
-`;
-
-interface AdminNavLinkProps {
-  $active: boolean;
-}
-
-const AdminNavLink = styled(Link)<AdminNavLinkProps>`
-  padding: 0.75rem 1.5rem;
-  background: ${props => props.$active ? '#0070f3' : 'white'};
-  color: ${props => props.$active ? 'white' : '#333'};
-  text-decoration: none;
-  border: 1px solid ${props => props.$active ? '#0070f3' : '#ddd'};
-  border-radius: 6px;
-  font-weight: 500;
-  transition: all 0.2s;
-  cursor: pointer;
-  
-  &:hover {
-    background: ${props => props.$active ? '#0051cc' : '#f5f5f5'};
-    border-color: ${props => props.$active ? '#0051cc' : '#ccc'};
-  }
-`;
 
 export default function UsersPage() {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -156,20 +116,6 @@ export default function UsersPage() {
 
   return (
     <UsersContainer>
-      <AdminNav>
-        <AdminNavTitle>Admin Panel</AdminNavTitle>
-        <AdminNavLinks>
-          <AdminNavLink href="/admin" $active={false}>
-            Projects
-          </AdminNavLink>
-          <AdminNavLink href="/admin/users" $active={true}>
-            Users
-          </AdminNavLink>
-          <AdminNavLink href="/admin/organizations" $active={false}>
-            Organizations
-          </AdminNavLink>
-        </AdminNavLinks>
-      </AdminNav>
       <Header>
         <Title>User Management</Title>
         <SearchInput

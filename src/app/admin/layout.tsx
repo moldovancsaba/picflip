@@ -60,7 +60,7 @@ const NavSection = styled.div`
 `;
 
 const navItems = [
-  { href: '/admin', label: 'Dashboard' },
+  { href: '/admin', label: 'Projects' },
   { href: '/admin/users', label: 'Users' },
   { href: '/admin/organizations', label: 'Organizations' },
 ];
