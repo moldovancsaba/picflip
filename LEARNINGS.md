@@ -4,7 +4,7 @@ This document captures key learnings and insights from developing Picito.
 
 ## Technical Learnings
 
-### 1. Responsive iFrame Handling
+### 1. Responsive Project Content Handling
 - CSS transform-based scaling is more performant than JavaScript-based size calculations
 - Hardware acceleration through `transform-style: preserve-3d` prevents flickering
 - Mobile browsers require special handling for overflow and touch events
@@ -65,7 +65,7 @@ This document captures key learnings and insights from developing Picito.
 ### 2. Feature Ideas
 - Consider adding animation options
 - Explore additional content scaling algorithms
-- Add support for multiple concurrent iframes
+- Add support for multiple concurrent projects
 
 ### 3. Technical Debt
 - Monitor styled-components performance impact
@@ -74,4 +74,22 @@ This document captures key learnings and insights from developing Picito.
 - Improve user authentication flow
 - Enhance legal acceptance tracking
 
-Last Updated: 2025-06-23T22:48:54.000Z
+## Navigation and User Experience
+
+### 1. Real-time Navigation Updates
+- `usePathname` and `useRouter` hooks provide effective real-time navigation state management
+- Session checking on path changes ensures authentication state consistency
+- Dynamic menu visibility based on user role improves user experience
+- Automatic session refresh prevents stale authentication states
+
+### 2. Terminology Consistency
+- Consistent terminology across UI components improves user comprehension
+- "Projects" terminology better reflects the application's purpose than "iFrame"
+- Admin navigation benefits from clear, descriptive labels
+
+### 3. Component Architecture for Navigation
+- Header component with real-time updates provides seamless user experience
+- Conditional rendering based on authentication state reduces UI clutter
+- Styled-components enable consistent navigation styling across components
+
+Last Updated: 2025-12-21T15:30:45.123Z

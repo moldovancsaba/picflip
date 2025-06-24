@@ -18,7 +18,7 @@
 1. `/src/app/page.tsx` - Main page component
 2. `/src/app/layout.tsx` - Root layout component
 3. `/src/app/admin/page.tsx` - Admin interface
-4. `/src/app/iframe/[id]/page.tsx` - Dynamic iframe routes
+4. `/src/app/iframe/[id]/page.tsx` - Dynamic project routes
 5. `/src/app/login/page.tsx` - Login page component
 6. `/src/app/login/layout.tsx` - Login page layout
 7. `/src/app/docs/guide/page.tsx` - Documentation guide page
@@ -27,9 +27,10 @@
 10. `/src/app/api/auth/login/route.ts` - Authentication API endpoint
 
 ### Components
-11. `/src/components/IframeViewer.tsx` - Iframe viewing component
+11. `/src/components/IframeViewer.tsx` - Project viewing component
 12. `/src/components/Loading.tsx` - Loading state component
 13. `/src/components/LoginForm.tsx` - Email login form component
+14. `/src/components/Header.tsx` - Navigation header with real-time updates
 
 ### Library and Utilities
 14. `/src/lib/db.ts` - Database connection utilities
@@ -72,7 +73,9 @@ The application is deployed to Vercel and is accessible at:
 4. Protected routes (admin, users, organizations) require valid authentication.
 5. The main page provides access to the admin interface and documentation.
 6. Legal acceptance for Terms & Conditions and Privacy Policy enforced.
-7. The admin interface allows configuration of multiple iframes through a MongoDB-backed API.
-8. Each iframe configuration is accessible through a dynamic route at `/iframe/[id]`.
+7. The admin interface allows configuration of multiple projects through a MongoDB-backed API with "Projects" navigation.
+8. Each project configuration is accessible through a dynamic route at `/iframe/[id]`.
 9. All styling is handled through styled-components to ensure consistent theming and responsive design.
-10. The application uses a context provider to manage and distribute iframe settings across components.
+10. The application uses a context provider to manage and distribute project settings across components.
+11. Real-time navigation updates are implemented using `usePathname` and `useRouter` hooks with automatic session refresh.
+12. The Header component provides dynamic menu visibility based on user authentication state and role.

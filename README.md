@@ -1,6 +1,6 @@
-# Picito - Responsive iFrame Content Scaler
+# Picito - Project Content Scaler
 
-Picito is a React-based web application that perfectly scales iframe content while maintaining aspect ratio. It's specifically designed to handle iframes with fixed-size content that needs to be displayed responsively across different screen sizes.
+Picito is a React-based web application that perfectly scales project content while maintaining aspect ratio. It's specifically designed to handle projects with fixed-size content that needs to be displayed responsively across different screen sizes.
 
 **Live Demo:** [https://picito.vercel.app](https://picito.vercel.app)
 **Admin Interface:** [https://picito.vercel.app/admin](https://picito.vercel.app/admin)
@@ -22,16 +22,16 @@ Picito is a React-based web application that perfectly scales iframe content whi
 - Zero content distortion
 - Admin interface for project management (/admin)
 - User authentication with email-only login
-- Real-time navigation updates based on user role
+- Real-time navigation updates based on user role with automatic session refresh
 - Terms & Conditions and Privacy Policy acceptance
-- Role-based access control
+- Role-based access control with dynamic menu visibility
 - MongoDB integration for persistent storage
 
 ## Configuration
 
-The application can be configured through the admin interface available at `/admin`. This page allows you to modify:
+The application can be configured through the admin interface available at `/admin`. The "Projects" section allows you to modify:
 
-- **Content URL** - The URL of the iframe content
+- **Content URL** - The URL of the project content
 - **Original Content Size** - The width and height of the original content (e.g., 1920×1080)
 - **Aspect Ratio** - The desired aspect ratio for display (e.g., 16:9)
 - **Background Color** - The background color in hex format (e.g., #FFFFFF)
@@ -76,7 +76,7 @@ This gives you full control over where the scaled content appears within the vie
 
 ## How It Works
 
-### Responsive iFrame Container
+### Responsive Project Container
 
 The application uses a three-layer approach to achieve perfect scaling:
 
@@ -114,8 +114,8 @@ const IframeWrapper = styled.div`
 `;
 ```
 
-3. **iFrame Layer** (`ResponsiveIframe` styled-component)
-   - Centers the iframe content
+3. **Project Layer** (`ResponsiveIframe` styled-component)
+   - Centers the project content
    - Applies scaling transformation
    - Removes default iframe styling
 
