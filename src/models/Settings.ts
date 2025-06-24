@@ -24,6 +24,11 @@ const iframeConfigSchema = new mongoose.Schema({
   isPublic: {
     type: Boolean,
     default: false // Default to private for security
+  },
+  organisationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organisation',
+    required: false // Optional - null for personal projects
   }
 });
 
@@ -53,6 +58,11 @@ const settingsSchema = new mongoose.Schema({
       isPublic: {
         type: Boolean,
         default: false // Default to private for security
+      },
+      organisationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Organisation',
+        required: false // Optional - null for personal projects
       }
     }, { _id: false })
   }

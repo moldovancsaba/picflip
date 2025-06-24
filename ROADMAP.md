@@ -19,8 +19,8 @@
 
 ### Epic 3: iFrame Project Enhancement
 - [x] Update iFrame naming convention (Completed: 2025-06-24T05:20:28.000Z)
-- [ ] Add public/private iFrame settings
-- [ ] Implement organization iFrames
+- [x] Add public/private iFrame settings (Completed: 2025-06-24T11:33:04.000Z)
+- [x] Implement organization iFrames (Completed: 2025-06-24T13:23:34.054Z)
 - [ ] Add SEO-friendly slugs
 - [ ] Create organization URL structure
 
@@ -44,20 +44,20 @@
    - Priority: Foundation requirement for organization functionality
    - Status: ✅ Completed ahead of schedule
 
-2. **Epic 3.2 – Public/Private Projects**
-   - Target Completion: 2025-07-07T17:00:00.000Z  
+2. **Epic 3.2 – Public/Private Projects** ✅ COMPLETED
+   - Actual Completion: 2025-06-24T11:33:04.000Z
    - Priority: Independent feature, no schema changes required
-   - Status: Planned
+   - Status: ✅ Completed ahead of schedule
 
 3. **Epic 2.3 – Organisation Permissions**
    - Target Completion: 2025-07-10T17:00:00.000Z
    - Priority: Builds on membership foundation
    - Status: Planned
 
-4. **Epic 3.3 – Organisation Projects**
-   - Target Completion: 2025-07-14T17:00:00.000Z
+4. **Epic 3.3 – Organisation Projects** ✅ COMPLETED
+   - Actual Completion: 2025-06-24T13:23:34.054Z
    - Priority: Requires membership & permissions as dependencies
-   - Status: Planned
+   - Status: ✅ Completed ahead of schedule
 
 ### Planned Milestone: Version 1.3.0
 - **Target Release Date:** 2025-07-15T00:00:00.000Z

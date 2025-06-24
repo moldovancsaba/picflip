@@ -96,3 +96,61 @@ The application is deployed to Vercel and is accessible at:
 15. **Automated Versioning**: Scripts and npm commands for dev/commit/major version bumping with release notes.
 15. **Role-Based Access Control**: Comprehensive permission system with owner protection and member management.
 16. **Auto-User Creation**: New users automatically created when added to organisations via email.
+17. **Project Visibility Management**: Admin interface for controlling public/private project settings via toggle controls.
+18. **Organization Project Assignment**: Full system for assigning projects to organizations with role-based access control.
+19. **Enhanced Admin Interface**: Comprehensive project and organization management with real-time updates.
+
+## Enhanced Features (Epic 4.1 - 2025-06-24T13:23:34.054Z)
+
+### Admin Project Management
+
+**Location:** `/src/app/admin/projects/page.tsx`
+**Features:**
+- Comprehensive project dashboard with statistics (total, public, private counts)
+- Real-time project visibility toggle controls
+- Organization assignment functionality with dropdown selection
+- Professional UI with loading states and feedback messages
+- Integration with existing visibility and organization APIs
+
+### Organization Project Integration
+
+**Enhanced Location:** `/src/app/admin/organizations/page.tsx`
+**New Features:**
+- Expandable project sections for each organization
+- Project count display and visibility status indicators
+- Real-time project loading with proper error handling
+- Organization-to-project relationship visualization
+
+### Enhanced API Endpoints
+
+#### Project Organization Management
+- `GET /api/settings/[id]/organization` - Get project organization assignment
+- `PATCH /api/settings/[id]/organization` - Update project organization assignment
+- `GET /api/organisations/[id]/projects` - List projects assigned to organization
+
+#### Security Enhancements
+- Role-based access control for project assignments (owners/admins only)
+- Membership validation for organization project operations
+- Proper error handling and validation for all operations
+
+### Database Schema Updates
+
+#### Settings Model Enhancement
+```typescript
+// Added to IframeConfig interface and Settings model
+organisationId?: string; // Optional organization association
+```
+
+**Migration Strategy:**
+- Backward compatible - existing projects remain personal (organisationId = undefined)
+- New projects can be assigned to organizations
+- No breaking changes to existing functionality
+
+### Technical Achievements
+
+1. **Zero Breaking Changes**: All existing functionality preserved
+2. **Professional UI**: Consistent with existing admin interface design
+3. **Type Safety**: Full TypeScript support with proper interface updates
+4. **Error Handling**: Comprehensive error states and user feedback
+5. **Performance**: Efficient API calls with proper loading states
+6. **Security**: Role-based access control throughout the system

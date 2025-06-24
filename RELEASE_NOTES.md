@@ -1,5 +1,20 @@
 # Release Notes
 
+## Version 2.9.4 (2025-06-24T13:23:34.053Z)
+
+### Development Build
+- **Development**: Successfully completed `npm run dev` testing
+- **Version Bump**: Patch version incremented from 2.9.3 to 2.9.4
+- **Status**: Development build ready for further testing
+
+### Technical Details
+- **Previous Version**: 2.9.3
+- **New Version**: 2.9.4
+- **Bump Type**: dev
+- **Timestamp**: 2025-06-24T13:23:34.053Z
+- **Auto-generated**: Yes
+
+
 ## Version 2.9.2 (2025-06-24T12:58:39.371Z)
 
 ### Development Build

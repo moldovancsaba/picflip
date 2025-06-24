@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { IOrganisation } from '@/models/Organisation';
+import { IframeConfig } from '@/lib/types';
 import Loading from '@/components/Loading';
 
 const OrganizationsContainer = styled.div`
@@ -94,6 +95,76 @@ const OrganizationMeta = styled.div`
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #e5e7eb;
+`;
+
+const ProjectsSection = styled.div`
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+`;
+
+const ProjectsHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+`;
+
+const ProjectsTitle = styled.h4`
+  margin: 0;
+  color: #333;
+  font-size: 1rem;
+`;
+
+const ViewProjectsButton = styled.button`
+  background: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background: #0051cc;
+  }
+  
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
+const ProjectsList = styled.div`
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+`;
+
+const ProjectItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  font-size: 0.875rem;
+`;
+
+const ProjectName = styled.span`
+  font-weight: 500;
+  color: #333;
+`;
+
+const ProjectVisibility = styled.span<{ isPublic: boolean }>`
+  color: ${props => props.isPublic ? '#059669' : '#dc2626'};
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: ${props => props.isPublic ? '#ecfdf5' : '#fef2f2'};
+  border: 1px solid ${props => props.isPublic ? '#a7f3d0' : '#fecaca'};
+  padding: 0.125rem 0.375rem;
+  border-radius: 12px;
 `;
 
 const DeleteButton = styled.button`
@@ -259,6 +330,7 @@ interface OrganizationFormData {
 
 export default function OrganizationsPage() {
   const [organizations, setOrganizations] = useState<IOrganisation[]>([]);
+  const [organizationProjects, setOrganizationProjects] = useState<Record<string, IframeConfig[]>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -266,6 +338,7 @@ export default function OrganizationsPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [organizationToDelete, setOrganizationToDelete] = useState<IOrganisation | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [expandedOrganizations, setExpandedOrganizations] = useState<Set<string>>(new Set());
   const [formData, setFormData] = useState<OrganizationFormData>({
     name: '',
     description: ''
@@ -298,6 +371,46 @@ export default function OrganizationsPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const fetchOrganizationProjects = async (organizationId: string) => {
+    try {
+      const response = await fetch(`/api/organisations/${organizationId}/projects`);
+      
+      if (response.status === 401) {
+        router.push('/login');
+        return;
+      }
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch organization projects');
+      }
+      
+      const data = await response.json();
+      setOrganizationProjects(prev => ({
+        ...prev,
+        [organizationId]: data.projects
+      }));
+    } catch (err) {
+      console.error('Error fetching organization projects:', err);
+      // Don't show error for projects fetching as it's not critical
+    }
+  };
+
+  const toggleOrganizationExpansion = async (organizationId: string) => {
+    const newExpanded = new Set(expandedOrganizations);
+    
+    if (newExpanded.has(organizationId)) {
+      newExpanded.delete(organizationId);
+    } else {
+      newExpanded.add(organizationId);
+      // Fetch projects if not already loaded
+      if (!organizationProjects[organizationId]) {
+        await fetchOrganizationProjects(organizationId);
+      }
+    }
+    
+    setExpandedOrganizations(newExpanded);
   };
 
   const handleCreateOrganization = async (e: React.FormEvent) => {
@@ -436,6 +549,41 @@ export default function OrganizationsPage() {
                 <div><strong>Created:</strong> {formatTimestamp(org.createdAt)}</div>
                 <div><strong>Updated:</strong> {formatTimestamp(org.updatedAt)}</div>
               </OrganizationMeta>
+              
+              <ProjectsSection>
+                <ProjectsHeader>
+                  <ProjectsTitle>
+                    Projects ({organizationProjects[org._id!]?.length || 0})
+                  </ProjectsTitle>
+                  <ViewProjectsButton 
+                    onClick={() => toggleOrganizationExpansion(org._id!)}
+                  >
+                    {expandedOrganizations.has(org._id!) ? 'Hide Projects' : 'View Projects'}
+                  </ViewProjectsButton>
+                </ProjectsHeader>
+                
+                {expandedOrganizations.has(org._id!) && (
+                  <ProjectsList>
+                    {organizationProjects[org._id!]?.length === 0 ? (
+                      <div style={{ color: '#666', fontStyle: 'italic' }}>No projects assigned to this organization.</div>
+                    ) : (
+                      organizationProjects[org._id!]?.map((project) => (
+                        <ProjectItem key={project.id}>
+                          <div>
+                            <ProjectName>{project.name}</ProjectName>
+                            <div style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.25rem' }}>
+                              {project.id}
+                            </div>
+                          </div>
+                          <ProjectVisibility isPublic={project.isPublic}>
+                            {project.isPublic ? 'Public' : 'Private'}
+                          </ProjectVisibility>
+                        </ProjectItem>
+                      )) || <div style={{ color: '#666', fontStyle: 'italic' }}>Loading projects...</div>
+                    )}
+                  </ProjectsList>
+                )}
+              </ProjectsSection>
             </OrganizationCard>
           ))
         )}

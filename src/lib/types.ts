@@ -14,6 +14,7 @@ export interface IframeConfig {
   horizontalAlignment: HorizontalAlignment;
   verticalAlignment: VerticalAlignment;
   isPublic: boolean;
+  organisationId?: string; // Optional - null for personal projects
 }
 
 // Organization types
