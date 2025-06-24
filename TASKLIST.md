@@ -128,23 +128,41 @@
 - [ ] Implement breadcrumb navigation
 - [ ] Add 404 handling
 
-## Epic 4: Contact & Communication
+## Epic 4: Admin Interface Enhancement
 
-### User Story 4.1: Contact Form
+### User Story 4.1: Basic Admin Interface (Completed: 2025-06-24T13:23:34.054Z)
+- [x] Create admin projects page with visibility controls
+- [x] Add organization project assignment functionality
+- [x] Enhanced organization admin interface with project management
+- [x] Implement role-based access control for project assignments
+
+### User Story 4.2: Enhanced Admin Detail Pages (PLANNED: 2025-06-24T13:47:13.000Z)
+- [ ] Story 4.2.1: Create project detail page (/admin/projects/[id]) with organization assignment and visibility controls
+- [ ] Story 4.2.2: Create organization detail page (/admin/organizations/[id]) with full editing capabilities
+- [ ] Story 4.2.3: Create user detail page (/admin/users/[id]) with organization relationship management
+- [ ] Story 4.2.4: Add navigation breadcrumbs and UX enhancements to all admin detail pages
+- [ ] Add "View Details" buttons to all admin list pages
+- [ ] Implement comprehensive editing forms for all entities
+- [ ] Add loading states and error handling for all detail pages
+- [ ] Test navigation flows and user experience across all admin pages
+
+## Epic 5: Contact & Communication
+
+### User Story 5.1: Contact Form
 - [ ] Create contact form component
 - [ ] Add form validation
 - [ ] Implement rate limiting
 - [ ] Add success/error handling
 - [ ] Create email notification system
 
-### User Story 4.2: Message Management
+### User Story 5.2: Message Management
 - [ ] Create message listing interface
 - [ ] Add message status system
 - [ ] Implement message deletion
 - [ ] Add export functionality
 - [ ] Create filtering system
 
-### User Story 4.3: Main Page Contact
+### User Story 5.3: Main Page Contact
 - [ ] Add contact section
 - [ ] Create contact info configuration
 - [ ] Add support hours display

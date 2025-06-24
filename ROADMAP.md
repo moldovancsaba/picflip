@@ -24,7 +24,12 @@
 - [ ] Add SEO-friendly slugs
 - [ ] Create organization URL structure
 
-### Epic 4: Contact & Communication
+### Epic 4: Admin Interface Enhancement
+- [x] Epic 4.1 - Basic admin interface with project visibility and organization assignment (Completed: 2025-06-24T13:23:34.054Z)
+- [ ] Epic 4.2 - Enhanced admin detail pages with comprehensive editing (Planned: 2025-06-24T13:47:13.000Z)
+- [ ] Epic 4.3 - Advanced admin features and reporting
+
+### Epic 5: Contact & Communication
 - [ ] Develop contact form
 - [ ] Create message management system
 - [ ] Add main page contact section
@@ -58,6 +63,11 @@
    - Actual Completion: 2025-06-24T13:23:34.054Z
    - Priority: Requires membership & permissions as dependencies
    - Status: ✅ Completed ahead of schedule
+
+5. **Epic 4.2 – Enhanced Admin Detail Pages** ⚙️ PLANNED
+   - Target Completion: 2025-06-24T16:00:00.000Z
+   - Priority: Improve admin user experience with detailed editing capabilities
+   - Status: Ready to start - builds on Epic 4.1 foundation
 
 ### Planned Milestone: Version 1.3.0
 - **Target Release Date:** 2025-07-15T00:00:00.000Z

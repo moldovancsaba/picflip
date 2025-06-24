@@ -299,3 +299,92 @@ Building upon the successful Epic 2.2 backend infrastructure:
 - [ ] All existing functionality remains unaffected
 - [ ] Build successful with zero warnings
 - [ ] Manual testing completed across all user scenarios
+
+---
+
+## Epic 4.2 - Enhanced Admin Detail Pages Plan
+
+**Start Date:** 2025-06-24T13:47:13.000Z  
+**Target Completion:** 2025-06-24T16:00:00.000Z  
+**Priority:** Admin interface enhancements for detailed project and organization management
+
+### Implementation Approach
+
+Building upon the successful Epic 4.1 admin interface foundation:
+
+1. **Project Detail Pages** - Enhanced project management with organization and visibility controls
+2. **Organization Detail Pages** - Full organization editing capabilities 
+3. **User Detail Pages** - User-organization relationship management
+4. **Enhanced Admin Experience** - Detailed views with comprehensive management options
+
+### User Stories Implementation Plan
+
+#### Story 4.2.1: Project Detail Page Enhancement (45 minutes)
+- **Goal**: Add detailed project management with organization assignment and visibility controls
+- **Changes**: 
+  - Create `/admin/projects/[id]` detail page
+  - Add organization selection dropdown with current assignment display
+  - Add visibility toggle for main page display
+  - Include comprehensive project metadata editing
+  - Add navigation breadcrumbs and back functionality
+- **Testing**: Verify project details load correctly and changes persist
+
+#### Story 4.2.2: Organization Detail Page Creation (60 minutes)
+- **Goal**: Create comprehensive organization editing interface
+- **Changes**:
+  - Create `/admin/organizations/[id]` detail page
+  - Add organization name and description editing forms
+  - Include member management with role assignment
+  - Display associated projects list
+  - Add organization metadata and statistics
+  - Include delete organization functionality with safety checks
+- **Testing**: Test organization editing and member management flows
+
+#### Story 4.2.3: User Detail Page Enhancement (45 minutes)
+- **Goal**: Add user-organization relationship management
+- **Changes**:
+  - Create `/admin/users/[id]` detail page
+  - Add user information editing (name, email, role)
+  - Include organization membership management
+  - Add/remove user from organizations with role selection
+  - Display user's organization memberships and roles
+  - Include user activity and creation timestamps
+- **Testing**: Verify user editing and organization assignment functionality
+
+#### Story 4.2.4: Navigation and UX Enhancement (30 minutes)
+- **Goal**: Improve admin interface navigation and user experience
+- **Changes**:
+  - Add "View Details" buttons/links to all admin list pages
+  - Implement breadcrumb navigation for detail pages
+  - Add consistent "Back to List" functionality
+  - Include loading states and error handling for all detail pages
+  - Add confirmation dialogs for destructive actions
+- **Testing**: Test navigation flows and user experience across all admin pages
+
+### API Requirements
+
+#### New API Endpoints Needed:
+- `GET /api/admin/projects/[id]` - Get detailed project information
+- `PATCH /api/admin/projects/[id]` - Update project details
+- `GET /api/admin/organizations/[id]` - Get detailed organization information  
+- `PATCH /api/admin/organizations/[id]` - Update organization details
+- `GET /api/admin/users/[id]` - Get detailed user information
+- `PATCH /api/admin/users/[id]` - Update user details and organization memberships
+
+### Risk Mitigation
+
+- **Data Integrity**: Validate all organization assignments and user relationships
+- **Permission Security**: Ensure only authorized admin users can access detail pages
+- **User Experience**: Implement proper loading states and error feedback
+- **Navigation**: Clear breadcrumbs and back navigation to prevent user confusion
+
+### Success Criteria
+
+- [ ] Project detail page allows organization assignment and visibility control
+- [ ] Organization detail page provides full editing capabilities
+- [ ] User detail page manages organization relationships
+- [ ] All detail pages have proper navigation and UX patterns
+- [ ] Admin interface maintains consistent design patterns
+- [ ] All existing functionality preserved
+- [ ] Build successful with zero warnings
+- [ ] Manual testing completed across all admin detail flows

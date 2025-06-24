@@ -39,10 +39,13 @@ Picito is a React-based web application that perfectly scales project content wh
 - **Frontend Organisations Page**: Complete UI for organisation listing and management (v2.9.0)
 
 ### Project Management
-- Admin interface for project management (/admin)
+- **Admin Projects Page**: Comprehensive project management at `/admin/projects` (NEW in v2.10.0)
+- **Project Visibility Controls**: Toggle public/private status for projects (NEW)
+- **Organization Assignment**: Assign projects to organizations with role-based access (NEW)
 - Project configuration with multiple aspect ratios
 - Background color and image customization
 - Content alignment controls
+- Real-time visibility updates and statistics dashboard
 
 ### Technical Features
 - MongoDB integration for persistent storage
@@ -52,7 +55,7 @@ Picito is a React-based web application that perfectly scales project content wh
 - RESTful API endpoints for all major functionality
 
 ### Version Management
-- **Current Version**: 2.9.1
+- **Current Version**: 2.10.0
 - **Semantic Versioning**: Automatic MAJOR.MINOR.PATCH bumping
 - **Development Builds**: Auto-bump patch version after successful `npm run dev`
 - **GitHub Commits**: Auto-bump minor version after commits
@@ -231,11 +234,21 @@ The project is configured for deployment on Vercel with zero configuration neede
 
 Detailed project documentation is available in the following files:
 
+### Core Documentation
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Complete technical architecture and file structure
+- [README.md](./README.md) - Project overview and setup instructions (this file)
+
+### Development Documentation
+- [DELIVERYPLAN.md](./DELIVERYPLAN.md) - Epic implementation plans and delivery tracking
 - [LEARNINGS.md](./LEARNINGS.md) - Development insights and key learnings
+- [STATUS_REPORT.md](./STATUS_REPORT.md) - Comprehensive project status and deployment reports
+
+### Project Management
+- [ROADMAP.md](./ROADMAP.md) - Project development roadmap and milestones
+- [TASKLIST.md](./TASKLIST.md) - Task tracking and progress monitoring
 - [RELEASE_NOTES.md](./RELEASE_NOTES.md) - Version history and changes
-- [ROADMAP.md](./ROADMAP.md) - Project development roadmap
-- [TASKLIST.md](./TASKLIST.md) - Task tracking and progress
+
+### Technical Guides
 - [docs/DEVELOPMENT_GUIDE.md](./docs/DEVELOPMENT_GUIDE.md) - Implementation best practices and error prevention
 - [docs/RESPONSIVE_IFRAME.md](./docs/RESPONSIVE_IFRAME.md) - Technical guide for iframe implementation
 
@@ -276,9 +289,14 @@ Key directories:
 - `POST /api/auth/logout` - User logout
 - `GET/PATCH /api/admin/users` - User management (admin only)
 
+### Project Management (NEW in v2.10.0)
+- `GET /api/settings` - Project configuration settings
+- `GET/PATCH /api/settings/[id]/visibility` - Project visibility management
+- `GET/PATCH /api/settings/[id]/organization` - Project organization assignment
+- `GET /api/organisations/[id]/projects` - List organization projects
+
 ### Application Management
 - `GET/POST /api/version` - Version management
-- `GET /api/settings` - Project configuration settings
 
 ### Role Hierarchy
 - **Owner**: Full control, can manage all aspects including other owners
