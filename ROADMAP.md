@@ -34,6 +34,46 @@
 - [ ] Update iFrame data storage
 - [ ] Create message data storage
 
+## 2025-07 Sprint 1 (2025-07-01T00:00:00.000Z → 2025-07-14T23:59:59.999Z)
+
+### Prioritized Tasks
+
+1. **Epic 2.2 – Organisation Membership** 
+   - Target Completion: 2025-07-04T17:00:00.000Z
+   - Priority: Foundation requirement for organization functionality
+   - Status: Planned
+
+2. **Epic 3.2 – Public/Private Projects**
+   - Target Completion: 2025-07-07T17:00:00.000Z  
+   - Priority: Independent feature, no schema changes required
+   - Status: Planned
+
+3. **Epic 2.3 – Organisation Permissions**
+   - Target Completion: 2025-07-10T17:00:00.000Z
+   - Priority: Builds on membership foundation
+   - Status: Planned
+
+4. **Epic 3.3 – Organisation Projects**
+   - Target Completion: 2025-07-14T17:00:00.000Z
+   - Priority: Requires membership & permissions as dependencies
+   - Status: Planned
+
+### Planned Milestone: Version 1.3.0
+- **Target Release Date:** 2025-07-15T00:00:00.000Z
+- **Epic 2 Progress Required:** Organisation Membership and Permissions completion
+- **Key Features:**
+  - Complete organization membership system
+  - Role-based permission framework
+  - Public/private project visibility
+  - Organization project management
+  - SEO-friendly URL structure
+- **Success Criteria:**
+  - All Epic 2.2 and 2.3 user stories completed
+  - Epic 3.2 and 3.3 user stories delivered
+  - Integration tests passing
+  - Documentation updated
+  - Production deployment successful
+
 ## Next Sprint (2025-07-01 → 2025-07-14)
 
 ### Priority Analysis & Dependencies
