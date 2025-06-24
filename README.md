@@ -15,17 +15,39 @@ Picito is a React-based web application that perfectly scales project content wh
 
 ## Key Features
 
+### Core Functionality
 - Maintains content's natural aspect ratio
 - Responsive scaling that works on any screen size
 - Perfectly centered content
 - Smooth resize handling
 - Zero content distortion
-- Admin interface for project management (/admin)
+
+### User Management & Authentication
 - User authentication with email-only login
+- Automatic account creation for new users
+- Role-based access control (admin/user roles)
 - Real-time navigation updates based on user role with automatic session refresh
 - Terms & Conditions and Privacy Policy acceptance
-- Role-based access control with dynamic menu visibility
+
+### Organisation Management (NEW in v2.7+)
+- **Organisation Creation**: Create and manage organisations with auto-generated slugs
+- **Membership System**: Role hierarchy with owner, admin, and member roles
+- **Permission Control**: Comprehensive role-based access control
+- **Member Management**: Add, remove, and update member roles
+- **Owner Protection**: Cannot remove the last owner from an organisation
+- **Auto-User Creation**: Automatically create user accounts when adding members via email
+
+### Project Management
+- Admin interface for project management (/admin)
+- Project configuration with multiple aspect ratios
+- Background color and image customization
+- Content alignment controls
+
+### Technical Features
 - MongoDB integration for persistent storage
+- Centralized version management stored in database
+- Dynamic menu visibility based on authentication state
+- RESTful API endpoints for all major functionality
 
 ## Configuration
 
@@ -215,8 +237,39 @@ Key directories:
 ```
 /src
   /app            # Next.js app router components
+    /api          # API endpoints
+      /organisations  # Organisation management APIs
+      /admin      # Admin-specific APIs
+      /auth       # Authentication APIs
+      /version    # Version management API
   /components     # Reusable React components
   /lib            # Utilities and context providers
   /models         # Database models
+    - Organisation.ts          # Organisation model with auto-slug
+    - OrganisationMembership.ts # Membership with role hierarchy
+    - User.ts                  # User authentication model
+    - Settings.ts              # Project configuration model
+    - Version.ts               # Application version management
 /docs            # Technical documentation
 ```
+
+## API Endpoints
+
+### Organisation Management
+- `GET/POST /api/organisations` - List and create organisations
+- `GET/POST /api/organisations/[id]/members` - Manage organisation members
+- `DELETE/PATCH /api/organisations/[id]/members/[userId]` - Individual member operations
+
+### User & Authentication
+- `POST /api/auth/login` - Email-only authentication
+- `POST /api/auth/logout` - User logout
+- `GET/PATCH /api/admin/users` - User management (admin only)
+
+### Application Management
+- `GET/POST /api/version` - Version management
+- `GET /api/settings` - Project configuration settings
+
+### Role Hierarchy
+- **Owner**: Full control, can manage all aspects including other owners
+- **Admin**: Can manage members and projects, cannot manage owners
+- **Member**: Basic access to organisation resources

@@ -25,6 +25,11 @@
 8. `/src/app/docs/guide/layout.tsx` - Documentation layout
 9. `/src/app/api/settings/route.ts` - API route for settings
 10. `/src/app/api/auth/login/route.ts` - Authentication API endpoint
+11. `/src/app/api/admin/users/route.ts` - User management API endpoint
+12. `/src/app/api/organisations/route.ts` - Organisation management API
+13. `/src/app/api/organisations/[id]/members/route.ts` - Organisation member management API
+14. `/src/app/api/organisations/[id]/members/[userId]/route.ts` - Individual member operations API
+15. `/src/app/api/version/route.ts` - Application version management API
 
 ### Components
 11. `/src/components/IframeViewer.tsx` - Project viewing component
@@ -42,6 +47,9 @@
 ### Models
 19. `/src/models/Settings.ts` - Settings database model
 20. `/src/models/User.ts` - User database model
+21. `/src/models/Organisation.ts` - Organisation database model with auto-slug generation
+22. `/src/models/OrganisationMembership.ts` - Organisation membership model with role hierarchy
+23. `/src/models/Version.ts` - Application version management model
 
 ### Configuration Files
 21. `/next.config.ts` - Next.js configuration
@@ -56,8 +64,9 @@
 28. `/RELEASE_NOTES.md` - Version history and changes
 29. `/ROADMAP.md` - Project roadmap
 30. `/TASKLIST.md` - Task tracking
-31. `/docs/DEVELOPMENT_GUIDE.md` - Implementation best practices and error prevention
-32. `/docs/RESPONSIVE_IFRAME.md` - Technical guide for iframe implementation
+31. `/STATUS_REPORT.md` - Comprehensive project status documentation
+32. `/docs/DEVELOPMENT_GUIDE.md` - Implementation best practices and error prevention
+33. `/docs/RESPONSIVE_IFRAME.md` - Technical guide for iframe implementation
 
 ## Deployment
 
@@ -80,3 +89,7 @@ The application is deployed to Vercel and is accessible at:
 10. The application uses a context provider to manage and distribute project settings across components.
 11. Real-time navigation updates are implemented using `usePathname` and `useRouter` hooks with automatic session refresh.
 12. The Header component provides dynamic menu visibility based on user authentication state and role.
+13. **Organisation System**: Complete organisation membership functionality with role hierarchy (owner > admin > member).
+14. **Version Management**: Application version stored in database with centralized management and API access.
+15. **Role-Based Access Control**: Comprehensive permission system with owner protection and member management.
+16. **Auto-User Creation**: New users automatically created when added to organisations via email.
