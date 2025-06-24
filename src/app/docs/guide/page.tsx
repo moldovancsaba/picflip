@@ -3,6 +3,8 @@ import path from 'path';
 import { marked } from 'marked';
 import Link from 'next/link';
 
+// This is a server component - no 'use client' directive
+
 const containerStyle = {
   maxWidth: '900px',
   margin: '2rem auto',

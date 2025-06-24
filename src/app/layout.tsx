@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import StyledComponentsRegistry from "../lib/styled";
 import { SettingsProvider } from "../lib/settings-context";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "Picito",
@@ -23,6 +24,7 @@ export default function RootLayout({
           <SettingsProvider>
             <Header />
             {children}
+            <Footer />
           </SettingsProvider>
         </StyledComponentsRegistry>
       </body>
