@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import DetailHeader from '@/components/admin/DetailHeader';
 import FormField from '@/components/admin/FormField';
 import Select from '@/components/admin/Select';
-import Loading from '@/components/Loading';
+import { PageWrapper, ErrorBanner } from '@/components';
 import { MembershipRole } from '@/lib/types';
 import { tokens } from '@/components/admin/tokens';
 import {
@@ -304,48 +304,52 @@ export default function UserDetailPage() {
     }
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  // Main page content component to be wrapped
+  const UserPageContent = () => {
+    if (!user) {
+      return (
+        <Container>
+          <ErrorBanner variant="error" autoRedirectOn401={true}>
+            User not found
+          </ErrorBanner>
+        </Container>
+      );
+    }
 
-  if (!user) {
+    const headerMetadata = [
+      { label: 'ID', value: user._id },
+      { label: 'Role', value: user.role },
+      { label: 'Created', value: formatTimestamp(user.createdAt) },
+      { label: 'Updated', value: formatTimestamp(user.updatedAt) }
+    ];
+
+    // No header actions needed - navigation handled by admin layout
+    const headerActions: never[] = [];
+
+    const availableOrganizations = user.allOrganizations.filter(org => 
+      !user.memberships.some(membership => membership.organisationId === org._id)
+    );
+
     return (
       <Container>
-        <Message $type="error">User not found</Message>
-      </Container>
-    );
-  }
+        <DetailHeader
+          title={user.email}
+          metadata={headerMetadata}
+          actions={headerActions}
+        />
 
-  const headerMetadata = [
-    { label: 'ID', value: user._id },
-    { label: 'Role', value: user.role },
-    { label: 'Created', value: formatTimestamp(user.createdAt) },
-    { label: 'Updated', value: formatTimestamp(user.updatedAt) }
-  ];
-
-  const headerActions = [
-    {
-      label: '← Back',
-      onClick: () => router.push('/admin/users'),
-      variant: 'secondary' as const
-    }
-  ];
-
-  const availableOrganizations = user.allOrganizations.filter(org => 
-    !user.memberships.some(membership => membership.organisationId === org._id)
-  );
-
-  return (
-    <Container>
-      <DetailHeader
-        title={user.email}
-        metadata={headerMetadata}
-        actions={headerActions}
-      />
-
-      {error && <Message $type="error">{error}</Message>}
-      {success && <Message $type="success">{success}</Message>}
-      {selfDemotionWarning && <Message $type="warning">{selfDemotionWarning}</Message>}
+        {error && (
+          <ErrorBanner 
+            variant="error" 
+            autoRedirectOn401={true}
+            dismissible={true}
+            onDismiss={() => setError(null)}
+          >
+            {error}
+          </ErrorBanner>
+        )}
+        {success && <Message $type="success">{success}</Message>}
+        {selfDemotionWarning && <Message $type="warning">{selfDemotionWarning}</Message>}
 
       <TabContainer>
         <TabList>
@@ -542,5 +546,26 @@ export default function UserDetailPage() {
         )}
       </TabContent>
     </Container>
+  );
+  };
+
+  // Show loading state while fetching data
+  if (isLoading) {
+    return (
+      <PageWrapper 
+        loadingProps={{ minHeight: '60vh', background: 'transparent' }}
+      >
+        <div>Loading user details...</div>
+      </PageWrapper>
+    );
+  }
+
+  // Return wrapped content with global error boundary and suspense
+  return (
+    <PageWrapper 
+      loadingProps={{ minHeight: '60vh', background: 'transparent' }}
+    >
+      <UserPageContent />
+    </PageWrapper>
   );
 }

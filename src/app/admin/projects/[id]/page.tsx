@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { IframeConfig, Organisation, HorizontalAlignment, VerticalAlignment } from '@/lib/types';
-import Loading from '@/components/Loading';
-import BackButton from '@/components/admin/BackButton';
+import { PageWrapper, ErrorBanner } from '@/components';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -357,23 +356,35 @@ export default function ProjectDetailPage() {
     return new Date(date).toISOString();
   };
 
-  if (isLoading) return <Loading />;
+  // Main page content component to be wrapped
+  const ProjectPageContent = () => {
+    if (!project) {
+      return (
+        <Container>
+          <ErrorBanner variant="error" autoRedirectOn401={true}>
+            Project not found
+          </ErrorBanner>
+        </Container>
+      );
+    }
 
-  if (!project) return (
-    <Container>
-      <ErrorMessage>Project not found</ErrorMessage>
-    </Container>
-  );
+    return (
+      <Container>
+        <Header>
+          <Title>Project Details</Title>
+        </Header>
 
-  return (
-    <Container>
-      <Header>
-        <Title>Project Details</Title>
-        <BackButton href="/admin/projects" />
-      </Header>
-
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-      {success && <SuccessMessage>{success}</SuccessMessage>}
+        {error && (
+          <ErrorBanner 
+            variant="error" 
+            autoRedirectOn401={true}
+            dismissible={true}
+            onDismiss={() => setError(null)}
+          >
+            {error}
+          </ErrorBanner>
+        )}
+        {success && <SuccessMessage>{success}</SuccessMessage>}
 
       <Form onSubmit={handleSubmit}>
         {/* 1. Basic Info Section */}
@@ -670,6 +681,27 @@ export default function ProjectDetailPage() {
         </MetadataItem>
       </MetadataSection>
     </Container>
+  );
+  };
+
+  // Show loading state while fetching data
+  if (isLoading) {
+    return (
+      <PageWrapper 
+        loadingProps={{ minHeight: '60vh', background: 'transparent' }}
+      >
+        <div>Loading project details...</div>
+      </PageWrapper>
+    );
+  }
+
+  // Return wrapped content with global error boundary and suspense
+  return (
+    <PageWrapper 
+      loadingProps={{ minHeight: '60vh', background: 'transparent' }}
+    >
+      <ProjectPageContent />
+    </PageWrapper>
   );
 }
 

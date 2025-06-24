@@ -1,6 +1,6 @@
 {
   "name": "picito",
-  "version": "3.0.0",
+  "version": "2.10.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -9,6 +9,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:all": "npm run test && npm run test:e2e",
     "version:dev": "node scripts/bump-version.js dev",
     "version:commit": "node scripts/bump-version.js commit",
     "version:major": "node scripts/bump-version.js major",
@@ -31,6 +36,7 @@
     "npm": ">=10.9.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.53.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",

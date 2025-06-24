@@ -7,7 +7,7 @@ import { tokens } from '@/components/admin/tokens';
 import DetailHeader from '@/components/admin/DetailHeader';
 import FormField from '@/components/admin/FormField';
 import Select from '@/components/admin/Select';
-import Loading from '@/components/Loading';
+import { PageWrapper, ErrorBanner } from '@/components';
 import { MembershipRole, User } from '@/lib/types';
 
 // Styled components
@@ -528,47 +528,51 @@ export default function OrganizationDetailPage() {
     }
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  // Main page content component to be wrapped
+  const OrganizationPageContent = () => {
+    if (!organization) {
+      return (
+        <Container>
+          <ErrorBanner variant="error" autoRedirectOn401={true}>
+            Organization not found
+          </ErrorBanner>
+        </Container>
+      );
+    }
 
-  if (!organization) {
+    const headerMetadata = [
+      { label: 'ID', value: organization._id },
+      { label: 'Slug', value: `/${organization.slug}` },
+      { label: 'Created', value: formatTimestamp(organization.createdAt) },
+      { label: 'Updated', value: formatTimestamp(organization.updatedAt) }
+    ];
+
+    // No header actions needed - navigation handled by admin layout
+    const headerActions: never[] = [];
+
+    const memberCount = organization.members.length;
+    const projectCount = organization.projects.length;
+    const ownerCount = organization.members.filter(m => m.membershipRole === 'owner').length;
+
     return (
       <Container>
-        <Message $type="error">Organization not found</Message>
-      </Container>
-    );
-  }
+        <DetailHeader
+          title={organization.name}
+          metadata={headerMetadata}
+          actions={headerActions}
+        />
 
-  const headerMetadata = [
-    { label: 'ID', value: organization._id },
-    { label: 'Slug', value: `/${organization.slug}` },
-    { label: 'Created', value: formatTimestamp(organization.createdAt) },
-    { label: 'Updated', value: formatTimestamp(organization.updatedAt) }
-  ];
-
-  const headerActions = [
-    {
-      label: '← Back',
-      onClick: () => router.push('/admin/organizations'),
-      variant: 'secondary' as const
-    }
-  ];
-
-  const memberCount = organization.members.length;
-  const projectCount = organization.projects.length;
-  const ownerCount = organization.members.filter(m => m.membershipRole === 'owner').length;
-
-  return (
-    <Container>
-      <DetailHeader
-        title={organization.name}
-        metadata={headerMetadata}
-        actions={headerActions}
-      />
-
-      {error && <Message $type="error">{error}</Message>}
-      {success && <Message $type="success">{success}</Message>}
+        {error && (
+          <ErrorBanner 
+            variant="error" 
+            autoRedirectOn401={true}
+            dismissible={true}
+            onDismiss={() => setError(null)}
+          >
+            {error}
+          </ErrorBanner>
+        )}
+        {success && <Message $type="success">{success}</Message>}
 
       <TabContainer>
         <TabList>
@@ -790,5 +794,26 @@ export default function OrganizationDetailPage() {
         )}
       </TabContent>
     </Container>
+  );
+  };
+
+  // Show loading state while fetching data
+  if (isLoading) {
+    return (
+      <PageWrapper 
+        loadingProps={{ minHeight: '60vh', background: 'transparent' }}
+      >
+        <div>Loading organization details...</div>
+      </PageWrapper>
+    );
+  }
+
+  // Return wrapped content with global error boundary and suspense
+  return (
+    <PageWrapper 
+      loadingProps={{ minHeight: '60vh', background: 'transparent' }}
+    >
+      <OrganizationPageContent />
+    </PageWrapper>
   );
 }

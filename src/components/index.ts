@@ -5,8 +5,12 @@ export type { BreadcrumbItem } from './Breadcrumbs';
 export { default as ConfirmDialog } from './ConfirmDialog';
 export type { ConfirmDialogProps } from './ConfirmDialog';
 
+// Global loading and error handling components
 export { default as Loading } from './Loading';
 export { default as ErrorMessage } from './ErrorMessage';
+export { default as ErrorBanner } from './ErrorBanner';
+export { default as ErrorBoundary, withErrorBoundary } from './ErrorBoundary';
+export { default as PageWrapper } from './PageWrapper';
 export { default as SuccessMessage } from './SuccessMessage';
 
 // Existing components

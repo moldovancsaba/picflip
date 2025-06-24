@@ -146,9 +146,61 @@
 - [x] Add loading states and error handling for all detail pages (Completed: 2025-06-24T15:40:54Z)
 - [x] Test navigation flows and user experience across all admin pages (Completed: 2025-06-24T19:52:19.000Z)
 
-## Epic 5: Contact & Communication
+### User Story 4.3: E2E & Regression Tests (COMPLETED: 2025-01-24T12:34:56.789Z)
+- [x] Set up Playwright for E2E testing with proper CI integration
+- [x] Create admin edit flows tests for users, projects, and organizations
+- [x] Implement breadcrumb navigation tests across admin pages
+- [x] Add persistence verification for all edit operations
+- [x] Configure GitHub Actions CI pipeline for automated testing
+- [x] Update Jest configuration to exclude E2E tests from unit test runs
+- [x] Create comprehensive test documentation and utilities
+- [x] Verify CI pipeline passes with new tests
 
-### User Story 5.1: Contact Form
+## Epic 5: Admin Dashboard & Documentation Management (Added: 2025-06-24T20:16:05.000Z)
+
+### User Story 5.1: Admin Dashboard with Analytics (Priority: High)
+- [ ] Transform admin page into dashboard with charts and statistics
+- [ ] Display general numbers: total users, projects, organizations
+- [ ] Add visual charts for data representation
+- [ ] Include activity metrics and growth indicators
+- [ ] Create responsive dashboard layout
+
+### User Story 5.2: Documentation Management System (Priority: High)
+- [ ] Remove "← Back to Home" from documentation pages
+- [ ] Create editable documentation interface in admin
+- [ ] List all documentation files on documentation page
+- [ ] Enable admin editing of documentation content
+- [ ] Add markdown support for documentation editing
+- [ ] Implement documentation version control
+
+### User Story 5.3: Individual Project URLs (Priority: Medium)
+- [ ] Create individual project page (`/projects/[id]`) similar to users and organizations
+- [ ] Add project detail view accessible to appropriate users
+- [ ] Implement proper routing and navigation
+- [ ] Add project sharing functionality
+- [ ] Create public project preview interface
+
+## Epic 6: UI/UX Enhancements & Mobile Responsiveness (Added: 2025-06-24T20:16:05.000Z)
+
+### User Story 6.1: Dark Mode Implementation (Priority: Medium)
+- [ ] Add dark/light theme toggle throughout application
+- [ ] Implement theme persistence and user preferences
+- [ ] Update all components to support both themes
+- [ ] Create theme context and provider
+- [ ] Update design tokens for dark mode
+- [ ] Test accessibility in both themes
+
+### User Story 6.2: Mobile Responsiveness (Priority: High)
+- [ ] Refactor Project Management page for mobile devices
+- [ ] Refactor Users page for mobile devices (follow organization page pattern)
+- [ ] Ensure consistent mobile experience across all admin pages
+- [ ] Test touch interactions and mobile navigation patterns
+- [ ] Optimize table layouts for mobile screens
+- [ ] Add mobile-specific navigation patterns
+
+## Epic 7: Contact & Communication
+
+### User Story 7.1: Contact Form
 - [ ] Create contact form component
 - [ ] Add form validation
 - [ ] Implement rate limiting

@@ -304,3 +304,49 @@ Key directories:
 - **Owner**: Full control, can manage all aspects including other owners
 - **Admin**: Can manage members and projects, cannot manage owners
 - **Member**: Basic access to organisation resources
+
+## Testing
+
+This project includes comprehensive testing with both unit tests and end-to-end tests:
+
+### Unit Tests
+Unit tests use Jest and React Testing Library:
+
+```bash
+# Run all unit tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+```
+
+### End-to-End Tests
+E2E tests use Playwright to test complete user workflows:
+
+```bash
+# Run all E2E tests
+npm run test:e2e
+
+# Run E2E tests with browser UI
+npm run test:e2e:headed
+
+# Run E2E tests in debug mode
+npm run test:e2e:debug
+
+# Run all tests (unit + E2E)
+npm run test:all
+```
+
+#### E2E Test Coverage
+- **Admin Edit Flows**: Tests editing users, projects, and organizations with persistence verification
+- **Breadcrumb Navigation**: Tests navigation functionality across admin pages
+- **Form Validation**: Tests required field validation and error handling
+- **Data Persistence**: Verifies changes persist after page reload and navigation
+- **CI Integration**: Automated testing in GitHub Actions with MongoDB service
+
+See `e2e/README.md` for detailed E2E testing documentation.
+
+Test files are located alongside their corresponding components in `__tests__` directories or with `.test.tsx` extensions.

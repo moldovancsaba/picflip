@@ -32,7 +32,37 @@
   - [x] Project Detail Page (`/admin/projects/[id]`) - Complete configuration editing with preview (Completed: 2025-06-24T15:40:54Z)
   - [x] Navigation Enhancements - Removed redundant breadcrumbs, added View Details buttons, fixed active highlighting (Completed: 2025-06-24T19:52:19.000Z)
   - [x] Shared components and design system through `/components/admin/shared.tsx` (Completed: 2025-06-24T19:52:19.000Z)
-- [ ] Epic 4.3 - Advanced admin features and reporting
+|- [ ] Epic 4.3 - Advanced admin features and reporting
+|- [ ] Enhance user detail page with comprehensive management options (Added: 2025-04-13T12:34:56.789Z)
+|- [ ] Add detailed navigation and error handling for detail pages (Added: 2025-04-13T12:34:56.789Z)
+|- [ ] Implement advanced filtering and search capabilities (Added: 2025-04-13T12:34:56.789Z)
+
+### Epic 5: Admin Dashboard & Documentation Management (Added: 2025-06-24T20:16:05.000Z)
+- [ ] Epic 5.1 - Admin Dashboard with Analytics (Priority: High)
+  - [ ] Transform admin page into dashboard with charts and statistics
+  - [ ] Display general numbers: total users, projects, organizations
+  - [ ] Add visual charts for data representation
+  - [ ] Include activity metrics and growth indicators
+- [ ] Epic 5.2 - Documentation Management System (Priority: High)
+  - [ ] Remove "← Back to Home" from documentation pages
+  - [ ] Create editable documentation interface in admin
+  - [ ] List all documentation files on documentation page
+  - [ ] Enable admin editing of documentation content
+- [ ] Epic 5.3 - Individual Project URLs (Priority: Medium)
+  - [ ] Create individual project page (`/projects/[id]`) similar to users and organizations
+  - [ ] Add project detail view accessible to appropriate users
+  - [ ] Implement proper routing and navigation
+
+### Epic 6: UI/UX Enhancements & Mobile Responsiveness (Added: 2025-06-24T20:16:05.000Z)
+- [ ] Epic 6.1 - Dark Mode Implementation (Priority: Medium)
+  - [ ] Add dark/light theme toggle throughout application
+  - [ ] Implement theme persistence and user preferences
+  - [ ] Update all components to support both themes
+- [ ] Epic 6.2 - Mobile Responsiveness (Priority: High)
+  - [ ] Refactor Project Management page for mobile devices
+  - [ ] Refactor Users page for mobile devices (follow organization page pattern)
+  - [ ] Ensure consistent mobile experience across all admin pages
+  - [ ] Test touch interactions and mobile navigation patterns
 
 ### Epic 5: Project Detail Enhancement
 - [x] Epic 5.1 - Admin Project Detail Page Implementation (Completed: 2025-06-24T15:40:54Z)
