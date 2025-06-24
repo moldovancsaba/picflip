@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
@@ -80,30 +80,32 @@ interface User {
 
 export default function Header() {
   const [user, setUser] = useState<User | null>(null);
-  const [currentPath, setCurrentPath] = useState('');
   const router = useRouter();
+  const currentPath = usePathname();
+
+  // Check user session
+  const checkSession = async () => {
+    try {
+      const response = await fetch('/api/settings');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.user) {
+          setUser(data.user);
+        } else {
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error('Failed to check session:', error);
+      setUser(null);
+    }
+  };
 
   useEffect(() => {
-    // Get current path
-    setCurrentPath(window.location.pathname);
-
-    // Check user session
-    const checkSession = async () => {
-      try {
-        const response = await fetch('/api/settings');
-        if (response.ok) {
-          const data = await response.json();
-          if (data.user) {
-            setUser(data.user);
-          }
-        }
-      } catch (error) {
-        console.error('Failed to check session:', error);
-      }
-    };
-
     checkSession();
-  }, []);
+  }, [currentPath]); // Re-check session when path changes
 
   const handleAuth = async () => {
     if (user) {
