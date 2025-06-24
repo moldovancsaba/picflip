@@ -14,9 +14,8 @@ const versionSchema = new mongoose.Schema<IVersion>({
   version: { 
     type: String, 
     required: true,
-    unique: true,
     trim: true,
-    match: [/^\d+\.\d+\.\d+$/, 'Version must follow semantic versioning (e.g., 2.7.1)']
+    match: [/^\d+\.\d+\.\d+$/, 'Version must follow semantic versioning (e.g., 2.8.0)']
   },
   description: { 
     type: String, 
@@ -50,10 +49,10 @@ export async function getCurrentVersion(): Promise<string> {
       .sort({ releaseDate: -1 })
       .lean() as IVersion | null;
     
-    return currentVersion ? currentVersion.version : '2.8.0'; // fallback to current version
+    return currentVersion ? currentVersion.version : '2.9.0'; // fallback to current version
   } catch (error) {
     console.error('Error fetching current version:', error);
-    return '2.8.0'; // fallback version
+    return '2.9.0'; // fallback version
   }
 }
 

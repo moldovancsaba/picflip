@@ -1,8 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-// Import version from package.json at build time
-const version = "1.2.0";
+import { useEffect, useState } from 'react';
 
 const FooterContainer = styled.footer`
   background: #f8f9fa;
@@ -19,10 +18,35 @@ const VersionText = styled.span`
 `;
 
 export default function Footer() {
+  const [version, setVersion] = useState('2.9.0'); // fallback version
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchVersion() {
+      try {
+        const response = await fetch('/api/version', {
+          cache: 'no-store'
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setVersion(data.version);
+        }
+      } catch (error) {
+        console.error('Failed to fetch version:', error);
+        // Keep fallback version
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchVersion();
+  }, []);
+
   return (
     <FooterContainer>
       <VersionText>
-        Picito v{version}
+        Picito v{loading ? '...' : version}
       </VersionText>
     </FooterContainer>
   );
