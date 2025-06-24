@@ -161,17 +161,17 @@ export default function AdminPage() {
   };
 
   const handleCreate = () => {
-    const rawId = prompt('Enter a unique ID for the new configuration (e.g., "asroma", "juventus"):');
+    const rawId = prompt('Enter a unique ID for the new project (e.g., "asroma", "juventus"):');
     if (!rawId) return;
     
-    const configName = prompt('Enter a display name for the configuration (e.g., "AS Roma", "Juventus"):');
-    if (!configName) return;
+    const projectName = prompt('Enter a display name for the project (e.g., "AS Roma Live Stream", "Company Presentation"):');
+    if (!projectName) return;
     
     const id = rawId.toLowerCase().replace(/\s+/g, '_');
     
     const newConfig: IframeConfig = {
       id,
-      name: configName,
+      name: projectName,
       contentUrl: '',
       originalWidth: 1920,
       originalHeight: 1080,
@@ -190,7 +190,7 @@ export default function AdminPage() {
   };
 
   const handleDelete = () => {
-    if (!selectedId || !confirm('Are you sure you want to delete this configuration?')) return;
+    if (!selectedId || !confirm('Are you sure you want to delete this project?')) return;
     
     deleteConfig(selectedId);
     setSelectedId(null);
@@ -200,6 +200,7 @@ export default function AdminPage() {
 
   return (
     <Container>
+      <h1 style={{ margin: '0 0 2rem 0', color: '#333' }}>Project Management</h1>
       <Grid>
         <ConfigList>
           {Object.values(configs).map(config => (
@@ -212,20 +213,21 @@ export default function AdminPage() {
             </ConfigItem>
           ))}
           <NewConfigButton type="button" onClick={handleCreate}>
-            + Add New Configuration
+            + Add New Project
           </NewConfigButton>
         </ConfigList>
 
         {formData ? (
           <Form onSubmit={handleSubmit}>
         <FormGroup>
-          <Label htmlFor="name">Configuration Name</Label>
+          <Label htmlFor="name">Project Name</Label>
           <Input
             id="name"
             type="text"
             value={formData.name}
             onChange={(e) => handleChange('name', e.target.value)}
             required
+            placeholder="e.g., AS Roma Live Stream, Company Presentation"
           />
         </FormGroup>
 
@@ -372,13 +374,13 @@ export default function AdminPage() {
             Save Changes
           </Button>
           <Button type="button" onClick={handleDelete} style={{ backgroundColor: '#dc3545' }}>
-            Delete Configuration
+            Delete Project
           </Button>
         </div>
       </Form>
         ) : (
           <div style={{ textAlign: 'center', padding: '2rem' }}>
-            Select a configuration to edit or create a new one
+            Select a project to edit or create a new one
           </div>
         )}
       </Grid>

@@ -75,12 +75,12 @@
 
 ## Epic 3: iFrame Project Enhancement
 
-### User Story 3.1: iFrame Naming
-- [ ] Update UI terminology
-- [ ] Modify API endpoints
-- [ ] Update database fields
-- [ ] Create migration script
-- [ ] Update documentation
+### User Story 3.1: iFrame Naming (Completed: 2025-06-24T05:20:28.000Z)
+- [x] Update UI terminology
+- [x] Modify navigation labels (Admin → Projects)
+- [x] Update admin page title and messaging
+- [x] Enhance user experience with better placeholders
+- [x] Update documentation references
 
 ### User Story 3.2: Public/Private iFrames
 - [ ] Add visibility toggle
