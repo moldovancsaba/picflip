@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { IUser } from '@/models/User';
 import { Organisation } from '@/lib/types';
@@ -69,6 +70,7 @@ interface UsersListProps {
 }
 
 export function UsersList({ users, onRoleChange }: UsersListProps) {
+  const router = useRouter();
   const [changingRole, setChangingRole] = useState<string | null>(null);
   const [organizations, setOrganizations] = useState<Organisation[]>([]);
   const [userMemberships, setUserMemberships] = useState<Record<string, any[]>>({});
@@ -183,6 +185,7 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
           <Th>Organizations</Th>
           <Th>Last Login</Th>
           <Th>Created At</Th>
+          <Th>Actions</Th>
         </tr>
       </thead>
       <tbody>
@@ -287,6 +290,25 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
             <DateCell>
               {user.createdAt ? new Date(user.createdAt).toISOString().slice(0, -1) + '.000Z' : 'N/A'}
             </DateCell>
+            <Td>
+              <button
+                onClick={() => router.push(`/admin/users/${user._id}`)}
+                style={{
+                  background: '#0070f3',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  padding: '0.5rem 1rem',
+                  fontSize: '0.875rem',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s',
+                }}
+                onMouseOver={(e) => e.currentTarget.style.background = '#0051cc'}
+                onMouseOut={(e) => e.currentTarget.style.background = '#0070f3'}
+              >
+                View Details
+              </button>
+            </Td>
           </tr>
         ))}
       </tbody>

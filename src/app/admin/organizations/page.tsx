@@ -604,6 +604,23 @@ export default function OrganizationsPage() {
                 </div>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                   <button
+                    onClick={() => router.push(`/admin/organizations/${org._id}`)}
+                    style={{
+                      background: '#0070f3',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      padding: '0.5rem 1rem',
+                      fontSize: '0.875rem',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.2s',
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.background = '#0051cc'}
+                    onMouseOut={(e) => e.currentTarget.style.background = '#0070f3'}
+                  >
+                    View Details
+                  </button>
+                  <button
                     onClick={() => openEditModal(org)}
                     style={{
                       background: '#10b981',

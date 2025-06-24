@@ -19,6 +19,26 @@ export async function GET(req: NextRequest) {
 
     await dbConnect();
 
+    const { searchParams } = new URL(req.url);
+    const email = searchParams.get('email');
+
+    if (email) {
+      // Find a specific user by email
+      const user = await User.findOne({ email })
+        .select('-__v')
+        .lean();
+
+      if (!user) {
+        return NextResponse.json(
+          { message: 'User not found' },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json({ user });
+    }
+
+    // Get all users
     const users = await User.find({})
       .sort({ createdAt: -1 })
       .select('-__v')

@@ -90,6 +90,20 @@ function updateVersionFiles(newVersion) {
   }
 }
 
+// Get version description based on bump type
+function getVersionDescription(bumpType, newVersion) {
+  switch (bumpType) {
+    case 'dev':
+      return `Development version ${newVersion} - Successfully completed npm run dev testing`;
+    case 'commit':
+      return `Release version ${newVersion} - Code committed to GitHub repository`;
+    case 'major':
+      return `Major release version ${newVersion} - Breaking changes may be included`;
+    default:
+      return `Version ${newVersion} release`;
+  }
+}
+
 // Update release notes
 function updateReleaseNotes(newVersion, previousVersion, bumpType) {
   const releaseNotesPath = path.join(process.cwd(), 'RELEASE_NOTES.md');
@@ -182,9 +196,19 @@ function main() {
     // Update release notes
     updateReleaseNotes(newVersion, currentVersion, bumpType);
     
+    // Update version in database
+    try {
+      const description = getVersionDescription(bumpType, newVersion);
+      execSync(`node scripts/update-version.js ${newVersion} "${description}"`, { stdio: 'inherit' });
+      console.log(`✓ Updated version in database`);
+    } catch (error) {
+      console.warn(`⚠ Warning: Could not update database version: ${error.message}`);
+    }
+    
     console.log('');
     console.log(`🎉 Successfully bumped version from ${currentVersion} to ${newVersion}`);
     console.log(`📝 Release notes updated with timestamp: ${getCurrentTimestamp()}`);
+    console.log(`💾 Database version updated`);
     
   } catch (error) {
     console.error('❌ Error bumping version:', error.message);

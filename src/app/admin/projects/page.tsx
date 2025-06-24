@@ -472,20 +472,25 @@ export default function AdminProjectsPage() {
                   <ProjectName>{project.name}</ProjectName>
                   <ProjectId>{project.id}</ProjectId>
                 </div>
-                <VisibilityToggle>
-                  <VisibilityLabel isPublic={project.isPublic}>
-                    {project.isPublic ? 'Public' : 'Private'}
-                  </VisibilityLabel>
-                  <ToggleSwitch>
-                    <ToggleSlider
-                      type="checkbox"
-                      checked={project.isPublic}
-                      onChange={() => toggleVisibility(project.id, project.isPublic)}
-                      disabled={updatingVisibility.has(project.id)}
-                    />
-                    <Slider />
-                  </ToggleSwitch>
-                </VisibilityToggle>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <VisibilityToggle>
+                    <VisibilityLabel isPublic={project.isPublic}>
+                      {project.isPublic ? 'Public' : 'Private'}
+                    </VisibilityLabel>
+                    <ToggleSwitch>
+                      <ToggleSlider
+                        type="checkbox"
+                        checked={project.isPublic}
+                        onChange={() => toggleVisibility(project.id, project.isPublic)}
+                        disabled={updatingVisibility.has(project.id)}
+                      />
+                      <Slider />
+                    </ToggleSwitch>
+                  </VisibilityToggle>
+                  <EditOrgButton onClick={() => router.push(`/admin/projects/${project.id}`)}>
+                    View Details
+                  </EditOrgButton>
+                </div>
               </ProjectHeader>
               
               <ProjectUrl>

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { IframeConfig, Organisation, HorizontalAlignment, VerticalAlignment } from '@/lib/types';
 import Loading from '@/components/Loading';
+import BackButton from '@/components/admin/BackButton';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -24,7 +25,7 @@ const Title = styled.h1`
   margin: 0;
 `;
 
-const BackButton = styled.button`
+const BackButtonStyled = styled.button`
   background: #6b7280;
   color: white;
   border: none;
@@ -368,9 +369,7 @@ export default function ProjectDetailPage() {
     <Container>
       <Header>
         <Title>Project Details</Title>
-        <BackButton onClick={() => router.push('/admin/projects')}>
-          ← Back to Projects
-        </BackButton>
+        <BackButton href="/admin/projects" />
       </Header>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}

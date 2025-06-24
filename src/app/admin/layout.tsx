@@ -60,9 +60,9 @@ const NavSection = styled.div`
 `;
 
 const navItems = [
-  { href: '/admin', label: 'Projects' },
-  { href: '/admin/users', label: 'Users' },
-  { href: '/admin/organizations', label: 'Organizations' },
+  { href: '/admin', label: 'Projects', pattern: /^\/admin(\/projects.*|\/)?$/ },
+  { href: '/admin/users', label: 'Users', pattern: /^\/admin\/users/ },
+  { href: '/admin/organizations', label: 'Organizations', pattern: /^\/admin\/organizations/ },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -74,15 +74,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Nav>
         <NavContent>
           <NavLinks>
-            {navItems.map(({ href, label }) => (
-              <NavLink
-                key={href}
-                href={href}
-                $active={pathname === href}
-              >
-                {label}
-              </NavLink>
-            ))}
+            {navItems.map(({ href, label, pattern }) => {
+              const isActive = pattern ? pattern.test(pathname) : pathname === href;
+              return (
+                <NavLink
+                  key={href}
+                  href={href}
+                  $active={isActive}
+                >
+                  {label}
+                </NavLink>
+              );
+            })}
           </NavLinks>
         </NavContent>
       </Nav>
