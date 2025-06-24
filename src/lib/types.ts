@@ -13,4 +13,5 @@ export interface IframeConfig {
   backgroundImageUrl: string;
   horizontalAlignment: HorizontalAlignment;
   verticalAlignment: VerticalAlignment;
+  isPublic: boolean;
 }

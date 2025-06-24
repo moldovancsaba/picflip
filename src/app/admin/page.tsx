@@ -178,10 +178,11 @@ export default function AdminPage() {
       originalHeight: 1080,
       aspectRatioX: 16,
       aspectRatioY: 9,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: '#000000',
       backgroundImageUrl: '',
       horizontalAlignment: 'center',
       verticalAlignment: 'middle',
+      isPublic: false // Default to private for security
     };
 
     createConfig(newConfig);

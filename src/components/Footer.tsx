@@ -18,7 +18,7 @@ const VersionText = styled.span`
 `;
 
 export default function Footer() {
-  const [version, setVersion] = useState('2.9.0'); // fallback version
+  const [version, setVersion] = useState('2.10.0'); // fallback version
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

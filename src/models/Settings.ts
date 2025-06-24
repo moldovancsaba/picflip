@@ -20,6 +20,10 @@ const iframeConfigSchema = new mongoose.Schema({
     type: String, 
     enum: ['top', 'middle', 'bottom'],
     default: 'middle'
+  },
+  isPublic: {
+    type: Boolean,
+    default: false // Default to private for security
   }
 });
 
@@ -45,6 +49,10 @@ const settingsSchema = new mongoose.Schema({
         type: String, 
         enum: ['top', 'middle', 'bottom'],
         default: 'middle'
+      },
+      isPublic: {
+        type: Boolean,
+        default: false // Default to private for security
       }
     }, { _id: false })
   }
