@@ -42,6 +42,13 @@
 - Improved session management with automatic refresh on route changes
 - Streamlined user interface terminology (Dashboard → Projects)
 
+### Documentation & UI Terminology
+- Updated UI terminology from "Admin" to "Projects" throughout the application for clearer user navigation
+- Enhanced main page welcome text to be more focused and concise, improving user onboarding experience
+- Implemented real-time navigation menu updates with automatic session refresh on route changes
+- Refined admin navigation to automatically appear/disappear based on user role with improved visual consistency
+- Version 1.2.0 is now fully documented with comprehensive feature coverage in README.md and ARCHITECTURE.md
+
 ## Version 1.1.0 (2025-06-23T22:48:54.000Z)
 
 ### Features
