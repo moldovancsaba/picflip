@@ -125,6 +125,46 @@ const NewConfigButton = styled(Button)`
   margin-top: auto;
 `;
 
+const AdminNav = styled.div`
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+`;
+
+const AdminNavTitle = styled.h2`
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.5rem;
+`;
+
+const AdminNavLinks = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+interface AdminNavLinkProps {
+  $active: boolean;
+}
+
+const AdminNavLink = styled.a<AdminNavLinkProps>`
+  padding: 0.75rem 1.5rem;
+  background: ${props => props.$active ? '#0070f3' : 'white'};
+  color: ${props => props.$active ? 'white' : '#333'};
+  text-decoration: none;
+  border: 1px solid ${props => props.$active ? '#0070f3' : '#ddd'};
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s;
+  cursor: pointer;
+  
+  &:hover {
+    background: ${props => props.$active ? '#0051cc' : '#f5f5f5'};
+    border-color: ${props => props.$active ? '#0051cc' : '#ccc'};
+  }
+`;
+
 export default function AdminPage() {
   const { settings, configs, getConfig, updateConfig, createConfig, deleteConfig, isLoading } = useSettings();
   const router = useRouter();
@@ -200,6 +240,20 @@ export default function AdminPage() {
 
   return (
     <Container>
+      <AdminNav>
+        <AdminNavTitle>Admin Panel</AdminNavTitle>
+        <AdminNavLinks>
+          <AdminNavLink href="/admin" $active={true}>
+            Projects
+          </AdminNavLink>
+          <AdminNavLink href="/admin/users" $active={false}>
+            Users
+          </AdminNavLink>
+          <AdminNavLink href="/admin/organizations" $active={false}>
+            Organizations
+          </AdminNavLink>
+        </AdminNavLinks>
+      </AdminNav>
       <h1 style={{ margin: '0 0 2rem 0', color: '#333' }}>Project Management</h1>
       <Grid>
         <ConfigList>

@@ -136,7 +136,7 @@ export default function Header() {
           </NavLink>
           {user && user.role === 'admin' && (
             <AdminLink href="/admin" $active={currentPath.startsWith('/admin')}>
-              Projects
+              Admin
             </AdminLink>
           )}
           <DocsLink href="/docs/guide" $active={currentPath.startsWith('/docs')}>
