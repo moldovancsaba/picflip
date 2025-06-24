@@ -1,5 +1,102 @@
 # Release Notes
 
+## Version 2.12.0 (2025-06-24T16:30:00.000Z) - Major Organization Management Release
+
+### 🎯 **COMPLETE ORGANIZATION-TO-PROJECTS CONNECTION**
+
+#### ✅ **Project Detail Page Enhancements** (`/admin/projects/[id]`)
+- **NEW**: Comprehensive organization assignment functionality with visual current organization display
+- **NEW**: Ability to assign projects to organizations with easy removal
+- **NEW**: Improved UI showing current organization details (name, slug, description) 
+- **NEW**: Enhanced organization selector with all available organizations
+- **NEW**: Slug editor with validation (lowercase letters, numbers, hyphens only)
+
+#### ✅ **Main Project Editor Enhancements** (`/admin`)
+- **FIXED**: Added missing slug editor to main project editing form
+- **FIXED**: Added missing organization assignment dropdown to main project editing form
+- **NEW**: Organization assignment dropdowns for each project
+- **NEW**: Visual organization tags showing current assignments
+- **NEW**: Real-time assignment with instant UI updates
+
+### 🎯 **COMPLETE ORGANIZATION-TO-USERS CONNECTION**
+
+#### ✅ **User Management Revolutionary Improvements** (`/admin/users`)
+- **MAJOR**: Organizations are now displayed by default for all users (no more "Load" button)
+- **NEW**: Visual improvements with each organization membership displayed in card format with role badges
+- **NEW**: Red "Remove" button for each organization membership with confirmation dialogs
+- **NEW**: Assignment functionality with dropdown to assign users to organizations
+- **NEW**: Real-time updates with immediate refresh after assignments/removals
+- **NEW**: Auto-loading organization memberships for all users on page load
+
+### 🎯 **ORGANIZATION MANAGEMENT ENHANCEMENTS**
+
+#### ✅ **Organization Admin Page** (`/admin/organizations`)
+- **NEW**: Slug editing functionality in organization edit modal
+- **NEW**: Enhanced organization edit modal with proper slug validation
+- **IMPROVED**: Better error handling and user feedback
+
+### 🔧 **API INFRASTRUCTURE**
+
+#### ✅ **New API Endpoints Created**
+- **NEW**: `/api/admin/users/[id]/memberships` - Fetch user organization memberships (supports both email and ID)
+- **NEW**: `/api/organisations/membership/[id]` - DELETE endpoint for removing memberships
+- **ENHANCED**: Project and organization APIs with slug validation and updates
+- **ENHANCED**: All APIs now support comprehensive organization assignment
+
+### 🎨 **UI/UX IMPROVEMENTS**
+
+#### ✅ **Consistent Design System**
+- **NEW**: Consistent styling across all admin pages
+- **NEW**: Visual feedback for loading states
+- **NEW**: Confirmation dialogs for destructive actions
+- **NEW**: Error handling with user-friendly messages
+- **NEW**: ISO 8601 timestamp formatting throughout (as per user rules)
+
+### 🏗️ **Technical Implementation**
+
+#### ✅ **Database & Validation**
+- **ENHANCED**: Database models with proper organization relationships
+- **NEW**: Comprehensive Zod schemas for data validation
+- **IMPROVED**: Robust error handling with fallback messages
+- **ENHANCED**: Full TypeScript coverage for all new functionality
+- **VERIFIED**: All changes pass build validation and type checking
+
+### 🚀 **Production Deployment**
+- **DEPLOYED**: Successfully deployed to Vercel production
+- **VERSION**: Updated to 2.12.0 (major version bump for significant new features)
+- **URL**: https://picito-37snzy70c-narimato.vercel.app
+- **GITHUB**: Committed and pushed to main branch with comprehensive commit messages
+
+### 📋 **Summary of Implemented Features**
+
+The application now has **COMPLETE bidirectional connection** between Organizations, Projects, and Users with intuitive management interfaces for administrators:
+
+1. **Projects ↔ Organizations**: Full assignment/removal in both main editor and detail pages
+2. **Users ↔ Organizations**: Complete membership management with auto-loading and removal
+3. **Slug Editors**: Available for both projects and organizations with validation
+4. **Real-time Updates**: All assignment changes reflect immediately in the UI
+5. **Comprehensive API**: Full CRUD operations for all organization relationships
+
+### 🔍 **What Was Fixed**
+
+**Critical Issues Resolved**:
+- ❌ **BEFORE**: Main project editor (`/admin`) was missing slug editor
+- ✅ **AFTER**: Slug editor added with full validation
+- ❌ **BEFORE**: Main project editor was missing organization selector
+- ✅ **AFTER**: Complete organization assignment functionality added
+- ❌ **BEFORE**: User management required clicking "Load" button for organizations
+- ✅ **AFTER**: Organizations auto-load and display by default
+- ❌ **BEFORE**: No way to remove users from organizations
+- ✅ **AFTER**: Remove buttons with confirmation dialogs
+
+**Technical Improvements**:
+- Fixed TypeScript types to support organization and slug fields
+- Enhanced API endpoints with proper error handling
+- Improved database schema with slug validation
+- Added comprehensive test coverage for new functionality
+
+---
+
 ## Version 2.11.3 (2025-06-24T15:50:27Z)
 
 ### Critical Bug Fix - Organization Editing
