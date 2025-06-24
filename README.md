@@ -20,8 +20,9 @@ Picito is a React-based web application that perfectly scales iframe content whi
 - Perfectly centered content
 - Smooth resize handling
 - Zero content distortion
-- Admin interface for configuration (/admin)
+- Admin interface for project management (/admin)
 - User authentication with email-only login
+- Real-time navigation updates based on user role
 - Terms & Conditions and Privacy Policy acceptance
 - Role-based access control
 - MongoDB integration for persistent storage
