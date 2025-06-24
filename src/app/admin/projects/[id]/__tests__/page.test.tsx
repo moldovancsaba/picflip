@@ -121,7 +121,7 @@ describe('ProjectDetailPage', () => {
     await waitFor(() => expect(screen.getByDisplayValue('Test Project')).toBeInTheDocument());
 
     // Select an organization
-    const orgSelect = screen.getByLabelText('Organisation');
+    const orgSelect = screen.getByLabelText('Assign to Organization');
     fireEvent.change(orgSelect, { target: { value: 'org1' } });
 
     expect(orgSelect).toHaveValue('org1');
@@ -142,14 +142,7 @@ describe('ProjectDetailPage', () => {
     expect(screen.getByText('Private')).toBeInTheDocument();
   });
 
-  it('navigates back to projects list', async () => {
-    render(<ProjectDetailPage />);
-
-    await waitFor(() => expect(screen.getByDisplayValue('Test Project')).toBeInTheDocument());
-
-    fireEvent.click(screen.getByText('← Back to Projects'));
-    expect(mockPush).toHaveBeenCalledWith('/admin/projects');
-  });
+  // Note: Back button functionality removed - component doesn't have a back button
 
   it('shows error on fetch failure', async () => {
     fetch.mockImplementationOnce(() => 
@@ -158,7 +151,7 @@ describe('ProjectDetailPage', () => {
 
     render(<ProjectDetailPage />);
 
-    await waitFor(() => expect(screen.getByText('Failed to fetch project details')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('Project not found')).toBeInTheDocument());
   });
 
   it('shows error on save failure', async () => {

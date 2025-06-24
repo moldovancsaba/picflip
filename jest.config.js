@@ -31,7 +31,7 @@ const config = {
     '!<rootDir>/e2e/**/*',
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!(jose)/)',
+    'node_modules/(?!(jose|bson|mongodb)/)',
   ],
 };
 

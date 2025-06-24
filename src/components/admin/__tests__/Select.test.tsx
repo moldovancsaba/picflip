@@ -41,7 +41,9 @@ describe('Select', () => {
     render(<Select {...defaultProps} placeholder="Choose an option..." />);
     
     expect(screen.getByText('Choose an option...')).toBeInTheDocument();
-    const placeholderOption = screen.getByDisplayValue('');
+    const select = screen.getByLabelText('Test Select') as HTMLSelectElement;
+    const placeholderOption = select.querySelector('option[value=""]');
+    expect(placeholderOption).toBeInTheDocument();
     expect(placeholderOption).toBeDisabled();
   });
 
