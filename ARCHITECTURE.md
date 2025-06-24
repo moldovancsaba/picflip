@@ -56,7 +56,8 @@
 28. `/RELEASE_NOTES.md` - Version history and changes
 29. `/ROADMAP.md` - Project roadmap
 30. `/TASKLIST.md` - Task tracking
-31. `/docs/RESPONSIVE_IFRAME.md` - Technical guide for iframe implementation
+31. `/docs/DEVELOPMENT_GUIDE.md` - Implementation best practices and error prevention
+32. `/docs/RESPONSIVE_IFRAME.md` - Technical guide for iframe implementation
 
 ## Deployment
 

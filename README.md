@@ -203,6 +203,7 @@ Detailed project documentation is available in the following files:
 - [RELEASE_NOTES.md](./RELEASE_NOTES.md) - Version history and changes
 - [ROADMAP.md](./ROADMAP.md) - Project development roadmap
 - [TASKLIST.md](./TASKLIST.md) - Task tracking and progress
+- [docs/DEVELOPMENT_GUIDE.md](./docs/DEVELOPMENT_GUIDE.md) - Implementation best practices and error prevention
 - [docs/RESPONSIVE_IFRAME.md](./docs/RESPONSIVE_IFRAME.md) - Technical guide for iframe implementation
 
 ## Project Structure
