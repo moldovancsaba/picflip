@@ -1,5 +1,20 @@
 # Release Notes
 
+## Version 2.10.0 (2025-06-24T13:30:01.238Z)
+
+### Minor Release
+- **Release**: Code committed to GitHub repository
+- **Version Bump**: Minor version incremented from 2.9.4 to 2.10.0
+- **Status**: Ready for deployment
+
+### Technical Details
+- **Previous Version**: 2.9.4
+- **New Version**: 2.10.0
+- **Bump Type**: commit
+- **Timestamp**: 2025-06-24T13:30:01.238Z
+- **Auto-generated**: Yes
+
+
 ## Version 2.9.4 (2025-06-24T13:23:34.053Z)
 
 ### Development Build
