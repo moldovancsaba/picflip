@@ -1,5 +1,65 @@
 # Release Notes
 
+## Version 2.9.2 (2025-06-24T12:58:39.371Z)
+
+### Development Build
+- **Development**: Successfully completed `npm run dev` testing
+- **Version Bump**: Patch version incremented from 2.9.1 to 2.9.2
+- **Status**: Development build ready for further testing
+
+### Technical Details
+- **Previous Version**: 2.9.1
+- **New Version**: 2.9.2
+- **Bump Type**: dev
+- **Timestamp**: 2025-06-24T12:58:39.371Z
+- **Auto-generated**: Yes
+
+
+## Version 2.9.1 (2025-06-24T12:56:53.011Z)
+
+### Development Build
+- **Development**: Successfully completed `npm run dev` testing
+- **Version Bump**: Patch version incremented from 2.9.0 to 2.9.1
+- **Status**: Development build ready for further testing
+
+### Technical Details
+- **Previous Version**: 2.9.0
+- **New Version**: 2.9.1
+- **Bump Type**: dev
+- **Timestamp**: 2025-06-24T12:56:53.011Z
+- **Auto-generated**: Yes
+
+
+## Version 2.9.0 (2025-01-08T10:15:30.789Z)
+
+### Frontend Organisations Page Implementation
+- **New Feature**: Complete frontend UI for organisation management
+- **Organisation Listing**: Display user's organisations with role indicators
+- **Organisation Creation**: User-friendly form for creating new organisations
+- **Member Management**: Interface for managing organisation members and roles
+- **Navigation Integration**: Organisations menu item added to main navigation
+- **Role-Based UI**: Different functionality based on user's organisation role
+
+### User Experience Improvements
+- **Intuitive Interface**: Organisation cards with clear role display
+- **Loading States**: Proper loading indicators during API calls
+- **Error Handling**: User-friendly error messages and feedback
+- **Responsive Design**: Consistent with existing application design patterns
+- **Accessibility**: Role-based visibility for appropriate user access
+
+### Technical Implementation
+- **Component Architecture**: Modular React components for organisation features
+- **API Integration**: Seamless connection to existing backend organisation APIs
+- **TypeScript Safety**: Full type safety for all new frontend components
+- **Styled Components**: Consistent styling with existing application patterns
+- **Authentication**: Proper integration with existing auth and role systems
+
+### Documentation Updates
+- **Architecture**: Updated component list and navigation structure
+- **Features**: Added frontend organisation management to feature list
+- **Development**: Enhanced frontend development patterns and learnings
+- **Planning**: Comprehensive delivery plan and task tracking
+
 ## Version 2.0.0 (2025-06-24T07:28:40.000Z)
 
 ### Major Release

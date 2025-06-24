@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
 
     await dbConnect();
 
-    // Get user's organisations through memberships
     const user = await User.findOne({ email: session.email }).lean() as any;
     if (!user) {
       return NextResponse.json(
@@ -27,21 +26,39 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const memberships = await OrganisationMembership.find({ userId: user._id })
-      .populate('organisationId')
-      .sort({ createdAt: -1 })
-      .lean() as any[];
+    // Check if admin is requesting all organizations
+    const isAdmin = user.role === 'admin';
+    const { searchParams } = new URL(req.url);
+    const adminView = searchParams.get('admin') === 'true';
 
-    const organisations = memberships.map(membership => ({
-      ...membership.organisationId,
-      membershipRole: membership.role,
-      joinedAt: membership.joinedAt
-    }));
+    if (adminView && isAdmin) {
+      // Admin view: fetch all organisations
+      const organisations = await Organisation.find({})
+        .sort({ createdAt: -1 })
+        .lean();
 
-    return NextResponse.json({ 
-      organisations,
-      count: organisations.length
-    });
+      return NextResponse.json({ 
+        organisations,
+        count: organisations.length
+      });
+    } else {
+      // Regular user view: fetch user's organisations through memberships
+      const memberships = await OrganisationMembership.find({ userId: user._id })
+        .populate('organisationId')
+        .sort({ createdAt: -1 })
+        .lean() as any[];
+
+      const organisations = memberships.map(membership => ({
+        ...membership.organisationId,
+        membershipRole: membership.role,
+        joinedAt: membership.joinedAt
+      }));
+
+      return NextResponse.json({ 
+        organisations,
+        count: organisations.length
+      });
+    }
 
   } catch (error) {
     console.error('Error fetching organisations:', error);

@@ -105,3 +105,74 @@ Following the established safe development patterns from Epic 2.2 success:
 - Complete API suite with role-based access control
 - Database connection and schema index issues resolved
 - All documentation updated professionally
+
+---
+
+## Epic 2.4 - Frontend Organisations Page Implementation Plan
+
+**Start Date:** 2025-01-08T10:15:30.789Z  
+**Target Completion:** 2025-01-08T14:00:00.000Z  
+**Priority:** Frontend implementation for organisation management
+
+### Implementation Approach
+
+Building upon the successful Epic 2.2 backend infrastructure:
+
+1. **Frontend Components** - Create organisation listing and management UI
+2. **Navigation Integration** - Add organisations to main navigation
+3. **User Experience** - Implement intuitive organisation management flows
+4. **Testing & Validation** - Ensure seamless integration with existing system
+
+### User Stories Implementation Plan
+
+#### Story 2.4.1: Organisation Listing Page (90 minutes)
+- **Goal**: Create frontend page to display user's organisations
+- **Changes**: 
+  - Create `/src/app/organisations/page.tsx` with organisation list
+  - Implement organisation card components with role display
+  - Add loading states and error handling
+  - Connect to existing `/api/organisations` endpoint
+- **Testing**: Verify organisations display correctly for different user roles
+
+#### Story 2.4.2: Organisation Creation UI (60 minutes)
+- **Goal**: Frontend form for creating new organisations
+- **Changes**:
+  - Create organisation creation form component
+  - Implement form validation and submission
+  - Add success/error feedback to users
+  - Integrate with existing API endpoints
+- **Testing**: Manual testing of organisation creation flow
+
+#### Story 2.4.3: Organisation Management Interface (90 minutes)
+- **Goal**: Frontend for managing organisation members and settings
+- **Changes**:
+  - Create organisation detail page `/src/app/organisations/[id]/page.tsx`
+  - Implement member management UI with role-based actions
+  - Add member invitation and removal functionality
+  - Display organisation settings and metadata
+- **Testing**: Test member management flows with different user roles
+
+#### Story 2.4.4: Navigation Integration (30 minutes)
+- **Goal**: Add organisations to main application navigation
+- **Changes**:
+  - Update Header component with organisations menu item
+  - Add role-based visibility for organisations access
+  - Ensure consistent navigation experience
+- **Testing**: Verify navigation works across all user roles
+
+### Risk Mitigation
+
+- **API Compatibility**: Use existing proven API endpoints from Epic 2.2
+- **User Experience**: Follow established UI patterns from existing pages
+- **Performance**: Implement proper loading states and error boundaries
+- **Security**: Leverage existing authentication and role-based access control
+
+### Success Criteria
+
+- [ ] Organisation listing page displays user's organisations correctly
+- [ ] Organisation creation form works with proper validation
+- [ ] Member management interface supports all role-based operations
+- [ ] Navigation integration is seamless and role-appropriate
+- [ ] All existing functionality remains unaffected
+- [ ] Build successful with zero warnings
+- [ ] Manual testing completed across all user scenarios

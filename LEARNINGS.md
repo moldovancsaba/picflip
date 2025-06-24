@@ -188,4 +188,24 @@ This document captures key learnings and insights from developing Picito.
 - **Prevention**: Use strict TypeScript configuration and proper interfaces
 - **Tool**: Regular TypeScript compiler checks and ESLint rules
 
-Last Updated: 2025-06-24T11:15:53.000Z
+## Frontend Development for Backend APIs
+
+### 1. API Integration Strategy
+- **Success Pattern**: Building frontend components after backend APIs are stable
+- **Benefit**: Reduces integration issues and allows focus on user experience
+- **Approach**: Use existing proven endpoints to ensure reliability
+- **Learning**: Frontend-first development works best with established API foundations
+
+### 2. Component Architecture for Complex Features
+- **Planning**: Break complex features into smaller, testable components
+- **Navigation Integration**: Update header and routing systems incrementally
+- **User Experience**: Follow established UI patterns from existing pages
+- **Documentation**: Plan component structure before implementation
+
+### 3. Role-Based UI Development
+- **Challenge**: Frontend components need different behavior based on user roles
+- **Solution**: Leverage existing authentication and role checking patterns
+- **Best Practice**: Hide/show UI elements based on permissions, not just disable
+- **Security**: Frontend role checks are UX improvements, not security measures
+
+Last Updated: 2025-01-08T10:15:30.789Z

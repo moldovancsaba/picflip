@@ -23,13 +23,15 @@
 6. `/src/app/login/layout.tsx` - Login page layout
 7. `/src/app/docs/guide/page.tsx` - Documentation guide page
 8. `/src/app/docs/guide/layout.tsx` - Documentation layout
-9. `/src/app/api/settings/route.ts` - API route for settings
-10. `/src/app/api/auth/login/route.ts` - Authentication API endpoint
-11. `/src/app/api/admin/users/route.ts` - User management API endpoint
-12. `/src/app/api/organisations/route.ts` - Organisation management API
-13. `/src/app/api/organisations/[id]/members/route.ts` - Organisation member management API
-14. `/src/app/api/organisations/[id]/members/[userId]/route.ts` - Individual member operations API
-15. `/src/app/api/version/route.ts` - Application version management API
+9. `/src/app/organisations/page.tsx` - Organisation listing page (Added: 2025-01-08T10:15:30.789Z)
+10. `/src/app/organisations/[id]/page.tsx` - Organisation detail page (Added: 2025-01-08T10:15:30.789Z)
+11. `/src/app/api/settings/route.ts` - API route for settings
+12. `/src/app/api/auth/login/route.ts` - Authentication API endpoint
+13. `/src/app/api/admin/users/route.ts` - User management API endpoint
+14. `/src/app/api/organisations/route.ts` - Organisation management API
+15. `/src/app/api/organisations/[id]/members/route.ts` - Organisation member management API
+16. `/src/app/api/organisations/[id]/members/[userId]/route.ts` - Individual member operations API
+17. `/src/app/api/version/route.ts` - Application version management API
 
 ### Components
 11. `/src/components/IframeViewer.tsx` - Project viewing component
@@ -90,6 +92,7 @@ The application is deployed to Vercel and is accessible at:
 11. Real-time navigation updates are implemented using `usePathname` and `useRouter` hooks with automatic session refresh.
 12. The Header component provides dynamic menu visibility based on user authentication state and role.
 13. **Organisation System**: Complete organisation membership functionality with role hierarchy (owner > admin > member).
-14. **Version Management**: Application version stored in database with centralized management and API access.
+14. **Version Management**: Automatic semantic versioning system with database storage and API access.
+15. **Automated Versioning**: Scripts and npm commands for dev/commit/major version bumping with release notes.
 15. **Role-Based Access Control**: Comprehensive permission system with owner protection and member management.
 16. **Auto-User Creation**: New users automatically created when added to organisations via email.

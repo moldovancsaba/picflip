@@ -13,6 +13,7 @@
 - [x] Build organization creation system (Completed: 2025-06-24T11:15:53.000Z)
 - [x] Implement organization membership management (Completed: 2025-06-24T11:15:53.000Z)
 - [ ] Add organization permissions system
+- [x] Frontend Organisations Page (Added: 2025-01-08T10:15:30.789Z)
 - [ ] Create organization dashboard
 - [ ] Develop organization settings
 

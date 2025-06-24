@@ -70,6 +70,20 @@
 - [ ] Create activity feed
 - [ ] Add search functionality
 
+### User Story 2.4.5: Frontend Organisations Page (Added: 2025-01-08T10:15:30.789Z)
+- [ ] Create organisation listing page (/src/app/organisations/page.tsx)
+- [ ] Implement organisation card components with role display
+- [ ] Add organisation creation form component
+- [ ] Create organisation detail page (/src/app/organisations/[id]/page.tsx)
+- [ ] Implement member management UI with role-based actions
+- [ ] Add member invitation and removal functionality
+- [ ] Update Header component with organisations menu item
+- [ ] Add role-based visibility for organisations access
+- [ ] Connect to existing /api/organisations endpoints
+- [ ] Add loading states and error handling
+- [ ] Test organisation creation and management flows
+- [ ] Verify navigation integration across all user roles
+
 ### User Story 2.5: Organization Settings
 - [ ] Create settings interface
 - [ ] Implement profile management

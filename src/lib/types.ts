@@ -15,3 +15,50 @@ export interface IframeConfig {
   verticalAlignment: VerticalAlignment;
   isPublic: boolean;
 }
+
+// Organization types
+export type MembershipRole = 'owner' | 'admin' | 'member';
+
+export interface Organisation {
+  _id?: string;
+  name: string;
+  slug: string;
+  description?: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
+
+export interface OrganisationMembership {
+  _id?: string;
+  userId: string;
+  organisationId: string;
+  role: MembershipRole;
+  joinedAt: Date | string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
+
+export interface OrganisationMembershipSummary {
+  _id?: string;
+  name: string;
+  slug: string;
+  description?: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  membershipRole: MembershipRole;
+  joinedAt: Date | string;
+}
+
+export interface OrganisationFormData {
+  name: string;
+  description: string;
+}
+
+export interface User {
+  _id?: string;
+  email: string;
+  name?: string;
+  role?: 'admin' | 'user';
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}

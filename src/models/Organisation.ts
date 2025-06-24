@@ -19,7 +19,7 @@ const organisationSchema = new mongoose.Schema<IOrganisation>({
   },
   slug: { 
     type: String, 
-    required: true,
+    required: false, // Will be set by pre-save hook
     lowercase: true,
     trim: true,
     match: [/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens'],
@@ -58,14 +58,23 @@ organisationSchema.pre('save', async function(next) {
     let slug = baseSlug;
     let counter = 1;
     
+    // Get the Organisation model safely
+    const OrganisationModel = this.constructor as mongoose.Model<IOrganisation>;
+    
     // Check for existing slug and append number if needed
-    while (await mongoose.models.Organisation.findOne({ slug, _id: { $ne: this._id } })) {
+    while (await OrganisationModel.findOne({ slug, _id: { $ne: this._id } })) {
       slug = `${baseSlug}-${counter}`;
       counter++;
     }
     
     this.slug = slug;
   }
+  
+  // Ensure slug is never empty
+  if (!this.slug) {
+    this.slug = generateSlug(this.name);
+  }
+  
   next();
 });
 
