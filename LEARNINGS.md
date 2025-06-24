@@ -112,4 +112,80 @@ This document captures key learnings and insights from developing Picito.
 - Verify no breaking changes to existing functionality
 - Follow established commit patterns and documentation updates
 
-Last Updated: 2025-06-24T07:35:13.000Z
+## Database and Configuration Management
+
+### 1. Environment Variable Management
+- **Mistake**: Hardcoded MongoDB connection string in `db.ts` instead of using environment variables
+- **Impact**: Database connection failures when local/remote configurations differ
+- **Solution**: Always use `process.env.MONGODB_URI` with proper fallback and validation
+- **Learning**: Environment variables should be the single source of truth for all configuration
+
+### 2. Mongoose Schema Index Management
+- **Mistake**: Duplicate index definitions (`unique: true` in field + `schema.index()`)
+- **Impact**: Mongoose warnings during build and potential performance issues
+- **Solution**: Use explicit `schema.index()` calls instead of field-level `unique: true`
+- **Learning**: Choose one indexing approach and stick to it consistently
+
+### 3. Database Connection Debugging
+- **Observation**: MongoDB Atlas connection issues can manifest as authentication failures
+- **Debugging**: Check network connectivity, connection string format, and firewall settings
+- **Best Practice**: Always test database connectivity in isolation before debugging application logic
+
+## API Development Challenges
+
+### 1. Next.js App Router Route Parameters
+- **Mistake**: Incorrect TypeScript typing for dynamic route parameters in API handlers
+- **Error**: `Type { params: { id: string } } is not assignable to parameter type`
+- **Solution**: Use `Promise<{ id: string }>` pattern for route parameters in Next.js 15+
+- **Learning**: Next.js App Router requires Promise-based parameter handling
+
+### 2. Mongoose TypeScript Integration
+- **Challenge**: Lean queries return complex types that don't match interface definitions
+- **Solution**: Use explicit type casting `as any` or proper interface typing for lean results
+- **Learning**: Balance between type safety and practical development needs
+
+### 3. Role-Based Access Control Implementation
+- **Complexity**: Implementing hierarchical permissions (owner > admin > member)
+- **Solution**: Create helper functions for permission checking and role management
+- **Best Practice**: Define clear role hierarchies and document permission matrices
+
+## Development Workflow Improvements
+
+### 1. Incremental Feature Development
+- **Success**: Epic 2.2 completed through small, testable increments
+- **Approach**: Model → API → Integration → Testing
+- **Benefit**: Early error detection and easier debugging
+
+### 2. Documentation-Driven Development
+- **Practice**: Create comprehensive implementation guides before coding
+- **Result**: Fewer mistakes, clearer requirements, better planning
+- **Tool**: DEVELOPMENT_GUIDE.md serves as error prevention reference
+
+### 3. Build-First Validation
+- **Rule**: Always run `npm run build` after significant changes
+- **Benefit**: Catches TypeScript errors early in development cycle
+- **Practice**: Commit only after successful builds
+
+## Mistake Categories and Prevention
+
+### 1. Configuration Mistakes
+- **Environment variables not properly managed**
+- **Prevention**: Use `.env.example` file and validation
+- **Tool**: Environment variable validation in startup code
+
+### 2. Schema Design Mistakes
+- **Duplicate indexes, missing validation, circular dependencies**
+- **Prevention**: Review existing patterns before creating new models
+- **Tool**: Schema validation and index analysis tools
+
+### 3. API Design Mistakes
+- **Inconsistent error handling, missing authentication, poor parameter validation**
+- **Prevention**: Copy proven patterns from existing API routes
+- **Tool**: API testing checklist and validation middleware
+
+### 4. TypeScript Integration Mistakes
+- **Incorrect type definitions, missing interfaces, type assertion overuse**
+- **Prevention**: Use strict TypeScript configuration and proper interfaces
+- **Tool**: Regular TypeScript compiler checks and ESLint rules
+
+Last Updated: 2025-06-24T11:15:53.000Z

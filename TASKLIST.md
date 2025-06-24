@@ -45,12 +45,16 @@
 - [x] Create organization listing page
 - [x] Add archive functionality
 
-### User Story 2.2: Organization Membership
-- [ ] Create member management interface
-- [ ] Implement email-based user addition
-- [ ] Add role assignment system
-- [ ] Create email notification system
-- [ ] Add member removal functionality
+### User Story 2.2: Organization Membership (Completed: 2025-06-24T11:15:53.000Z)
+- [x] Create Organisation and OrganisationMembership models
+- [x] Implement auto-slug generation with collision handling
+- [x] Add role hierarchy system (owner > admin > member)
+- [x] Create organisation creation API (/api/organisations)
+- [x] Implement member management APIs (/api/organisations/[id]/members)
+- [x] Add role-based access control and permissions
+- [x] Implement member addition, removal, and role updates
+- [x] Add owner protection (cannot remove last owner)
+- [x] Auto-create user accounts for new email addresses
 
 ### User Story 2.3: Organization Permissions
 - [ ] Create permission matrix

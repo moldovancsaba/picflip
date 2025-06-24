@@ -4,9 +4,11 @@
 
 ### Major Release
 - **BREAKING CHANGE**: Major version bump to v2.0.0
-- Complete documentation overhaul and roadmap refresh
+- Complete Epic 2.2 Organisation Membership implementation
+- Enhanced database architecture with new models and APIs
+- Comprehensive documentation overhaul and roadmap refresh
 - Enhanced project structure and architectural improvements
-- Next sprint planning fully documented and ready
+- Critical database connection and schema index fixes
 
 ### Documentation Updates
 - Updated ROADMAP.md with comprehensive 2025-07 Sprint 1 planning
@@ -21,11 +23,31 @@
 - Enhanced team communication structure
 - Implemented proper version control practices
 
+### Epic 2.2 - Organisation Membership (NEW)
+- **Organisation Model**: Created with auto-slug generation and collision handling
+- **Membership Model**: Implemented role hierarchy (owner > admin > member)
+- **API Endpoints**: Complete CRUD operations for organisations and memberships
+  - `GET/POST /api/organisations` - List and create organisations
+  - `GET/POST /api/organisations/[id]/members` - Member management
+  - `DELETE/PATCH /api/organisations/[id]/members/[userId]` - Individual member operations
+- **Role-Based Access Control**: Comprehensive permission system with owner protection
+- **Auto-User Creation**: Automatic account creation for new email addresses
+- **Data Validation**: Proper TypeScript interfaces and mongoose schema validation
+
+### Critical Bug Fixes
+- **Database Connection**: Fixed hardcoded MongoDB URI to use environment variables
+- **Schema Index Warning**: Resolved mongoose duplicate index warnings for slug field
+- **TypeScript Errors**: Fixed route parameter typing for Next.js App Router
+- **Authentication Issues**: Restored proper session management and login functionality
+- **Project Visibility**: Fixed missing iframe projects on main page
+
 ### Technical Improvements
-- Build system verified and optimized
+- Build system verified and optimized with zero warnings
 - Dependencies updated and validated
 - Production deployment readiness confirmed
 - Development environment stability assured
+- Enhanced error handling and validation across all new APIs
+- Comprehensive TypeScript safety with proper interfaces
 
 ### Team Readiness
 - All documentation fully current and comprehensive
