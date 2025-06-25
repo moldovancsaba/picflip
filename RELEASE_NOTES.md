@@ -1,5 +1,29 @@
 # Release Notes
 
+## Version 3.2.0 (2025-06-25T12:31:10.000Z)
+
+### New Features
+- ✨ Added comprehensive organization permission system
+  - Role-based access control (owner > admin > member)
+  - Fine-grained permission management
+  - Permission validation middleware
+  - Client-side permission utilities
+  - Audit logging for permission checks and role changes
+  - Real-time permission updates via SSE
+
+### Code Quality
+- 🧪 Added comprehensive test coverage for permission system
+- 📝 Updated documentation with permission management details
+
+### Technical Details
+- TypeScript types for permissions and roles
+- Middleware for API endpoint protection
+- Server-Sent Events for real-time updates
+- Audit logging system for security tracking
+
+### Breaking Changes
+None - All changes are backward compatible
+
 ---
 
 ## Version 3.1.2 (2025-06-24T20:16:05.000Z) - Development Version
