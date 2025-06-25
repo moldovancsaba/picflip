@@ -81,12 +81,27 @@
   - ✅ Implemented usePermissionUpdates React hook
   - ✅ Added real-time role change notifications
 
-### User Story 2.4: Organization Dashboard
-- [ ] Create dashboard layout
-- [ ] Implement member list
-- [ ] Add iFrame project list
-- [ ] Create activity feed
-- [ ] Add search functionality
+### User Story 2.4: Organization Dashboard (Completed: 2025-06-25T12:34:56.000Z)
+- [x] Create dashboard layout
+  - ✅ Implemented responsive grid layout
+  - ✅ Created sidebar navigation structure
+  - ✅ Added consistent styling system
+- [x] Implement member list
+  - ✅ Created MemberList component with role tags
+  - ✅ Added member management actions
+  - ✅ Integrated with permission system
+- [x] Add project list
+  - ✅ Created ProjectList component with card layout
+  - ✅ Added project visibility indicators
+  - ✅ Implemented permission-based actions
+- [x] Create activity feed
+  - ✅ Implemented real-time activity updates
+  - ✅ Added formatted timestamps
+  - ✅ Created activity type indicators
+- [x] Add search functionality
+  - ✅ Created global search bar
+  - ✅ Implemented member and project search
+  - ✅ Added debounced search with loading states
 
 ### User Story 2.4.5: Frontend Organisations Page (Added: 2025-01-08T10:15:30.789Z)
 - [ ] Create organisation listing page (/src/app/organisations/page.tsx)

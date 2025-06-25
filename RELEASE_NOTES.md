@@ -1,5 +1,32 @@
 # Release Notes
 
+## Version 3.2.1 (2025-06-25T12:34:56.000Z)
+
+### New Features
+- ✨ Added comprehensive organization dashboard
+  - Responsive grid layout with main content and side panel
+  - Real-time member list with role management
+  - Project cards with visibility indicators
+  - Live activity feed with formatted timestamps
+  - Global search functionality for members and projects
+
+### Technical Details
+- Implemented dashboard components:
+  - DashboardLayout with responsive grid
+  - MemberList with role-based actions
+  - ProjectList with card layout
+  - ActivityFeed with real-time updates
+  - SearchBar with debounced search
+
+### User Experience
+- Clean, modern interface with consistent styling
+- Real-time updates for activities and permissions
+- Intuitive role-based action visibility
+- Smooth loading states and error handling
+
+### Breaking Changes
+None - All changes are additive and backward compatible
+
 ## Version 3.2.0 (2025-06-25T12:31:10.000Z)
 
 ### New Features

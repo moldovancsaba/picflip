@@ -1,6 +1,6 @@
 {
   "name": "picito",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "private": true,
   "scripts": {
     "test:e2e:dev": "start-server-and-test 'npm run dev' http://localhost:3000 'npm run test:e2e'",
