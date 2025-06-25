@@ -1,6 +1,4 @@
 // Shared utility components
-export { default as Breadcrumbs } from './Breadcrumbs';
-export type { BreadcrumbItem } from './Breadcrumbs';
 
 export { default as ConfirmDialog } from './ConfirmDialog';
 export type { ConfirmDialogProps } from './ConfirmDialog';

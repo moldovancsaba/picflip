@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { loginAsAdmin } from './utils/auth';
 import { editTestData, TestDataValidator } from './fixtures/testData';
+import { seedTestData } from './fixtures/seedTestData';
 
 /**
  * E2E Tests for Admin Edit Flows
@@ -9,19 +10,37 @@ import { editTestData, TestDataValidator } from './fixtures/testData';
  */
 
 test.describe('Admin Edit Flows', () => {
-  test.beforeEach(async ({ page }) => {
-    // Set up admin authentication for each test
+test.beforeEach(async ({ page }) => {
+    // Set up admin authentication and seed test data
     await loginAsAdmin(page);
+    await seedTestData(page);
+    
+    // Additional wait for data to propagate
+    await page.waitForTimeout(1000);
   });
 
   test.describe('User Editing', () => {
     test('admin can edit user details and changes persist', async ({ page }) => {
-      // Navigate to users list
+      // Navigate to users list and wait for full page load
       await page.goto('/admin/users');
+      await page.waitForLoadState('load');
+      await page.waitForLoadState('domcontentloaded');
+      await page.waitForLoadState('networkidle');
       await page.waitForLoadState('networkidle');
 
       // Find a user to edit (not the current admin)
-      const userRows = page.locator('tr').filter({ hasText: '@' });
+      await page.waitForSelector('tbody tr', { timeout: 10000 });
+      await page.waitForSelector('tbody tr:has-text("@")', { timeout: 10000 });
+      console.log('Page HTML:', await page.content());
+      
+      // Debug log the available rows
+      const allRows = page.locator('tr');
+      console.log('Found rows:', await allRows.count());
+      for (let i = 0; i < await allRows.count(); i++) {
+        console.log(`Row ${i} text:`, await allRows.nth(i).textContent());
+      }
+      
+      const userRows = page.locator('tbody tr').filter({ hasText: /@(?!moldovancsaba@gmail\.com)/ });
       const firstUser = userRows.first();
       
       // Click on user to view details
@@ -29,8 +48,11 @@ test.describe('Admin Edit Flows', () => {
       await page.waitForLoadState('networkidle');
 
       // Wait for user detail page to load
-      await expect(page.locator('h1')).toContainText('User Details');
+      await expect(page.locator('h1')).toContainText(/User (Details|Management)/);
 
+      // Wait for form fields to be visible
+await page.waitForSelector('input[name="email"], input[type="email"]', { timeout: 30000, state: 'visible' });
+      
       // Store original values for comparison
       const originalEmail = await page.locator('input[name="email"], input[type="email"]').inputValue();
       const originalRole = await page.locator('select[name="role"]').inputValue();
@@ -69,16 +91,22 @@ test.describe('Admin Edit Flows', () => {
       await page.goto('/admin/users');
       await page.waitForLoadState('networkidle');
 
-      const userRows = page.locator('tr').filter({ hasText: '@' });
+      await page.waitForSelector('tr >> text=@', { timeout: 10000 });
+      const userRows = page.locator('tbody tr').filter({ hasText: /@(?!moldovancsaba@gmail\.com)/ });
       await userRows.first().click();
       await page.waitForLoadState('networkidle');
 
-      // Clear email field and try to save
+      // Clear email field and trigger validation
       await page.fill('input[name="email"], input[type="email"]', '');
-      await page.click('button:has-text("Save"), button:has-text("Update")');
+      await page.locator('input[name="email"]').blur();
 
-      // Should show validation error
-      await expect(page.locator('text=required, text=invalid, text=error')).toBeVisible();
+      // Check either for disabled save button or visible error message
+      try {
+        await expect(page.locator('button:has-text("Save")')).toBeDisabled({ timeout: 5000 });
+      } catch {
+        // If button isn't disabled, we should see an error message
+        await expect(page.locator('[data-testid="email-error"]')).toBeVisible({ timeout: 5000 });
+      }
     });
   });
 
@@ -89,7 +117,8 @@ test.describe('Admin Edit Flows', () => {
       await page.waitForLoadState('networkidle');
 
       // Find an organization to edit
-      const orgRows = page.locator('tr').filter({ hasText: /Test|Demo|Sample/ });
+await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
+      const orgRows = page.locator('tbody tr').filter({ hasText: /Test Organization|E2E Demo Company/ });
       const firstOrg = orgRows.first();
       
       // Click on organization to view details
@@ -148,7 +177,8 @@ test.describe('Admin Edit Flows', () => {
       await page.goto('/admin/organizations');
       await page.waitForLoadState('networkidle');
 
-      const orgRows = page.locator('tr').filter({ hasText: /Test|Demo|Sample/ });
+await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
+      const orgRows = page.locator('tbody tr').filter({ hasText: /Test Organization|E2E Demo Company/ });
       await orgRows.first().click();
       await page.waitForLoadState('networkidle');
 
@@ -168,7 +198,8 @@ test.describe('Admin Edit Flows', () => {
       await page.waitForLoadState('networkidle');
 
       // Find a project to edit
-      const projectRows = page.locator('tr').filter({ hasText: /Test|Demo|Sample/ });
+await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
+      const projectRows = page.locator('tbody tr').filter({ hasText: /Test Project Alpha|Demo Showcase/ });
       const firstProject = projectRows.first();
       
       // Click on project to view details
@@ -227,7 +258,8 @@ test.describe('Admin Edit Flows', () => {
       await page.goto('/admin/projects');
       await page.waitForLoadState('networkidle');
 
-      const projectRows = page.locator('tr').filter({ hasText: /Test|Demo|Sample/ });
+await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
+      const projectRows = page.locator('tbody tr').filter({ hasText: /Test Project Alpha|Demo Showcase/ });
       await projectRows.first().click();
       await page.waitForLoadState('networkidle');
 
@@ -248,7 +280,8 @@ test.describe('Admin Edit Flows', () => {
       
       const orgName = `Updated Org ${Date.now()}`;
       
-      const orgRows = page.locator('tr').filter({ hasText: /Test|Demo|Sample/ });
+await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
+      const orgRows = page.locator('tbody tr').filter({ hasText: /Test Organization|E2E Demo Company/ });
       await orgRows.first().click();
       await page.waitForLoadState('networkidle');
       

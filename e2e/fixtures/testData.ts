@@ -153,46 +153,6 @@ export const editTestData: EditTestData = {
   }
 };
 
-/**
- * Breadcrumb test scenarios
- */
-export interface BreadcrumbTestScenario {
-  path: string;
-  expectedBreadcrumbs: Array<{
-    label: string;
-    href?: string;
-  }>;
-}
-
-export const breadcrumbScenarios: BreadcrumbTestScenario[] = [
-  {
-    path: '/admin',
-    expectedBreadcrumbs: [
-      { label: 'Admin Dashboard' }
-    ]
-  },
-  {
-    path: '/admin/users',
-    expectedBreadcrumbs: [
-      { label: 'Admin', href: '/admin' },
-      { label: 'Users' }
-    ]
-  },
-  {
-    path: '/admin/organizations',
-    expectedBreadcrumbs: [
-      { label: 'Admin', href: '/admin' },
-      { label: 'Organizations' }
-    ]
-  },
-  {
-    path: '/admin/projects',
-    expectedBreadcrumbs: [
-      { label: 'Admin', href: '/admin' },
-      { label: 'Projects' }
-    ]
-  }
-];
 
 /**
  * Validation helper functions for test assertions

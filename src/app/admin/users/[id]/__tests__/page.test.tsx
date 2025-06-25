@@ -149,17 +149,6 @@ jest.mock('@/components/admin/DetailHeader', () => {
   };
 });
 
-jest.mock('@/components/admin/Breadcrumbs', () => {
-  return function MockBreadcrumbs({ items }: any) {
-    return (
-      <nav data-testid="breadcrumbs">
-        {items?.map((item: any, index: number) => (
-          <span key={index}>{item.label}</span>
-        ))}
-      </nav>
-    );
-  };
-});
 
 jest.mock('@/components/admin/FormField', () => {
   return function MockFormField({ label, name, value, onChange, type, disabled, required }: any) {
@@ -339,16 +328,6 @@ describe('UserDetailPage', () => {
     expect(screen.getByText('Activity')).toBeInTheDocument();
   });
 
-  it('displays breadcrumbs correctly', async () => {
-    await act(async () => {
-      render(<UserDetailPage />);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText('test@example.com')).toBeInTheDocument();
-    });
-    // Note: Breadcrumb component is mocked and may not show all expected text
-  });
 
   it('displays user metadata in header', async () => {
     await act(async () => {

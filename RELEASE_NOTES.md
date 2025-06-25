@@ -1,5 +1,35 @@
 # Release Notes
 
+## Version 3.1.1 (2025-06-24T23:45:00.000Z)
+
+### Test Suite Stability Improvements
+
+#### ✅ Unit Tests Success
+- All 199 unit tests passing across 13 test suites
+- Improved test coverage for admin interface components
+- Enhanced validation test cases for forms and API responses
+- Proper error handling and loading state testing
+
+#### 🔧 E2E Tests Issues Identified
+- Timeout issues in admin edit flows across all browsers (Chrome, Firefox, WebKit)
+- Need to increase test timeouts from 30s to 60s for reliable operation
+- Selector improvements needed for more resilient test automation
+- Loading state handling requires enhancement in admin interfaces
+
+### Technical Details
+- **Failing Tests**: 21 E2E tests timing out due to selector and loading issues
+- **Success**: 6 tests passing (Basic Application Tests and homepage navigation)
+- **Root Cause**: Slow page transitions and dynamic content loading in admin interface
+- **Fix Plan**: Implement better selectors and increase timeouts for stability
+
+### Next Steps
+1. Increase Playwright test timeouts to 60s
+2. Improve selector resilience using more reliable patterns
+3. Add better loading state handling and detection
+4. Implement retry logic for flaky tests
+
+---
+
 ## Version 3.0.0 (2025-06-24T19:52:19.000Z) - Major Navigation Enhancements Release
 
 ### 🎯 **NAVIGATION ENHANCEMENTS - MAJOR UX IMPROVEMENTS**

@@ -152,17 +152,6 @@ jest.mock('@/components/admin/DetailHeader', () => {
   };
 });
 
-jest.mock('@/components/admin/Breadcrumbs', () => {
-  return function MockBreadcrumbs({ items }: any) {
-    return (
-      <nav data-testid="breadcrumbs">
-        {items?.map((item: any, index: number) => (
-          <span key={index}>{item.label}</span>
-        ))}
-      </nav>
-    );
-  };
-});
 
 jest.mock('@/components/admin/FormField', () => {
   return function MockFormField({ label, name, value, onChange, type, disabled, required }: any) {

@@ -25,6 +25,12 @@
 - [ ] Create organization URL structure
 
 ### Epic 4: Admin Interface Enhancement
+
+#### Epic 4.4 - Test Suite Enhancement and Stability (Added: 2025-06-24T23:15:00.000Z)
+- [ ] Run and verify complete test suite
+- [ ] Fix and document any failing tests
+- [ ] Update test documentation and guidelines
+- [ ] Draft RELEASE_NOTES entry for test improvements
 - [x] Epic 4.1 - Basic admin interface with project visibility and organization assignment (Completed: 2025-06-24T13:23:34.054Z)
 - [x] Epic 4.2 - Enhanced admin detail pages with comprehensive editing (Completed: 2025-06-24T19:52:19.000Z)
   - [x] User Detail Page (`/admin/users/[id]`) - Full CRUD with membership management (Completed: 2025-06-24T19:52:19.000Z)

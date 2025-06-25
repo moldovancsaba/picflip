@@ -1,6 +1,4 @@
 // Admin shared components
-export { default as Breadcrumbs } from './Breadcrumbs';
-export type { BreadcrumbItem } from './Breadcrumbs';
 
 export { default as DetailHeader } from './DetailHeader';
 export type { MetadataItem, ActionButton } from './DetailHeader';

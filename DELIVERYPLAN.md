@@ -69,6 +69,27 @@ Following the established safe development patterns from Epic 2.2 success:
 
 ---
 
+## Test Suite Enhancement and Version Update Plan
+
+**Timestamp:** 2025-06-24T23:15:00.000Z
+**Status:** In Progress
+**Priority:** High - Critical System Stability
+
+### Implementation Plan
+1. ✅ Increment PATCH version to 3.1.1 before npm run dev
+2. Run test suite to verify fixes
+3. On success, bump MINOR version to 3.2.0
+4. Update all documentation to reflect version changes
+5. Draft RELEASE_NOTES entry for test suite improvements
+
+### Risk Mitigation
+- Running tests in development environment first
+- Following established versioning protocol
+- Maintaining documentation synchronization
+- Ensuring version consistency across all files
+
+---
+
 ## Epic 4.1 - Admin Interface Enhancement Plan
 
 **Start Date:** 2025-06-24T13:15:10.000Z  
