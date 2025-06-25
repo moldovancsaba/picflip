@@ -13,13 +13,35 @@ jest.mock('jose', () => ({
 }));
 jest.mock('@/lib/auth');
 jest.mock('@/lib/db');
-jest.mock('@/models/User');
-jest.mock('@/models/OrganisationMembership');
-jest.mock('@/models/Organisation');
+jest.mock('@/models/User', () => ({
+  __esModule: true,
+  default: {
+    findById: jest.fn(),
+    findByIdAndUpdate: jest.fn(),
+    findOne: jest.fn(),
+    find: jest.fn(),
+  }
+}));
+jest.mock('@/models/OrganisationMembership', () => ({
+  __esModule: true,
+  default: {
+    find: jest.fn(),
+    findOne: jest.fn(),
+    create: jest.fn(),
+    deleteOne: jest.fn(),
+  }
+}));
+jest.mock('@/models/Organisation', () => ({
+  __esModule: true,
+  default: {
+    find: jest.fn(),
+    findById: jest.fn(),
+    findOne: jest.fn(),
+  }
+}));
 
 const mockGetSession = getSession as jest.MockedFunction<typeof getSession>;
 const mockDbConnect = dbConnect as jest.MockedFunction<typeof dbConnect>;
-const mockUser = User as jest.Mocked<typeof User>;
 const mockOrganisationMembership = OrganisationMembership as jest.Mocked<typeof OrganisationMembership>;
 const mockOrganisation = Organisation as jest.Mocked<typeof Organisation>;
 

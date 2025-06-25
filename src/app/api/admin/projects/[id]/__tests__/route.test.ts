@@ -12,13 +12,25 @@ jest.mock('jose', () => ({
 }));
 jest.mock('@/lib/auth');
 jest.mock('@/lib/db');
-jest.mock('@/models/Settings');
-jest.mock('@/models/Organisation');
+jest.mock('@/models/Settings', () => ({
+  __esModule: true,
+  default: {
+    findOne: jest.fn(),
+    findOneAndUpdate: jest.fn(),
+    create: jest.fn(),
+  }
+}));
+jest.mock('@/models/Organisation', () => ({
+  __esModule: true,
+  default: {
+    find: jest.fn(),
+    findById: jest.fn(),
+    findOne: jest.fn(),
+  }
+}));
 
 const mockGetSession = getSession as jest.MockedFunction<typeof getSession>;
 const mockDbConnect = dbConnect as jest.MockedFunction<typeof dbConnect>;
-const mockSettings = Settings as jest.Mocked<typeof Settings>;
-const mockOrganisation = Organisation as jest.Mocked<typeof Organisation>;
 
 describe('/api/admin/projects/[id]', () => {
   const mockProjectId = 'project-123';

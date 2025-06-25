@@ -13,15 +13,35 @@ jest.mock('jose', () => ({
 }));
 jest.mock('@/lib/auth');
 jest.mock('@/lib/db');
-jest.mock('@/models/Organisation');
-jest.mock('@/models/OrganisationMembership');
-jest.mock('@/models/Settings');
+jest.mock('@/models/Organisation', () => ({
+  __esModule: true,
+  default: {
+    findById: jest.fn(),
+    findByIdAndUpdate: jest.fn(),
+    findOne: jest.fn(),
+    find: jest.fn(),
+  }
+}));
+jest.mock('@/models/OrganisationMembership', () => ({
+  __esModule: true,
+  default: {
+    find: jest.fn(),
+    findOne: jest.fn(),
+    create: jest.fn(),
+    deleteOne: jest.fn(),
+  }
+}));
+jest.mock('@/models/Settings', () => ({
+  __esModule: true,
+  default: {
+    findOne: jest.fn(),
+    findOneAndUpdate: jest.fn(),
+    create: jest.fn(),
+  }
+}));
 
 const mockGetSession = getSession as jest.MockedFunction<typeof getSession>;
 const mockDbConnect = dbConnect as jest.MockedFunction<typeof dbConnect>;
-const mockOrganisation = Organisation as jest.Mocked<typeof Organisation>;
-const mockOrganisationMembership = OrganisationMembership as jest.Mocked<typeof OrganisationMembership>;
-const mockSettings = Settings as jest.Mocked<typeof Settings>;
 
 describe('/api/admin/organizations/[id]', () => {
   const mockOrgId = 'org-123';
