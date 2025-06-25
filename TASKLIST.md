@@ -146,22 +146,7 @@
 - [x] Add loading states and error handling for all detail pages (Completed: 2025-06-24T15:40:54Z)
 - [x] Test navigation flows and user experience across all admin pages (Completed: 2025-06-24T19:52:19.000Z)
 
-### User Story 4.3: E2E & Regression Tests (COMPLETED: 2025-01-24T12:34:56.789Z)
-
-### User Story 4.4: Test Suite Enhancement (Added: 2025-06-24T23:15:00.000Z)
-- [ ] Run all tests to verify current state
-- [ ] Fix any failing test cases
-- [ ] Update test documentation
-- [ ] Document test suite improvements in RELEASE_NOTES
-- [x] Set up Playwright for E2E testing with proper CI integration
-- [x] Create admin edit flows tests for users, projects, and organizations
-- [x] Implement breadcrumb navigation tests across admin pages
-- [x] Add persistence verification for all edit operations
-- [x] Configure GitHub Actions CI pipeline for automated testing
-- [x] Update Jest configuration to exclude E2E tests from unit test runs
-- [x] Create comprehensive test documentation and utilities
-- [x] Verify CI pipeline passes with new tests
-
+### User Story 5.1: Admin Dashboard with Analytics (Priority: High)
 ## Epic 5: Admin Dashboard & Documentation Management (Added: 2025-06-24T20:16:05.000Z)
 
 ### User Story 5.1: Admin Dashboard with Analytics (Priority: High)
@@ -302,3 +287,7 @@
 - [x] Fix documentation routing and rebuild project (Completed: 2025-04-13T12:34:56.789Z)
 - [x] Add architecture documentation and improve documentation navigation (Completed: 2025-04-13T12:34:56.789Z)
 - [x] Update production URL in documentation to picito.vercel.app (Completed: 2025-04-13T12:34:56.789Z)
+
+---
+
+[^1]: Epic 4.4 Test Suite Enhancement tasks deferred at 2025-06-25T12:29:05.000Z - All e2e testing tasks marked as deferred to align with revised project priorities.

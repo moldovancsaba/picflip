@@ -15,8 +15,9 @@ test.beforeEach(async ({ page }) => {
     await loginAsAdmin(page);
     await seedTestData(page);
     
-    // Additional wait for data to propagate
-    await page.waitForTimeout(1000);
+    // Wait for page to be fully ready
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForLoadState('networkidle');
   });
 
   test.describe('User Editing', () => {
@@ -28,19 +29,16 @@ test.beforeEach(async ({ page }) => {
       await page.waitForLoadState('networkidle');
       await page.waitForLoadState('networkidle');
 
-      // Find a user to edit (not the current admin)
-      await page.waitForSelector('tbody tr', { timeout: 10000 });
-      await page.waitForSelector('tbody tr:has-text("@")', { timeout: 10000 });
-      console.log('Page HTML:', await page.content());
-      
-      // Debug log the available rows
-      const allRows = page.locator('tr');
-      console.log('Found rows:', await allRows.count());
-      for (let i = 0; i < await allRows.count(); i++) {
-        console.log(`Row ${i} text:`, await allRows.nth(i).textContent());
-      }
-      
-      const userRows = page.locator('tbody tr').filter({ hasText: /@(?!moldovancsaba@gmail\.com)/ });
+      // Wait for data table to be ready
+      await page.waitForSelector('table tbody tr:has-text("@")', {
+        state: 'visible',
+        timeout: 10000
+      });
+
+      // Find user row that isn't the admin
+      const userRows = page.locator('tbody tr').filter({
+        hasText: 'test.user@example.com'
+      });
       const firstUser = userRows.first();
       
       // Click on user to view details
@@ -117,7 +115,11 @@ await page.waitForSelector('input[name="email"], input[type="email"]', { timeout
       await page.waitForLoadState('networkidle');
 
       // Find an organization to edit
-await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
+      // Wait for organizations table to be ready
+      await page.waitForSelector('table tbody tr:has-text("Test Organization")', {
+        state: 'visible',
+        timeout: 10000
+      });
       const orgRows = page.locator('tbody tr').filter({ hasText: /Test Organization|E2E Demo Company/ });
       const firstOrg = orgRows.first();
       
@@ -177,7 +179,11 @@ await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
       await page.goto('/admin/organizations');
       await page.waitForLoadState('networkidle');
 
-await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
+      // Wait for organizations table to be ready
+      await page.waitForSelector('table tbody tr:has-text("Test Organization")', {
+        state: 'visible',
+        timeout: 10000
+      });
       const orgRows = page.locator('tbody tr').filter({ hasText: /Test Organization|E2E Demo Company/ });
       await orgRows.first().click();
       await page.waitForLoadState('networkidle');
@@ -198,7 +204,11 @@ await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
       await page.waitForLoadState('networkidle');
 
       // Find a project to edit
-await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
+      // Wait for projects table to be ready
+      await page.waitForSelector('table tbody tr:has-text("Test Project Alpha")', {
+        state: 'visible',
+        timeout: 10000
+      });
       const projectRows = page.locator('tbody tr').filter({ hasText: /Test Project Alpha|Demo Showcase/ });
       const firstProject = projectRows.first();
       
@@ -258,7 +268,11 @@ await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
       await page.goto('/admin/projects');
       await page.waitForLoadState('networkidle');
 
-await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
+      // Wait for projects table to be ready
+      await page.waitForSelector('table tbody tr:has-text("Test Project Alpha")', {
+        state: 'visible',
+        timeout: 10000
+      });
       const projectRows = page.locator('tbody tr').filter({ hasText: /Test Project Alpha|Demo Showcase/ });
       await projectRows.first().click();
       await page.waitForLoadState('networkidle');
@@ -280,7 +294,11 @@ await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
       
       const orgName = `Updated Org ${Date.now()}`;
       
-await page.waitForSelector('tr >> text=/Test|Demo|Sample/', { timeout: 30000 });
+      // Wait for organizations table to be ready
+      await page.waitForSelector('table tbody tr:has-text("Test Organization")', {
+        state: 'visible',
+        timeout: 10000
+      });
       const orgRows = page.locator('tbody tr').filter({ hasText: /Test Organization|E2E Demo Company/ });
       await orgRows.first().click();
       await page.waitForLoadState('networkidle');

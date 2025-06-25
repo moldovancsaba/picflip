@@ -67,8 +67,9 @@ export async function POST(req: NextRequest) {
     return setUserCookie(response, token);
   } catch (error) {
     console.error('Login error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Internal server error';
     return NextResponse.json(
-      { message: 'Internal server error' },
+      { message: errorMessage },
       { status: 500 }
     );
   }

@@ -43,17 +43,22 @@ export async function seedTestData(page: Page) {
     data: testUser
   });
 
-  // Create test organizations
+  // Create test organizations and wait for each to complete
   for (const org of testOrgs) {
-    await page.request.post('/api/organisations', {
+    const response = await page.request.post('/api/organisations', {
       data: org
     });
+    expect(response.ok()).toBeTruthy();
   }
 
-  // Create test projects 
+  // Create test projects and wait for each to complete
   for (const project of testProjects) {
-    await page.request.post('/api/settings', {
+    const response = await page.request.post('/api/settings', {
       data: project
     });
+    expect(response.ok()).toBeTruthy();
   }
+
+  // Wait for a short period to ensure data is reflected in the database
+  await page.waitForTimeout(2000);
 }

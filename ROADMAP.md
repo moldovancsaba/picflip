@@ -26,11 +26,6 @@
 
 ### Epic 4: Admin Interface Enhancement
 
-#### Epic 4.4 - Test Suite Enhancement and Stability (Added: 2025-06-24T23:15:00.000Z)
-- [ ] Run and verify complete test suite
-- [ ] Fix and document any failing tests
-- [ ] Update test documentation and guidelines
-- [ ] Draft RELEASE_NOTES entry for test improvements
 - [x] Epic 4.1 - Basic admin interface with project visibility and organization assignment (Completed: 2025-06-24T13:23:34.054Z)
 - [x] Epic 4.2 - Enhanced admin detail pages with comprehensive editing (Completed: 2025-06-24T19:52:19.000Z)
   - [x] User Detail Page (`/admin/users/[id]`) - Full CRUD with membership management (Completed: 2025-06-24T19:52:19.000Z)
@@ -43,7 +38,12 @@
 |- [ ] Add detailed navigation and error handling for detail pages (Added: 2025-04-13T12:34:56.789Z)
 |- [ ] Implement advanced filtering and search capabilities (Added: 2025-04-13T12:34:56.789Z)
 
-### Epic 5: Admin Dashboard & Documentation Management (Added: 2025-06-24T20:16:05.000Z)
+### [DEFERRED] Epic 4.4 – Test Suite Enhancement and Stability
+Deferred on: 2025-06-25T14:30:00.000Z
+Rationale: E2E test suite development paused to prioritize core feature delivery and stability improvements through unit testing.
+Status: ON HOLD - All e2e testing work paused until further notice
+
+### Epic 5: Admin Dashboard & Documentation Management
 - [ ] Epic 5.1 - Admin Dashboard with Analytics (Priority: High)
   - [ ] Transform admin page into dashboard with charts and statistics
   - [ ] Display general numbers: total users, projects, organizations

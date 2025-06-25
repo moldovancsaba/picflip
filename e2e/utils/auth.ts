@@ -42,22 +42,28 @@ export async function loginWithCredentials(
   page: Page, 
   credentials: LoginCredentials
 ): Promise<void> {
-  // Make direct API call to login endpoint
-  // This is more reliable than going through the UI for authentication setup
-  const response = await page.request.post('/api/auth/login', {
-    data: credentials
-  });
+  // Make login attempt with proper error handling
+  try {
+    const response = await page.request.post('/api/auth/login', {
+      data: credentials,
+      timeout: 10000 // 10 second timeout
+    });
+    
+    if (!response.ok()) {
+      const errorText = await response.text();
+      throw new Error(`Login failed: ${errorText}`);
+    }
 
-  if (!response.ok()) {
-    throw new Error(`Login failed: ${await response.text()}`);
+    // The login API sets cookies automatically
+    // Navigate to a page to ensure cookies are properly set
+    await page.goto('/admin');
+    
+    // Wait for authentication to be processed
+    await page.waitForLoadState('networkidle');
+  } catch (error) {
+    console.error('Login failed:', error);
+    throw error;
   }
-
-  // The login API sets cookies automatically
-  // Navigate to a page to ensure cookies are properly set
-  await page.goto('/admin');
-  
-  // Wait for authentication to be processed
-  await page.waitForLoadState('networkidle');
 }
 
 /**
