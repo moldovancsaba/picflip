@@ -160,6 +160,11 @@ async function main() {
     console.log(`📝 Release notes updated with timestamp: ${getCurrentTimestamp()}`);
     console.log(`💾 Database version updated`);
     
+    // Close MongoDB connection
+    const mongoose = (await import('mongoose')).default;
+    await mongoose.disconnect();
+    console.log(`✓ Disconnected from MongoDB`);
+    
   } catch (error) {
     console.error('❌ Error bumping version:', error.message);
     process.exit(1);

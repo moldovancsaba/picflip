@@ -1,5 +1,35 @@
 # Release Notes
 
+## Version 0.6.0 (2025-06-26T13:37:34.766Z)
+
+### Minor Release
+- **Release**: Code committed to GitHub repository
+- **Version Bump**: Minor version incremented from 0.5.0 to 0.6.0
+- **Status**: Ready for deployment
+
+### Technical Details
+- **Previous Version**: 0.5.0
+- **New Version**: 0.6.0
+- **Bump Type**: commit
+- **Timestamp**: 2025-06-26T13:37:34.766Z
+- **Auto-generated**: Yes
+
+
+## Version 0.5.0 (2025-06-26T13:36:57.050Z)
+
+### Minor Release
+- **Release**: Code committed to GitHub repository
+- **Version Bump**: Minor version incremented from 0.4.0 to 0.5.0
+- **Status**: Ready for deployment
+
+### Technical Details
+- **Previous Version**: 0.4.0
+- **New Version**: 0.5.0
+- **Bump Type**: commit
+- **Timestamp**: 2025-06-26T13:36:57.050Z
+- **Auto-generated**: Yes
+
+
 ## Version 0.4.0 (2025-06-26T13:35:17.445Z)
 
 ### Minor Release
