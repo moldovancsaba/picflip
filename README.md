@@ -51,14 +51,17 @@ Picito is a React-based web application that perfectly scales project content wh
 
 ### Technical Features
 - MongoDB integration for persistent storage
-- **Automatic Versioning System**: Semantic versioning with automated scripts (v2.9.1+)
+- **Database-Driven Versioning**: Full database-driven version management (package.json version field removed)
+- **Automated Version Control**: Semantic versioning with automated scripts
 - Centralized version management stored in database
 - Dynamic menu visibility based on authentication state
 - RESTful API endpoints for all major functionality
 
 ### Version Management
-- **Current Version**: 2.10.0
-- **Semantic Versioning**: Automatic MAJOR.MINOR.PATCH bumping
+⚠️ **Important**: Version management is now entirely database-driven. The version field has been removed from package.json.
+
+- **Version Storage**: All version information is stored in MongoDB
+- **Publishing Control**: npm publish is intentionally disabled
 - **Development Builds**: Auto-bump patch version after successful `npm run dev`
 - **GitHub Commits**: Auto-bump minor version after commits
 - **Major Releases**: Manual major version bumping for breaking changes

@@ -1,6 +1,5 @@
 {
   "name": "picito",
-  "version": "3.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -9,19 +8,16 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:e2e": "playwright test",
-    "test:e2e:headed": "playwright test --headed",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:debug": "playwright test --debug",
-    "test:all": "npm run test && npm run test:e2e",
     "version:dev": "node scripts/bump-version.js dev",
     "version:commit": "node scripts/bump-version.js commit",
     "version:major": "node scripts/bump-version.js major",
     "dev:complete": "npm run dev && npm run version:dev",
-    "commit:complete": "npm run version:commit && git add . && git commit -m \"chore: bump version\" && git push"
+    "commit:complete": "npm run version:commit && git add . && git commit -m \"chore: bump version\" && git push",
+    "prepublish": "echo 'ERROR: Publishing via npm is disabled. Versioning is now DB-driven.' && exit 1"
   },
   "dependencies": {
     "@types/styled-components": "^5.1.34",
+    "dotenv": "^16.5.0",
     "jose": "^6.0.11",
     "marked": "^15.0.12",
     "mongodb": "^6.17.0",
@@ -36,7 +32,6 @@
     "npm": ">=10.9.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.53.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
