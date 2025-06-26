@@ -70,17 +70,28 @@ export async function getCurrentVersion() {
 // Helper function to update version
 export async function updateVersion(newVersion, description) {
   try {
-    // Mark all previous versions as inactive
+    // Mark all versions as inactive
     await mongoose.models.Version.updateMany({}, { isActive: false });
     
-    // Create new active version
-    const version = new (mongoose.models.Version || mongoose.model('Version', versionSchema))({
-      version: newVersion,
-      description: description || `Version ${newVersion} release`,
-      isActive: true
-    });
+    // Check if version already exists
+    let version = await mongoose.models.Version.findOne({ version: newVersion });
     
-    await version.save();
+    if (version) {
+      // Update existing version
+      version.description = description || `Version ${newVersion} release`;
+      version.isActive = true;
+      version.releaseDate = new Date();
+      await version.save();
+    } else {
+      // Create new version
+      version = new (mongoose.models.Version || mongoose.model('Version', versionSchema))({
+        version: newVersion,
+        description: description || `Version ${newVersion} release`,
+        isActive: true
+      });
+      await version.save();
+    }
+    
     return version;
   } catch (error) {
     console.error('Error updating version:', error);
