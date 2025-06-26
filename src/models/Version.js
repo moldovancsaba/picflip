@@ -1,16 +1,6 @@
 import mongoose from 'mongoose';
 
-export interface IVersion {
-  _id?: string;
-  version: string;
-  description?: string;
-  releaseDate: Date;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const versionSchema = new mongoose.Schema<IVersion>({
+const versionSchema = new mongoose.Schema({
   version: { 
     type: String, 
     required: true,
@@ -55,11 +45,11 @@ versionSchema.index({ createdAt: -1 }, { background: true });
  * @returns {Promise<string>} The current semantic version string (e.g. "0.0.1")
  * @throws {Error} If database operations fail, with specific error context
  */
-export async function getCurrentVersion(): Promise<string> {
+export async function getCurrentVersion() {
   try {
     const currentVersion = await mongoose.models.Version.findOne({ isActive: true })
       .sort({ releaseDate: -1 })
-      .lean() as IVersion | null;
+      .lean();
     
     if (!currentVersion) {
       // Auto-seed initial version if no version exists
@@ -69,7 +59,7 @@ export async function getCurrentVersion(): Promise<string> {
     }
     
     return currentVersion.version;
-  } catch (error: unknown) {
+  } catch (error) {
     // Explicitly throw database errors to ensure reliability
     // This prevents silent failures and ensures proper error handling
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -78,13 +68,13 @@ export async function getCurrentVersion(): Promise<string> {
 }
 
 // Helper function to update version
-export async function updateVersion(newVersion: string, description?: string): Promise<IVersion> {
+export async function updateVersion(newVersion, description) {
   try {
     // Mark all previous versions as inactive
     await mongoose.models.Version.updateMany({}, { isActive: false });
     
     // Create new active version
-    const version = new (mongoose.models.Version || mongoose.model<IVersion>('Version', versionSchema))({
+    const version = new (mongoose.models.Version || mongoose.model('Version', versionSchema))({
       version: newVersion,
       description: description || `Version ${newVersion} release`,
       isActive: true
@@ -98,4 +88,4 @@ export async function updateVersion(newVersion: string, description?: string): P
   }
 }
 
-export default mongoose.models.Version || mongoose.model<IVersion>('Version', versionSchema);
+export default mongoose.models.Version || mongoose.model('Version', versionSchema);

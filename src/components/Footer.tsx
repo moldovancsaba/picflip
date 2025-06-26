@@ -18,7 +18,7 @@ const VersionText = styled.span`
 `;
 
 export default function Footer() {
-  const [version, setVersion] = useState('2.10.0'); // fallback version
+  const [version, setVersion] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function Footer() {
         }
       } catch (error) {
         console.error('Failed to fetch version:', error);
-        // Keep fallback version
+        setVersion(null); // Clear version on error
       } finally {
         setLoading(false);
       }
@@ -46,7 +46,7 @@ export default function Footer() {
   return (
     <FooterContainer>
       <VersionText>
-        Picito v{loading ? '...' : version}
+        {loading ? 'Loading...' : version ? `Picito v${version}` : 'Picito (version unavailable)'}
       </VersionText>
     </FooterContainer>
   );

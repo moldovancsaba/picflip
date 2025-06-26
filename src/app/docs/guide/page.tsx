@@ -22,9 +22,6 @@ export default function DocsPage() {
 
     return (
       <div style={containerStyle}>
-        <Link href="/" style={{ color: '#0070f3', display: 'inline-block', marginBottom: '2rem' }}>
-          ← Back to Home
-        </Link>
         <div className="markdown-content" dangerouslySetInnerHTML={{ __html: htmlContent }} />
       </div>
     );
@@ -34,7 +31,6 @@ export default function DocsPage() {
       <div style={containerStyle}>
         <h1>Documentation Error</h1>
         <p>Sorry, we couldn't load the documentation. Please try again later.</p>
-        <Link href="/" style={{ color: '#0070f3' }}>← Back to Home</Link>
       </div>
     );
   }

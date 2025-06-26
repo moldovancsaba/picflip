@@ -148,11 +148,6 @@
 
 ### User Story 4.3: E2E & Regression Tests (COMPLETED: 2025-01-24T12:34:56.789Z)
 
-### User Story 4.4: Test Suite Enhancement (Added: 2025-06-24T23:15:00.000Z)
-- [ ] Run all tests to verify current state
-- [ ] Fix any failing test cases
-- [ ] Update test documentation
-- [ ] Document test suite improvements in RELEASE_NOTES
 - [x] Set up Playwright for E2E testing with proper CI integration
 - [x] Create admin edit flows tests for users, projects, and organizations
 - [x] Implement breadcrumb navigation tests across admin pages
@@ -172,7 +167,7 @@
 - [ ] Create responsive dashboard layout
 
 ### User Story 5.2: Documentation Management System (Priority: High)
-- [ ] Remove "← Back to Home" from documentation pages
+- [x] Remove "← Back to Home" from documentation pages (Completed: 2025-06-26T12:12:54Z)
 - [ ] Create editable documentation interface in admin
 - [ ] List all documentation files on documentation page
 - [ ] Enable admin editing of documentation content
@@ -225,6 +220,21 @@
 - [ ] Create contact info configuration
 - [ ] Add support hours display
 - [ ] Implement form linking
+
+## Epic 8: MongoDB Versioning System Refactor (Added: 2024-01-09T14:32:45.789Z)
+
+### User Story 8.1: MongoDB Version Management Implementation
+- [ ] **TODO**: Design MongoDB schema for version tracking
+- [ ] **TODO**: Create version collection and indexes in MongoDB
+- [ ] **TODO**: Implement MongoDB version management functions
+- [ ] **TODO**: Create data migration scripts for existing versions
+- [ ] **TODO**: Update application code to use MongoDB version source
+- [ ] **TODO**: Add version sync validation mechanisms
+- [ ] **TODO**: Implement version conflict resolution logic
+- [ ] **TODO**: Create automated tests for version management
+- [ ] **TODO**: Document new version management system
+- [ ] **TODO**: Deploy changes with zero-downtime migration
+- [ ] **TODO**: Monitor and validate version consistency post-deployment
 
 ## Epic 5: Data Management
 

@@ -1,5 +1,17 @@
 # Project Architecture
 
+## ⚠️ NOTICE: Upcoming Refactor (Added: 2024-01-09T14:32:45.789Z)
+
+This codebase is undergoing a significant refactor to use MongoDB as the Source of Truth (SoT) for versioning. This change will centralize version management in MongoDB, improving consistency and reducing version synchronization issues across the application.
+
+During this transition:
+- Version tracking will move from the current system to MongoDB
+- All version-dependent components will be updated
+- New MongoDB schemas and indexes will be implemented
+- Zero-downtime migration will be executed
+
+Please be aware of this change when making modifications to version-related code.
+
 ## Technology Stack
 
 - **Framework**: Next.js 15.3.4

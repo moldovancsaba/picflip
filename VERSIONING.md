@@ -57,8 +57,8 @@ npm run commit:complete
 When a version is bumped, the following files are automatically updated:
 
 1. **`package.json`** - Main version field
-2. **`src/models/Version.ts`** - Fallback version strings
-3. **`src/app/api/version/route.ts`** - API fallback version
+2. **`src/models/Version.ts`** - Version model and database interface
+3. **`src/app/api/version/route.ts`** - Version API endpoint
 4. **`RELEASE_NOTES.md`** - New release entry with timestamp
 
 ## Release Notes Format
@@ -76,7 +76,7 @@ The system integrates with the MongoDB Version model:
 
 - **API Endpoint**: `/api/version` (GET for current version, POST for updates)
 - **Database Storage**: Version history with timestamps and descriptions
-- **Fallback Support**: Local fallback versions if database is unavailable
+- **Error Handling**: Proper error responses if database is unavailable
 
 ## Manual Usage
 
@@ -109,8 +109,8 @@ All timestamps follow **ISO 8601 with milliseconds**:
 
 ### Files Updated
 - `package.json` - Main version
-- `src/models/Version.ts` - Model fallback versions  
-- `src/app/api/version/route.ts` - API fallback version
+- `src/models/Version.ts` - Version model and database interface
+- `src/app/api/version/route.ts` - Version API endpoint
 - `RELEASE_NOTES.md` - Release documentation
 
 ### API Integration

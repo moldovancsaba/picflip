@@ -1,5 +1,34 @@
 # Development Learnings
 
+## E2E Test Removal (2025-06-26T11:56:31.000Z)
+
+### Decision
+Removed end-to-end (E2E) testing infrastructure to focus on unit testing.
+
+### Rationale
+- Maintenance overhead of E2E tests outweighed benefits
+- Unit tests provide sufficient coverage for current needs
+- Faster CI/CD pipeline without E2E tests
+- Reduced complexity in test maintenance
+
+### Changes Made
+- Removed Playwright configuration and dependencies
+- Removed e2e/ directory and all E2E test files
+- Updated documentation to reflect new testing strategy
+- Updated CI/CD pipeline configuration
+
+### Impact
+- Faster test execution
+- Simpler test maintenance
+- Focus on comprehensive unit testing
+- Improved development velocity
+
+### Going Forward
+- Continue maintaining strong unit test coverage
+- Consider integration tests for critical paths
+- Monitor test coverage metrics
+- Regular test suite maintenance
+
 This document captures key learnings and insights from developing Picito.
 
 ## Technical Learnings

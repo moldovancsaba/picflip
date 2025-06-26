@@ -1,5 +1,121 @@
 # Release Notes
 
+## Version 0.1.0 (2025-06-26T12:50:06.815Z)
+
+### Minor Release
+- **Release**: Code committed to GitHub repository
+- **Version Bump**: Minor version incremented from 0.0.1 to 0.1.0
+- **Status**: Ready for deployment
+
+### Technical Details
+- **Previous Version**: 0.0.1
+- **New Version**: 0.1.0
+- **Bump Type**: commit
+- **Timestamp**: 2025-06-26T12:50:06.815Z
+- **Auto-generated**: Yes
+
+
+## Version 0.3.1 (2025-06-26T12:48:04.789Z)
+
+### Development Build
+- **Development**: Successfully completed `npm run dev` testing
+- **Version Bump**: Patch version incremented from 0.3.0 to 0.3.1
+- **Status**: Development build ready for further testing
+
+### Technical Details
+- **Previous Version**: 0.3.0
+- **New Version**: 0.3.1
+- **Bump Type**: dev
+- **Timestamp**: 2025-06-26T12:48:04.789Z
+- **Auto-generated**: Yes
+
+
+## Version 0.3.0 (2025-06-26T12:47:39.217Z)
+
+### Minor Release
+- **Release**: Code committed to GitHub repository
+- **Version Bump**: Minor version incremented from 0.2.0 to 0.3.0
+- **Status**: Ready for deployment
+
+### Technical Details
+- **Previous Version**: 0.2.0
+- **New Version**: 0.3.0
+- **Bump Type**: commit
+- **Timestamp**: 2025-06-26T12:47:39.217Z
+- **Auto-generated**: Yes
+
+
+## Version 0.2.0 (2025-06-26T12:47:02.905Z)
+
+### Minor Release
+- **Release**: Code committed to GitHub repository
+- **Version Bump**: Minor version incremented from 0.1.0 to 0.2.0
+- **Status**: Ready for deployment
+
+### Technical Details
+- **Previous Version**: 0.1.0
+- **New Version**: 0.2.0
+- **Bump Type**: commit
+- **Timestamp**: 2025-06-26T12:47:02.905Z
+- **Auto-generated**: Yes
+
+
+## Version 3.2.1 (2025-06-26T11:56:31.000Z)
+
+### Development Build
+- **Removed**: End-to-end (E2E) tests and related configurations
+- **Cleanup**: Removed Playwright configuration and dependencies
+- **Focus**: Shifted to unit testing with Jest for better maintainability
+- **Documentation**: Updated all relevant files to reflect E2E test removal
+
+### Technical Details
+- **Previous Version**: 3.2.0
+- **New Version**: 3.2.1
+- **Timestamp**: 2025-06-26T11:56:31.000Z
+- **Changes**: Removed E2E test infrastructure
+## Version 3.2.1 (2025-06-26T11:52:07.136Z)
+
+### Development Build
+- **Development**: Successfully completed `npm run dev` testing
+- **Version Bump**: Patch version incremented from 3.2.0 to 3.2.1
+- **Status**: Development build ready for further testing
+
+### Technical Details
+- **Previous Version**: 3.2.0
+- **New Version**: 3.2.1
+- **Bump Type**: dev
+- **Timestamp**: 2025-06-26T11:52:07.136Z
+- **Auto-generated**: Yes
+
+
+## Version 3.2.0 (2025-06-26T11:48:28.000Z)
+
+### Test Suite and Admin Flow Enhancements
+
+#### ✅ Admin Edit Flow Improvements
+- **Fixed**: Test selectors in admin edit flows for better reliability
+- **Enhanced**: Validation checks for admin forms
+- **Added**: Comprehensive test data seeding for E2E tests
+- **Optimized**: Loading state handling and test timeouts
+
+#### 🔧 Test Suite Stability
+- **Selectors**: Improved selector reliability using more specific patterns
+- **Validation**: Enhanced form validation test coverage
+- **Loading**: Better handling of loading states in tests
+- **Timeouts**: Increased test timeouts for more reliable E2E testing
+
+### Technical Details
+- **Fixed**: Selector patterns in admin edit flow tests
+- **Added**: Test data seeding utility for consistent E2E testing
+- **Enhanced**: Loading state detection in admin interfaces
+- **Improved**: Form validation coverage in tests
+
+### Version Management
+- **Previous**: v3.1.1
+- **Current**: v3.2.0
+- **Type**: Minor version increment
+- **Timestamp**: 2025-06-26T11:48:28.000Z
+
 ## Version 3.1.1 (2025-06-24T23:45:00.000Z)
 
 ### Test Suite Stability Improvements

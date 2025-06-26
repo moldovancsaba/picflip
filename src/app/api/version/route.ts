@@ -23,7 +23,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       { 
         error: 'Failed to fetch version',
-        version: '2.11.1', // fallback
+        // No fallback version - database is single source of truth
+        // This ensures version consistency and proper error handling
         timestamp: new Date().toISOString()
       },
       { status: 500 }
