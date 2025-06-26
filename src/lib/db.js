@@ -27,6 +27,17 @@ export default async function dbConnect() {
     isConnected = true;
     console.log('✓ Connected to MongoDB');
 
+    // Handle disconnect events
+    mongoose.connection.on('disconnected', () => {
+      console.log('⚠ MongoDB disconnected');
+      isConnected = false;
+    });
+    
+    mongoose.connection.on('error', (err) => {
+      console.error('❌ MongoDB connection error:', err);
+      isConnected = false;
+    });
+
   } catch (error) {
     console.error('❌ MongoDB connection error:', error);
     throw error;
