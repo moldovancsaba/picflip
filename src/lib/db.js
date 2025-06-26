@@ -10,16 +10,18 @@ const DB_NAME = process.env.DB_NAME || 'picito';
 let isConnected = false;
 
 export default async function dbConnect() {
-  if (isConnected) {
+  if (isConnected && mongoose.connection.readyState === 1) {
     return;
+  }
+  
+  // Reset connection flag if mongoose is disconnected
+  if (mongoose.connection.readyState === 0) {
+    isConnected = false;
   }
 
   try {
     await mongoose.connect(MONGODB_URI, {
-      dbName: DB_NAME,
-      // Mongoose 7+ default options for stable connection
-      useNewUrlParser: true,
-      useUnifiedTopology: true
+      dbName: DB_NAME
     });
 
     isConnected = true;
