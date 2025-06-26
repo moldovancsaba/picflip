@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 5.0.0 (2025-06-27T11:00:00.000Z)
+
+### Major Release
+- **BREAKING CHANGE**: Major version bump from 4.0.0 to 5.0.0
+- **Status**: Major release with potential breaking changes
+
+### Technical Details
+- **Previous Version**: 4.0.0
+- **New Version**: 5.0.0
+- **Bump Type**: major
+- **Timestamp**: 2025-06-27T11:00:00.000Z
+- **Auto-generated**: Yes
+
 ## Version 0.6.0 (2025-06-26T13:37:34.766Z)
 
 ### Minor Release

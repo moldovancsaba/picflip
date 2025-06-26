@@ -7,7 +7,7 @@ Picito is a React-based web application that perfectly scales project content wh
 
 ## Technologies Used
 
-- **Next.js 15.3.4** - React framework for production
+- **Next.js 15.3.4** - React framework for production (v5.0.0)
 - **React 19** - UI library
 - **TypeScript** - Type safety and better developer experience
 - **styled-components** - CSS-in-JS styling solution
