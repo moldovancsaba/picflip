@@ -1,5 +1,74 @@
 # Release Notes
 
+## Version 7.0.0 (2025-06-27T13:00:00.000Z)
+
+### Major Release
+- **BREAKING CHANGE**: Major version bump from 6.0.0 to 7.0.0
+- **Status**: Major release with potential breaking changes
+
+### Technical Details
+- **Previous Version**: 6.0.0
+- **New Version**: 7.0.0
+- **Bump Type**: major
+- **Timestamp**: 2025-06-27T13:00:00.000Z
+- **Auto-generated**: Yes
+
+## Version 7.0.0 (2025-06-26T14:14:19.876Z)
+
+### Major Release
+- **BREAKING CHANGE**: Major version bump from 6.0.0 to 7.0.0
+- **Status**: Major release with potential breaking changes
+
+### Technical Details
+- **Previous Version**: 6.0.0
+- **New Version**: 7.0.0
+- **Bump Type**: major
+- **Timestamp**: 2025-06-26T14:14:19.876Z
+- **Auto-generated**: Yes
+
+
+## Version 6.0.0 (2025-06-26T14:14:14.267Z)
+
+### Major Release
+- **BREAKING CHANGE**: Major version bump from 5.0.0 to 6.0.0
+- **Status**: Major release with potential breaking changes
+
+### Technical Details
+- **Previous Version**: 5.0.0
+- **New Version**: 6.0.0
+- **Bump Type**: major
+- **Timestamp**: 2025-06-26T14:14:14.267Z
+- **Auto-generated**: Yes
+
+
+## Version 5.0.0 (2025-06-26T14:14:07.586Z)
+
+### Major Release
+- **BREAKING CHANGE**: Major version bump from 4.0.0 to 5.0.0
+- **Status**: Major release with potential breaking changes
+
+### Technical Details
+- **Previous Version**: 4.0.0
+- **New Version**: 5.0.0
+- **Bump Type**: major
+- **Timestamp**: 2025-06-26T14:14:07.586Z
+- **Auto-generated**: Yes
+
+
+## Version 4.0.0 (2025-06-26T14:13:55.293Z)
+
+### Major Release
+- **BREAKING CHANGE**: Major version bump from 3.0.0 to 4.0.0
+- **Status**: Major release with potential breaking changes
+
+### Technical Details
+- **Previous Version**: 3.0.0
+- **New Version**: 4.0.0
+- **Bump Type**: major
+- **Timestamp**: 2025-06-26T14:13:55.293Z
+- **Auto-generated**: Yes
+
+
 ## Version 6.0.0 (2025-06-27T12:00:00.000Z)
 
 ### Major Release

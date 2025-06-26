@@ -26,7 +26,7 @@ Please be aware of this change when making modifications to version-related code
 
 ## Project Structure
 
-### Core Application Files (v6.0.0)
+### Core Application Files (v7.0.0)
 1. `/src/app/page.tsx` - Main page component
 2. `/src/app/layout.tsx` - Root layout component
 3. `/src/app/admin/page.tsx` - Admin interface
