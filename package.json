@@ -6,15 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test": "jest --config jest.config.mjs",
+    "test:watch": "jest --config jest.config.mjs --watch",
+    "test:coverage": "jest --config jest.config.mjs --coverage",
     "version:dev": "node scripts/version-bump.mjs dev",
     "version:commit": "node scripts/version-bump.mjs commit",
     "version:major": "node scripts/version-bump.mjs major",
     "dev:complete": "npm run dev && npm run version:dev",
-    "commit:complete": "npm run version:commit && git add . && git commit -m \"chore: bump version\" && git push",
-    "prepublish": "echo 'ERROR: Publishing via npm is disabled. Versioning is now DB-driven.' && exit 1"
+    "commit:complete": "npm run version:commit && git add . && git commit -m \"chore: bump version\" && git push"
   },
   "dependencies": {
     "@types/styled-components": "^5.1.34",

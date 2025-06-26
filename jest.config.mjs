@@ -1,14 +1,10 @@
 /** @type {import('jest').Config} */
 const config = {
-  preset: 'ts-jest',
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.mjs'],
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', {
-      tsconfig: {
-        jsx: 'react-jsx',
-      },
-    }],
+    '^.+\.(ts|tsx|js|jsx|mjs)$': ['babel-jest', { configFile: './babel.config.mjs' }],
   },
   testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/e2e/'],
   moduleNameMapper: {
@@ -35,4 +31,4 @@ const config = {
   ],
 };
 
-module.exports = config;
+export default config;

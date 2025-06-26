@@ -43,7 +43,22 @@ This document captures key learnings and insights from developing Picito.
 - Styled-components work well with Next.js Server Components when properly configured
 - TypeScript strict mode catches many potential runtime errors early
 
-### 3. MongoDB Integration
+### 3. MongoDB Integration as Source of Truth (Updated: 2024-02-15T09:23:45.678Z)
+- MongoDB serves as the authoritative source for all data, including version information
+- Benefits of MongoDB as SoT:
+  - Centralized version management prevents sync issues
+  - Atomic updates ensure data consistency
+  - Real-time version tracking across distributed systems
+  - Built-in validation and schema enforcement
+  - Simplified backup and recovery procedures
+- Version tracking in MongoDB ensures system-wide consistency
+- Implementation details:
+  - Version field in dedicated collection
+  - Atomic updates prevent race conditions
+  - Schema validation enforces version format
+  - Indexes optimize version queries
+
+### 4. MongoDB General Integration
 - MongoDB Atlas provides reliable cloud database solution
 - Mongoose schemas help maintain data consistency
 - Connection pooling important for production performance

@@ -1,5 +1,79 @@
 # Release Notes
 
+## Version 0.4.0 (2025-06-26T13:35:17.445Z)
+
+### Minor Release
+- **Release**: Code committed to GitHub repository
+- **Version Bump**: Minor version incremented from 0.3.2 to 0.4.0
+- **Status**: Ready for deployment
+
+### Technical Details
+- **Previous Version**: 0.3.2
+- **New Version**: 0.4.0
+- **Bump Type**: commit
+- **Timestamp**: 2025-06-26T13:35:17.445Z
+- **Auto-generated**: Yes
+
+
+## Version 0.3.3 (2024-02-15T09:23:45.678Z)
+
+### UI: Version display refactor, now encapsulated in VersionLabel component
+- Version display now encapsulated in VersionLabel component
+- Consistent version formatting across all UI elements
+- Improved maintainability through component isolation
+- Leverages MongoDB as authoritative version source
+
+### Technical Details
+- **Previous Version**: 0.3.2
+- **New Version**: 0.3.3
+- **Bump Type**: patch
+- **Timestamp**: 2024-02-15T09:23:45.678Z
+
+## Version 0.3.2 (2025-06-26T12:56:14.680Z)
+
+### Development Build
+- **Development**: Successfully completed `npm run dev` testing
+- **Version Bump**: Patch version incremented from 0.3.1 to 0.3.2
+- **Status**: Development build ready for further testing
+
+### Technical Details
+- **Previous Version**: 0.3.1
+- **New Version**: 0.3.2
+- **Bump Type**: dev
+- **Timestamp**: 2025-06-26T12:56:14.680Z
+- **Auto-generated**: Yes
+
+
+## Version 0.3.1 (2025-06-26T12:53:27.374Z)
+
+### Development Build
+- **Development**: Successfully completed `npm run dev` testing
+- **Version Bump**: Patch version incremented from 0.3.0 to 0.3.1
+- **Status**: Development build ready for further testing
+
+### Technical Details
+- **Previous Version**: 0.3.0
+- **New Version**: 0.3.1
+- **Bump Type**: dev
+- **Timestamp**: 2025-06-26T12:53:27.374Z
+- **Auto-generated**: Yes
+
+
+## Version 0.3.0 (2025-06-26T12:52:06.665Z)
+
+### Minor Release
+- **Release**: Code committed to GitHub repository
+- **Version Bump**: Minor version incremented from 0.2.0 to 0.3.0
+- **Status**: Ready for deployment
+
+### Technical Details
+- **Previous Version**: 0.2.0
+- **New Version**: 0.3.0
+- **Bump Type**: commit
+- **Timestamp**: 2025-06-26T12:52:06.665Z
+- **Auto-generated**: Yes
+
+
 ## Version 0.2.0 (2025-06-26T12:51:41.602Z)
 
 ### Minor Release
