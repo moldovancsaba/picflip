@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import debounce from 'lodash/debounce';
