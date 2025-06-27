@@ -92,15 +92,15 @@ export function validateOrganizationName(name: string): { isValid: boolean; erro
   const trimmedName = name.trim();
   
   if (!trimmedName) {
-    return { isValid: false, error: 'Organisation name is required' };
+    return { isValid: false, error: 'Organization name is required' };
   }
   
   if (trimmedName.length < 2) {
-    return { isValid: false, error: 'Organisation name must be at least 2 characters' };
+    return { isValid: false, error: 'Organization name must be at least 2 characters' };
   }
   
   if (trimmedName.length > 100) {
-    return { isValid: false, error: 'Organisation name cannot exceed 100 characters' };
+    return { isValid: false, error: 'Organization name cannot exceed 100 characters' };
   }
   
   return { isValid: true };

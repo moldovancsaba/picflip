@@ -1,5 +1,8 @@
+'use client';
+
 import { ReactNode } from 'react';
 import styled from 'styled-components';
+import StyledComponentsRegistry from '@/lib/registry';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -25,6 +28,7 @@ const MainContent = styled.main`
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
+    <StyledComponentsRegistry>
     <LayoutContainer>
       <Sidebar>
         <nav>
@@ -35,5 +39,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         {children}
       </MainContent>
     </LayoutContainer>
+    </StyledComponentsRegistry>
   );
 }

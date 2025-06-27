@@ -29,12 +29,12 @@ const mockProject = {
   horizontalAlignment: 'center' as const,
   verticalAlignment: 'middle' as const,
   isPublic: true,
-  organisationId: null,
-  organisations: [
+  organizationId: null,
+  organizations: [
     { _id: 'org1', name: 'Test Org 1', slug: 'test-org-1', createdAt: '2023-01-01T00:00:00.000Z', updatedAt: '2023-01-01T00:00:00.000Z' },
     { _id: 'org2', name: 'Test Org 2', slug: 'test-org-2', createdAt: '2023-01-01T00:00:00.000Z', updatedAt: '2023-01-01T00:00:00.000Z' },
   ],
-  currentOrganisation: null,
+  currentOrganization: null,
   updatedAt: '2025-01-24T12:34:56.789Z',
 };
 
@@ -73,7 +73,7 @@ describe('ProjectDetailPage', () => {
     await waitFor(() => expect(screen.getByText('Basic Information')).toBeInTheDocument());
     expect(screen.getByText('Dimensions & Alignment')).toBeInTheDocument();
     expect(screen.getByText('Background')).toBeInTheDocument();
-    expect(screen.getByText('Organisation Assignment')).toBeInTheDocument();
+    expect(screen.getByText('Organization Assignment')).toBeInTheDocument();
     expect(screen.getByText('Visibility')).toBeInTheDocument();
     expect(screen.getByText('Metadata')).toBeInTheDocument();
   });

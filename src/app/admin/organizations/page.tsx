@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-import { IOrganisation } from '@/models/Organisation';
+import { IOrganization } from '@/models/Organization';
 import { IframeConfig } from '@/lib/types';
 import Loading from '@/components/Loading';
 
@@ -330,7 +330,7 @@ interface OrganizationFormData {
 }
 
 export default function OrganizationsPage() {
-  const [organizations, setOrganizations] = useState<IOrganisation[]>([]);
+  const [organizations, setOrganizations] = useState<IOrganization[]>([]);
   const [organizationProjects, setOrganizationProjects] = useState<Record<string, IframeConfig[]>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -338,8 +338,8 @@ export default function OrganizationsPage() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [organizationToDelete, setOrganizationToDelete] = useState<IOrganisation | null>(null);
-  const [organizationToEdit, setOrganizationToEdit] = useState<IOrganisation | null>(null);
+  const [organizationToDelete, setOrganizationToDelete] = useState<IOrganization | null>(null);
+  const [organizationToEdit, setOrganizationToEdit] = useState<IOrganization | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [expandedOrganizations, setExpandedOrganizations] = useState<Set<string>>(new Set());
   const [formData, setFormData] = useState<OrganizationFormData>({
@@ -495,12 +495,12 @@ export default function OrganizationsPage() {
     }
   };
 
-  const openDeleteModal = (organization: IOrganisation) => {
+  const openDeleteModal = (organization: IOrganization) => {
     setOrganizationToDelete(organization);
     setShowDeleteModal(true);
   };
 
-  const openEditModal = (organization: IOrganisation) => {
+  const openEditModal = (organization: IOrganization) => {
     setOrganizationToEdit(organization);
     setFormData({
       name: organization.name,

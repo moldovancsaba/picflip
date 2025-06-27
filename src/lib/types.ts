@@ -15,13 +15,13 @@ export interface IframeConfig {
   horizontalAlignment: HorizontalAlignment;
   verticalAlignment: VerticalAlignment;
   isPublic: boolean;
-  organisationId?: string; // Optional - null for personal projects
+  organizationId?: string; // Optional - null for personal projects
 }
 
 // Organization types
 export type MembershipRole = 'owner' | 'admin' | 'member';
 
-export interface Organisation {
+export interface Organization
   _id?: string;
   name: string;
   slug: string;
@@ -30,17 +30,17 @@ export interface Organisation {
   updatedAt: Date | string;
 }
 
-export interface OrganisationMembership {
+export interface OrganizationMembership {
   _id?: string;
   userId: string;
-  organisationId: string;
+  organizationId: string;
   role: MembershipRole;
   joinedAt: Date | string;
   createdAt: Date | string;
   updatedAt: Date | string;
 }
 
-export interface OrganisationMembershipSummary {
+export interface OrganizationMembershipSummary
   _id?: string;
   name: string;
   slug: string;
@@ -51,7 +51,7 @@ export interface OrganisationMembershipSummary {
   joinedAt: Date | string;
 }
 
-export interface OrganisationFormData {
+export interface OrganizationFormData
   name: string;
   description: string;
 }

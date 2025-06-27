@@ -29,14 +29,14 @@ Picito is a React-based web application that perfectly scales project content wh
 - Real-time navigation updates based on user role with automatic session refresh
 - Terms & Conditions and Privacy Policy acceptance
 
-### Organisation Management (NEW in v2.7+)
+### Organization Management (Added: 2025-06-23T22:11:41.789Z)
 - **Organisation Creation**: Create and manage organisations with auto-generated slugs
 - **Membership System**: Role hierarchy with owner, admin, and member roles
 - **Permission Control**: Comprehensive role-based access control
 - **Member Management**: Add, remove, and update member roles
 - **Owner Protection**: Cannot remove the last owner from an organisation
 - **Auto-User Creation**: Automatically create user accounts when adding members via email
-- **Frontend Organisations Page**: Complete UI for organisation listing and management (v2.9.0)
+- **Frontend Organisations Page**: Complete UI for organisation listing and management (Added: 2025-01-08T10:15:30.789Z)
 
 ### Project Management
 - **Admin Projects Page**: Comprehensive project management at `/admin/projects` (NEW in v2.10.0)
@@ -57,7 +57,7 @@ Picito is a React-based web application that perfectly scales project content wh
 - RESTful API endpoints for all major functionality
 
 ### Version Management
-- **Current Version**: 2.10.0
+- **Current Version**: 3.2.3
 - **Semantic Versioning**: Automatic MAJOR.MINOR.PATCH bumping
 - **Development Builds**: Auto-bump patch version after successful `npm run dev`
 - **GitHub Commits**: Auto-bump minor version after commits

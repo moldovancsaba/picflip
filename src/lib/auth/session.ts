@@ -1,16 +1,29 @@
 import { cookies } from 'next/headers';
-import { verify } from 'jose';
+import { jwtVerify } from 'jose';
+import { type Role } from '@/lib/permissions/constants';
 
-export async function getSession() {
-  const token = cookies().get('token')?.value;
+interface UserSession {
+  userId: string;
+  userRole: Role;
+  email: string;
+}
+
+export async function getUserSession(): Promise<UserSession | null> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
   if (!token) {
     return null;
   }
 
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const { payload } = await verify(token, secret);
-    return payload;
+    const { payload } = await jwtVerify(token, secret);
+    const session: UserSession = {
+      userId: payload.sub as string,
+      userRole: payload.role as Role,
+      email: payload.email as string
+    };
+    return session;
   } catch (error) {
     console.error('Session verification failed:', error);
     return null;

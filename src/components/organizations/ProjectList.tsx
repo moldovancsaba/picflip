@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { type Role } from '@/lib/permissions/constants';
-import { usePermission } from '@/hooks/usePermissionUpdates';
+import { hasPermission } from '@/lib/permissions/constants';
 import { PERMISSIONS } from '@/lib/permissions/constants';
 
 interface Project {
@@ -136,10 +136,7 @@ export default function ProjectList({ organizationId, userRole }: ProjectListPro
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const canCreateProject = usePermission({
-    userRole,
-    requiredPermission: PERMISSIONS.CREATE_PROJECT,
-  });
+  const canCreateProject = hasPermission(userRole, PERMISSIONS.CREATE_PROJECT);
 
   useEffect(() => {
     async function fetchProjects() {

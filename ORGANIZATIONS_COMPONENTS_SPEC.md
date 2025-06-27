@@ -10,7 +10,7 @@
 
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { IOrganisation } from '@/models/Organisation';
+import { IOrganization } from '@/models/Organization';
 import { OrganizationTable } from '@/components/OrganizationTable';
 import { CreateOrganizationModal } from '@/components/CreateOrganizationModal';
 import Loading from '@/components/Loading';
@@ -56,7 +56,7 @@ const ErrorMessage = styled.div`
   margin-bottom: 1rem;
 `;
 
-interface OrganizationWithMembers extends IOrganisation {
+interface OrganizationWithMembers extends IOrganization {
   memberCount: number;
 }
 
@@ -166,7 +166,7 @@ export default function OrganizationsPage() {
 'use client';
 
 import styled from 'styled-components';
-import { IOrganisation } from '@/models/Organisation';
+import { IOrganization } from '@/models/Organization';
 import { OrganizationRow } from './OrganizationRow';
 
 const Table = styled.table`
@@ -196,7 +196,7 @@ const EmptyState = styled.div`
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 `;
 
-interface OrganizationWithMembers extends IOrganisation {
+interface OrganizationWithMembers extends IOrganization {
   memberCount: number;
 }
 
@@ -249,7 +249,7 @@ export function OrganizationTable({ organizations, onDeleteOrganization }: Organ
 import { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { IOrganisation } from '@/models/Organisation';
+import { IOrganization } from '@/models/Organization';
 
 const Td = styled.td`
   padding: 1rem;
@@ -320,7 +320,7 @@ const DateCell = styled(Td)`
   white-space: nowrap;
 `;
 
-interface OrganizationWithMembers extends IOrganisation {
+interface OrganizationWithMembers extends IOrganization {
   memberCount: number;
 }
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import styled from 'styled-components';
-import { OrganisationFormData } from '@/lib/types';
+import { OrganizationFormData } from '@/lib/types';
 
 const Form = styled.form`
   display: flex;
@@ -117,36 +117,36 @@ const CharacterCount = styled.div`
   margin-top: 0.25rem;
 `;
 
-interface OrganisationFormProps {
-  initialData?: OrganisationFormData;
-  onSubmit: (data: OrganisationFormData) => Promise<void>;
+interface OrganizationFormProps {
+  initialData?: OrganizationFormData;
+  onSubmit: (data: OrganizationFormData) => Promise<void>;
   onCancel: () => void;
   isSubmitting?: boolean;
   submitButtonText?: string;
   title?: string;
 }
 
-export default function OrganisationForm({
+export default function OrganizationForm({
   initialData = { name: '', description: '' },
   onSubmit,
   onCancel,
   isSubmitting = false,
-  submitButtonText = 'Create Organisation',
-  title = 'Create New Organisation'
-}: OrganisationFormProps) {
-  const [formData, setFormData] = useState<OrganisationFormData>(initialData);
-  const [errors, setErrors] = useState<Partial<OrganisationFormData>>({});
+  submitButtonText = 'Create Organization',
+  title = 'Create New Organization'
+}: OrganizationFormProps) {
+  const [formData, setFormData] = useState<OrganizationFormData>(initialData);
+  const [errors, setErrors] = useState<Partial<OrganizationFormData>>({});
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<OrganisationFormData> = {};
+    const newErrors: Partial<OrganizationFormData> = {};
 
     // Validate name
     if (!formData.name.trim()) {
-      newErrors.name = 'Organisation name is required';
+      newErrors.name = 'Organization name is required';
     } else if (formData.name.trim().length < 2) {
-      newErrors.name = 'Organisation name must be at least 2 characters';
+      newErrors.name = 'Organization name must be at least 2 characters';
     } else if (formData.name.trim().length > 100) {
-      newErrors.name = 'Organisation name cannot exceed 100 characters';
+      newErrors.name = 'Organization name cannot exceed 100 characters';
     }
 
     // Validate description (optional but has constraints if provided)
@@ -176,7 +176,7 @@ export default function OrganisationForm({
     }
   };
 
-  const handleInputChange = (field: keyof OrganisationFormData, value: string) => {
+  const handleInputChange = (field: keyof OrganizationFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     
     // Clear error for this field when user starts typing
@@ -188,14 +188,14 @@ export default function OrganisationForm({
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
-        <Label htmlFor="org-name">Organisation Name *</Label>
+        <Label htmlFor="org-name">Organization Name *</Label>
         <Input
           id="org-name"
           type="text"
           value={formData.name}
           onChange={(e) => handleInputChange('name', e.target.value)}
           disabled={isSubmitting}
-          placeholder="Enter organisation name"
+          placeholder="Enter organization name"
           maxLength={100}
           aria-invalid={!!errors.name}
           aria-describedby={errors.name ? 'org-name-error' : undefined}
@@ -217,7 +217,7 @@ export default function OrganisationForm({
           value={formData.description}
           onChange={(e) => handleInputChange('description', e.target.value)}
           disabled={isSubmitting}
-          placeholder="Enter organisation description (optional)"
+          placeholder="Enter organization description (optional)"
           maxLength={500}
           aria-invalid={!!errors.description}
           aria-describedby={errors.description ? 'org-description-error' : undefined}

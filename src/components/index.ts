@@ -17,6 +17,10 @@ export { default as Header } from './Header';
 export { default as IframeViewer } from './IframeViewer';
 export * from './LegalDocument';
 export { default as LoginForm } from './LoginForm';
-export { default as OrganisationForm } from './OrganisationForm';
-export { default as OrganisationRow } from './OrganisationRow';
+
+// Organization-related components
+// Note: Using 'Organization' spelling convention throughout the codebase
+// for consistency with American English standards
+export { default as OrganizationForm } from './OrganizationForm';
+export { default as OrganizationRow } from './OrganizationRow';
 export { UsersList } from './UsersList';

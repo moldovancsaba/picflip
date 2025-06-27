@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
-import OrganisationMembership from '@/models/OrganisationMembership';
-import Organisation from '@/models/Organisation';
+import OrganizationMembership from '@/models/OrganizationMembership';
+import Organization from '@/models/Organization';
 import { z } from 'zod';
 import mongoose from 'mongoose';
 
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 
 // Validation schemas
 const membershipActionSchema = z.object({
-  organisationId: z.string(),
+  organizationId: z.string(),
   role: z.enum(['owner', 'admin', 'member']),
   action: z.enum(['add', 'remove'])
 });
@@ -51,22 +51,22 @@ export async function GET(
     }
 
     // Fetch all user's memberships with organization details
-    const memberships = await OrganisationMembership.find({ userId: id })
-      .populate('organisationId', 'name slug description')
+    const memberships = await OrganizationMembership.find({ userId: id })
+      .populate('organizationId', 'name slug description')
       .sort({ role: -1, joinedAt: 1 })
       .lean();
 
     const membershipSummary = memberships.map((membership: any) => ({
       _id: membership._id,
-      organisationId: membership.organisationId._id,
-      organisationName: membership.organisationId.name,
-      organisationSlug: membership.organisationId.slug,
+      organizationId: membership.organizationId._id,
+      organizationName: membership.organizationId.name,
+      organizationSlug: membership.organizationId.slug,
       role: membership.role,
       joinedAt: membership.joinedAt.toISOString()
     }));
 
     // Fetch all available organizations for potential membership management
-    const allOrganizations = await Organisation.find({})
+    const allOrganizations = await Organization.find({})
       .sort({ name: 1 })
       .select('_id name slug description')
       .lean();

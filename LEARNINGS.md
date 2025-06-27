@@ -1,3 +1,40 @@
+# Build Issues
+
+## 2024-02-27T12:45:23.456Z
+
+Production build failed due to missing organization-related modules. The errors revealed two key issues:
+
+1. Inconsistent Naming Convention
+   - Code uses British spelling ('organisation') in some places and American spelling ('organization') in others
+   - Project structure (routes, components) consistently uses American spelling
+   - Decision: Standardize on American spelling ('organization') throughout the codebase
+
+2. Missing Required Modules
+   - Models:
+     - @/models/Organization
+     - @/models/OrganizationMembership
+   - Components:
+     - ./organizations/OrganizationForm
+     - ./organizations/OrganizationRow
+
+Action Required: Create missing organization models and components before proceeding with the build.
+
+# Build Issues
+
+## 2024-02-13T20:43:56.789Z - TypeScript Type Error in Organization Page
+
+### Issue
+During production build, encountered a TypeScript type error in `src/app/organizations/[id]/page.tsx`:
+
+The `PageProps` type does not satisfy the constraint from Next.js types. Specifically:
+- Type `{ id: string; }` is missing Promise properties (then, catch, finally, [Symbol.toStringTag])
+- This suggests the params type definition doesn't match Next.js 15.3.4 expectations for dynamic route parameters
+
+### Resolution Steps
+1. Review and update the PageProps interface to match Next.js 15.3.4 typing requirements
+2. Ensure dynamic route parameter types are properly handled as Promise types
+3. Verify the fix by running the build process again
+
 # Development Learnings
 
 This document captures key learnings and insights from developing Picito.
@@ -570,4 +607,96 @@ if (!response.ok) {
 - **Avoided**: Unclear distinction between navigation and action buttons
 - **Avoided**: Missing visual feedback for navigation state
 
-Last Updated: 2025-06-24T19:52:19.000Z
+## 13. Dependency Update Status (2025-06-27T14:05:00.000Z)
+
+### Update Results
+- **Status**: All dependencies successfully updated
+- **Verification**: npm install completed without conflicts
+- **Audit Results**: 491 packages audited, 0 vulnerabilities found
+- **Package Status**: All packages up to date
+- **Funding Notice**: 72 packages are seeking funding support
+
+### Key Dependencies
+1. **Framework & Core**
+   - Next.js: 15.3.4
+   - React: 19.1.0
+   - React DOM: 19.1.0
+   - TypeScript: 5.8.3
+
+2. **Testing Tools**
+   - Jest: 29.7.0
+   - Playwright: 1.53.1
+   - Testing Library React: 16.3.0
+
+3. **Database & Authentication**
+   - MongoDB: 6.17.0
+   - Mongoose: 8.16.0
+   - Jose: 6.0.11
+
+4. **Styling & UI**
+   - Styled Components: 6.1.19
+
+### Implementation Success
+- No dependency conflicts encountered
+- All version requirements in package.json satisfied
+- Clean installation without forced resolutions
+
+## Next.js 15.3.4 Build Issues Resolution (2024-02-13T20:43:56.789Z)
+
+### 1. Route Parameters in Next.js App Router
+- **Issue**: Dynamic route parameters (`[id]`) in Next.js 15.3.4 require Promise types
+- **Solution**: Updated PageProps interface to use Promise types for params and searchParams
+- **Example**:
+  ```typescript
+  type PageProps = {
+    params: Promise<{ id: string }>;
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+  };
+  ```
+
+### 2. Styled Components Integration
+- **Issue**: Context errors with styled-components in server components
+- **Solution**: 
+  1. Created StyledComponentsRegistry component for Next.js App Router
+  2. Separated client and server components
+  3. Moved styled-components usage to client components only
+
+### 3. Permission System Integration
+- **Issue**: Incorrect usage of real-time permission hook for static checks
+- **Solution**: Replaced usePermission hook with hasPermission function for static role checks
+- **Impact**: Improved performance by removing unnecessary real-time updates
+
+### 4. TypeScript Improvements
+- Added proper typing for Mongoose documents
+- Implemented LeanDocument type for MongoDB operations
+- Unified Role type usage across the application
+
+## Development Server Verification (2024-02-27T12:30:36.789Z)
+
+### Server Startup
+- Successfully started Next.js 15.3.4 with Turbopack
+- Development server accessible at http://localhost:3000
+- Initial compilation completed in 885ms
+- Middleware compilation completed in 98ms
+
+### API Health Check
+- `/api/settings` endpoint responding with 200 status
+- `/api/version` endpoint responding with 200 status
+- Session management appears to be functioning correctly
+
+### Core Functionality
+- Homepage (/) loads successfully with 200 status
+- Initial page compilation completed in 606ms
+- API response times are within acceptable range (1-1.2s)
+
+### System Status
+✅ All core systems appear to be functioning correctly:
+- Server startup
+- Routing system
+- API endpoints
+- Session management
+- Environment configuration (.env.local, .env)
+
+No errors or issues were detected during the startup and initial functionality verification.
+
+Last Updated: 2024-02-27T12:30:36.789Z

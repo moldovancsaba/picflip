@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
-import OrganisationMembership from '@/models/OrganisationMembership';
+import OrganizationMembership from '@/models/OrganizationMembership';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -25,7 +25,7 @@ export async function DELETE(
     await dbConnect();
 
     // Find and delete the membership
-    const membership = await OrganisationMembership.findByIdAndDelete(id);
+    const membership = await OrganizationMembership.findByIdAndDelete(id);
     
     if (!membership) {
       return NextResponse.json(

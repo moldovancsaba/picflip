@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import debounce from 'lodash/debounce';
 
-interface SearchResult {
+export interface SearchResult {
   type: 'member' | 'project';
   _id: string;
   name?: string;
@@ -14,7 +14,7 @@ interface SearchResult {
 
 interface SearchBarProps {
   organizationId: string;
-  onResultClick: (result: SearchResult) => void;
+  onResultClick?: (result: SearchResult) => void;
 }
 
 const SearchContainer = styled.div`
@@ -169,7 +169,11 @@ export default function SearchBar({ organizationId, onResultClick }: SearchBarPr
   }, []);
 
   function handleResultClick(result: SearchResult) {
-    onResultClick(result);
+    if (result.type === 'project') {
+      window.location.href = `/projects/${result._id}`;
+    } else {
+      window.location.href = `/members/${result._id}`;
+    }
     setShowResults(false);
     setQuery('');
   }

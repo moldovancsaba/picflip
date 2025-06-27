@@ -86,7 +86,7 @@
 - **Components**: Reusable components in `src/components/`
 
 ### TypeScript Conventions
-- **Interface Naming**: Prefixed with `I` (e.g., `IOrganisation`, `IUser`)
+- **Interface Naming**: Prefixed with `I` (e.g., `IOrganization`, `IUser`)
 - **Type Exports**: Both interfaces and default mongoose models exported
 - **Strict Typing**: Full TypeScript strict mode enabled
 

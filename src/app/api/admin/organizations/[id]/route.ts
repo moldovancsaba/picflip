@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
-import Organisation from '@/models/Organisation';
-import OrganisationMembership from '@/models/OrganisationMembership';
+// Note: We use American English spelling convention (e.g., 'Organization' not 'Organisation')
+import Organization from '@/models/Organization';
+import OrganizationMembership from '@/models/OrganizationMembership';
 import User from '@/models/User';
 import Settings from '@/models/Settings';
 import { z } from 'zod';
@@ -36,16 +37,16 @@ export async function GET(
     await dbConnect();
 
     // Fetch the organization
-    const organisation = await Organisation.findById(id).lean() as any;
-    if (!organisation) {
+    const organization = await Organization.findById(id).lean() as any;
+    if (!organization) {
       return NextResponse.json(
-        { message: 'Organisation not found' },
+        { message: 'Organization not found' },
         { status: 404 }
       );
     }
 
     // Fetch all members with user details
-    const memberships = await OrganisationMembership.find({ organisationId: id })
+    const memberships = await OrganizationMembership.find({ organizationId: id })
       .populate('userId', 'email role lastLoginAt createdAt')
       .sort({ role: -1, joinedAt: 1 })
       .lean();
@@ -70,7 +71,7 @@ export async function GET(
       // Handle both Map and plain object formats
       if (configsMap instanceof Map) {
         for (const [projectId, config] of configsMap) {
-          if (config.organisationId && config.organisationId.toString() === id) {
+          if (config.organizationId && config.organizationId.toString() === id) {
             projects.push({
               id: projectId,
               name: config.name,
@@ -83,7 +84,7 @@ export async function GET(
         // Handle plain object (from .lean() query)
         for (const [projectId, config] of Object.entries(configsMap)) {
           const typedConfig = config as any;
-          if (typedConfig.organisationId && typedConfig.organisationId.toString() === id) {
+          if (typedConfig.organizationId && typedConfig.organizationId.toString() === id) {
             projects.push({
               id: projectId,
               name: typedConfig.name,
@@ -96,12 +97,12 @@ export async function GET(
     }
 
     const organizationData = {
-      _id: organisation._id,
-      name: organisation.name,
-      slug: organisation.slug,
-      description: organisation.description || '',
-      createdAt: organisation.createdAt.toISOString(),
-      updatedAt: organisation.updatedAt.toISOString(),
+      _id: organization._id,
+      name: organization.name,
+      slug: organization.slug,
+      description: organization.description || '',
+      createdAt: organization.createdAt.toISOString(),
+      updatedAt: organization.updatedAt.toISOString(),
       members,
       projects
     };
@@ -154,7 +155,7 @@ export async function PATCH(
     await dbConnect();
 
     // Update the organization
-    const organisation = await Organisation.findByIdAndUpdate(
+    const organization = await Organization.findByIdAndUpdate(
       id,
       { 
         ...(updateData.name && { name: updateData.name }),
@@ -164,15 +165,15 @@ export async function PATCH(
       { new: true, runValidators: true }
     );
 
-    if (!organisation) {
+    if (!organization) {
       return NextResponse.json(
-        { message: 'Organisation not found' },
+        { message: 'Organization not found' },
         { status: 404 }
       );
     }
 
     // Fetch updated members and projects for the response
-    const memberships = await OrganisationMembership.find({ organisationId: id })
+    const memberships = await OrganizationMembership.find({ organizationId: id })
       .populate('userId', 'email role lastLoginAt createdAt')
       .sort({ role: -1, joinedAt: 1 })
       .lean();
@@ -222,18 +223,18 @@ export async function PATCH(
     }
 
     const updatedOrganization = {
-      _id: organisation._id,
-      name: organisation.name,
-      slug: organisation.slug,
-      description: organisation.description || '',
-      createdAt: organisation.createdAt.toISOString(),
-      updatedAt: organisation.updatedAt.toISOString(),
+      _id: organization._id,
+      name: organization.name,
+      slug: organization.slug,
+      description: organization.description || '',
+      createdAt: organization.createdAt.toISOString(),
+      updatedAt: organization.updatedAt.toISOString(),
       members,
       projects
     };
 
     return NextResponse.json({
-      message: 'Organisation updated successfully',
+      message: 'Organization updated successfully',
       organization: updatedOrganization
     });
   } catch (error) {

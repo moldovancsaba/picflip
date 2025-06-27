@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { IUser } from '@/models/User';
-import { Organisation } from '@/lib/types';
+import { Organization } from '@/lib/types';
 
 const Table = styled.table`
   width: 100%;
@@ -72,7 +72,7 @@ interface UsersListProps {
 export function UsersList({ users, onRoleChange }: UsersListProps) {
   const router = useRouter();
   const [changingRole, setChangingRole] = useState<string | null>(null);
-  const [organizations, setOrganizations] = useState<Organisation[]>([]);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [userMemberships, setUserMemberships] = useState<Record<string, any[]>>({});
   const [loadingMemberships, setLoadingMemberships] = useState<Set<string>>(new Set());
   
@@ -86,10 +86,10 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
   
   const fetchOrganizations = async () => {
     try {
-      const response = await fetch('/api/organisations?admin=true');
+      const response = await fetch('/api/organizations?admin=true');
       if (response.ok) {
         const data = await response.json();
-        setOrganizations(data.organisations);
+        setOrganizations(data.organizations);
       }
     } catch (err) {
       console.error('Failed to fetch organizations:', err);
@@ -127,7 +127,7 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
     if (!organizationId) return;
     
     try {
-      const response = await fetch(`/api/organisations/${organizationId}/members`, {
+      const response = await fetch(`/api/organizations/${organizationId}/members`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
     if (!confirm(`Remove ${userEmail} from "${orgName}"?`)) return;
     
     try {
-      const response = await fetch(`/api/organisations/membership/${membershipId}`, {
+      const response = await fetch(`/api/organizations/membership/${membershipId}`, {
         method: 'DELETE',
       });
       
@@ -217,7 +217,7 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
                       border: '1px solid #e5e7eb'
                     }}>
                       <div>
-                        <span style={{ fontWeight: 500 }}>{membership.organisation.name}</span>
+                        <span style={{ fontWeight: 500 }}>{membership.organization.name}</span>
                         <span style={{ 
                           color: '#6b7280', 
                           fontSize: '0.75rem', 
@@ -230,7 +230,7 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
                         </span>
                       </div>
                       <button
-                        onClick={() => handleRemoveFromOrganization(user.email, membership._id, membership.organisation.name)}
+                        onClick={() => handleRemoveFromOrganization(user.email, membership._id, membership.organization.name)}
                         style={{
                           background: '#dc2626',
                           color: 'white',
@@ -241,7 +241,7 @@ export function UsersList({ users, onRoleChange }: UsersListProps) {
                           cursor: 'pointer',
                           fontWeight: 500
                         }}
-                        title={`Remove from ${membership.organisation.name}`}
+                        title={`Remove from ${membership.organization.name}`}
                       >
                         Remove
                       </button>

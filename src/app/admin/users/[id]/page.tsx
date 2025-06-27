@@ -44,9 +44,9 @@ const AddMembershipForm = styled.form`
 // Types
 interface UserMembership {
   _id: string;
-  organisationId: string;
-  organisationName: string;
-  organisationSlug: string;
+  organizationId: string;
+  organizationName: string;
+  organizationSlug: string;
   role: MembershipRole;
   joinedAt: string;
 }
@@ -188,7 +188,7 @@ export default function UserDetailPage() {
         },
         body: JSON.stringify({
           memberships: [{
-            organisationId: newMembershipOrgId,
+            organizationId: newMembershipOrgId,
             role: newMembershipRole,
             action: 'add'
           }]
@@ -232,7 +232,7 @@ export default function UserDetailPage() {
         },
         body: JSON.stringify({
           memberships: [{
-            organisationId: orgId,
+            organizationId: orgId,
             role: newRole,
             action: 'add' // This will update existing membership
           }]
@@ -276,7 +276,7 @@ export default function UserDetailPage() {
         },
         body: JSON.stringify({
           memberships: [{
-            organisationId: orgId,
+            organizationId: orgId,
             role: 'member', // Role doesn't matter for removal
             action: 'remove'
           }]
@@ -327,7 +327,7 @@ export default function UserDetailPage() {
     const headerActions: never[] = [];
 
     const availableOrganizations = user.allOrganizations.filter(org => 
-      !user.memberships.some(membership => membership.organisationId === org._id)
+      !user.memberships.some(membership => membership.organizationId === org._id)
     );
 
     return (
@@ -474,10 +474,10 @@ export default function UserDetailPage() {
                     <TableCell>
                       <div>
                         <div style={{ fontWeight: tokens.typography.fontWeights.medium }}>
-                          {membership.organisationName}
+                          {membership.organizationName}
                         </div>
                         <div style={{ fontSize: tokens.typography.fontSizes.sm, color: tokens.colors.textSecondary }}>
-                          /{membership.organisationSlug}
+                          /{membership.organizationSlug}
                         </div>
                       </div>
                     </TableCell>
@@ -493,7 +493,7 @@ export default function UserDetailPage() {
                           label=""
                           name={`role-${membership._id}`}
                           value={membership.role}
-                          onChange={(value) => handleMembershipRoleChange(membership._id, membership.organisationId, value as MembershipRole)}
+                          onChange={(value) => handleMembershipRoleChange(membership._id, membership.organizationId, value as MembershipRole)}
                           options={[
                             { value: 'member', label: 'Member' },
                             { value: 'admin', label: 'Admin' },
@@ -502,7 +502,7 @@ export default function UserDetailPage() {
                         />
                         <Button
                           $variant="danger"
-                          onClick={() => handleRemoveMembership(membership.organisationId, membership.organisationName)}
+                          onClick={() => handleRemoveMembership(membership.organizationId, membership.organizationName)}
                           style={{ fontSize: tokens.typography.fontSizes.xs, padding: `${tokens.spacing.xs} ${tokens.spacing.sm}` }}
                         >
                           Remove

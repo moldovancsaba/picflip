@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
-import OrganisationMembership from '@/models/OrganisationMembership';
+import OrganizationMembership from '@/models/OrganizationMembership';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -49,8 +49,8 @@ export async function GET(
     }
 
     // Fetch all memberships for the user with organization details
-    const memberships = await OrganisationMembership.find({ userId })
-      .populate('organisationId', 'name slug description')
+    const memberships = await OrganizationMembership.find({ userId })
+      .populate('organizationId', 'name slug description')
       .sort({ role: -1, joinedAt: 1 })
       .lean();
 
@@ -58,11 +58,11 @@ export async function GET(
       _id: membership._id,
       role: membership.role,
       joinedAt: membership.joinedAt.toISOString(),
-      organisation: {
-        _id: membership.organisationId._id,
-        name: membership.organisationId.name,
-        slug: membership.organisationId.slug,
-        description: membership.organisationId.description || ''
+      organization: {
+        _id: membership.organizationId._id,
+        name: membership.organizationId.name,
+        slug: membership.organizationId.slug,
+        description: membership.organizationId.description || ''
       }
     }));
 

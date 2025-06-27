@@ -104,18 +104,18 @@
   - ✅ Added debounced search with loading states
 
 ### User Story 2.4.5: Frontend Organisations Page (Added: 2025-01-08T10:15:30.789Z)
-- [ ] Create organisation listing page (/src/app/organisations/page.tsx)
-- [ ] Implement organisation card components with role display
-- [ ] Add organisation creation form component
-- [ ] Create organisation detail page (/src/app/organisations/[id]/page.tsx)
-- [ ] Implement member management UI with role-based actions
-- [ ] Add member invitation and removal functionality
-- [ ] Update Header component with organisations menu item
-- [ ] Add role-based visibility for organisations access
-- [ ] Connect to existing /api/organisations endpoints
-- [ ] Add loading states and error handling
-- [ ] Test organisation creation and management flows
-- [ ] Verify navigation integration across all user roles
+- [x] Create organisation listing page (/src/app/organisations/page.tsx)
+- [x] Implement organisation card components with role display
+- [x] Add organisation creation form component
+- [x] Create organisation detail page (/src/app/organisations/[id]/page.tsx)
+- [x] Implement member management UI with role-based actions
+- [x] Add member invitation and removal functionality
+- [x] Update Header component with organisations menu item
+- [x] Add role-based visibility for organisations access
+- [x] Connect to existing /api/organisations endpoints
+- [x] Add loading states and error handling
+- [x] Test organisation creation and management flows
+- [x] Verify navigation integration across all user roles
 
 ### User Story 2.5: Organization Settings
 - [ ] Create settings interface

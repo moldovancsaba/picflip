@@ -2,8 +2,8 @@ import { NextRequest } from 'next/server';
 import { GET, PATCH } from '../route';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
-import Organisation from '@/models/Organisation';
-import OrganisationMembership from '@/models/OrganisationMembership';
+import Organization from '@/models/Organization';
+import OrganizationMembership from '@/models/OrganizationMembership';
 import Settings from '@/models/Settings';
 
 // Mock dependencies
@@ -13,7 +13,7 @@ jest.mock('jose', () => ({
 }));
 jest.mock('@/lib/auth');
 jest.mock('@/lib/db');
-jest.mock('@/models/Organisation', () => ({
+jest.mock('@/models/Organization', () => ({
   __esModule: true,
   default: {
     findById: jest.fn(),
@@ -22,7 +22,7 @@ jest.mock('@/models/Organisation', () => ({
     find: jest.fn(),
   }
 }));
-jest.mock('@/models/OrganisationMembership', () => ({
+jest.mock('@/models/OrganizationMembership', () => ({
   __esModule: true,
   default: {
     find: jest.fn(),
@@ -69,7 +69,7 @@ describe('/api/admin/organizations/[id]', () => {
         updatedAt: new Date('2025-01-02T00:00:00.000Z')
       };
 
-      Organisation.findById = jest.fn().mockReturnValue({
+      Organization.findById = jest.fn().mockReturnValue({
         lean: jest.fn().mockResolvedValue(mockOrg)
       });
 
@@ -101,7 +101,7 @@ describe('/api/admin/organizations/[id]', () => {
         }
       ];
 
-      OrganisationMembership.find = jest.fn().mockReturnValue({
+      OrganizationMembership.find = jest.fn().mockReturnValue({
         populate: jest.fn().mockReturnThis(),
         sort: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue(mockMemberships)
@@ -110,9 +110,9 @@ describe('/api/admin/organizations/[id]', () => {
       // Mock projects
       const mockSettings = {
         configs: new Map([
-          ['project-1', { name: 'Project 1', isPublic: true, contentUrl: 'https://example.com/1', organisationId: mockOrgId }],
-          ['project-2', { name: 'Project 2', isPublic: false, contentUrl: 'https://example.com/2', organisationId: mockOrgId }],
-          ['project-3', { name: 'Project 3', isPublic: true, contentUrl: 'https://example.com/3', organisationId: 'other-org' }]
+          ['project-1', { name: 'Project 1', isPublic: true, contentUrl: 'https://example.com/1', organizationId: mockOrgId }],
+          ['project-2', { name: 'Project 2', isPublic: false, contentUrl: 'https://example.com/2', organizationId: mockOrgId }],
+          ['project-3', { name: 'Project 3', isPublic: true, contentUrl: 'https://example.com/3', organizationId: 'other-org' }]
         ])
       };
 
@@ -158,7 +158,7 @@ describe('/api/admin/organizations/[id]', () => {
         role: 'admin'
       });
 
-      Organisation.findById = jest.fn().mockReturnValue({
+      Organization.findById = jest.fn().mockReturnValue({
         lean: jest.fn().mockResolvedValue(null)
       });
 
@@ -169,7 +169,7 @@ describe('/api/admin/organizations/[id]', () => {
       const responseData = await response.json();
 
       expect(response.status).toBe(404);
-      expect(responseData.message).toBe('Organisation not found');
+      expect(responseData.message).toBe('Organization not found');
     });
   });
 
@@ -189,10 +189,10 @@ describe('/api/admin/organizations/[id]', () => {
         updatedAt: new Date('2025-01-02T00:00:00.000Z')
       };
 
-      Organisation.findByIdAndUpdate = jest.fn().mockResolvedValue(mockUpdatedOrg);
+      Organization.findByIdAndUpdate = jest.fn().mockResolvedValue(mockUpdatedOrg);
 
       // Mock memberships for response
-      OrganisationMembership.find = jest.fn().mockReturnValue({
+      OrganizationMembership.find = jest.fn().mockReturnValue({
         populate: jest.fn().mockReturnThis(),
         sort: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue([])
@@ -218,7 +218,7 @@ describe('/api/admin/organizations/[id]', () => {
       const responseData = await response.json();
 
       expect(response.status).toBe(200);
-      expect(responseData.message).toBe('Organisation updated successfully');
+      expect(responseData.message).toBe('Organization updated successfully');
       expect(responseData.organization.name).toBe('Updated Organization');
       expect(responseData.organization.description).toBe('Updated description');
     });
@@ -273,7 +273,7 @@ describe('/api/admin/organizations/[id]', () => {
         role: 'admin'
       });
 
-      Organisation.findByIdAndUpdate = jest.fn().mockResolvedValue(null);
+      Organization.findByIdAndUpdate = jest.fn().mockResolvedValue(null);
 
       const request = new NextRequest('http://localhost:3000/api/admin/organizations/non-existent', {
         method: 'PATCH',
@@ -285,7 +285,7 @@ describe('/api/admin/organizations/[id]', () => {
       const responseData = await response.json();
 
       expect(response.status).toBe(404);
-      expect(responseData.message).toBe('Organisation not found');
+      expect(responseData.message).toBe('Organization not found');
     });
   });
 });

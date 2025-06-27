@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import Settings from '@/models/Settings';
-import Organisation from '@/models/Organisation';
-import OrganisationMembership from '@/models/OrganisationMembership';
+import Organization from '@/models/Organization';
+import OrganizationMembership from '@/models/OrganizationMembership';
 
 export async function GET(
   req: NextRequest,
@@ -30,14 +30,14 @@ export async function GET(
     }
 
     let organization = null;
-    if (config.organisationId) {
-      organization = await Organisation.findById(config.organisationId).lean() as any;
+    if (config.organizationId) {
+      organization = await Organization.findById(config.organizationId).lean() as any;
     }
 
     return NextResponse.json({
       id: params.id,
       name: config.name,
-      organisationId: config.organisationId || null,
+      organizationId: config.organizationId || null,
       organization: organization ? {
         _id: organization._id,
         name: organization.name,
@@ -75,12 +75,12 @@ export async function PATCH(
       );
     }
 
-    const { organisationId } = await req.json();
+    const { organizationId } = await req.json();
 
     // Validation
-    if (organisationId !== null && typeof organisationId !== 'string') {
+    if (organizationId !== null && typeof organizationId !== 'string') {
       return NextResponse.json(
-        { error: 'organisationId must be a string or null' },
+        { error: 'organizationId must be a string or null' },
         { status: 400 }
       );
     }
@@ -88,8 +88,8 @@ export async function PATCH(
     await dbConnect();
 
     // Verify organization exists and user has permission
-    if (organisationId) {
-      const organization = await Organisation.findById(organisationId);
+    if (organizationId) {
+      const organization = await Organization.findById(organizationId);
       if (!organization) {
         return NextResponse.json(
           { error: 'Organization not found' },
@@ -100,9 +100,9 @@ export async function PATCH(
       // Allow admins to assign to any organization, others need membership
       if (session.role !== 'admin') {
         // Check if user is a member of the organization
-        const membership = await OrganisationMembership.findOne({
+        const membership = await OrganizationMembership.findOne({
           userId: session.id,
-          organisationId: organisationId
+          organizationId: organizationId
         });
 
         if (!membership) {
@@ -139,7 +139,7 @@ export async function PATCH(
     }
 
     // Update organization assignment
-    config.organisationId = organisationId;
+    config.organizationId = organizationId;
     settings.configs.set(params.id, config);
     
     // Mark the configs field as modified so Mongoose saves it
@@ -148,18 +148,18 @@ export async function PATCH(
 
     // Fetch organization details for response
     let organization = null;
-    if (organisationId) {
-      organization = await Organisation.findById(organisationId).lean() as any;
+    if (organizationId) {
+      organization = await Organization.findById(organizationId).lean() as any;
     }
 
     return NextResponse.json({
-      message: organisationId 
+      message: organizationId 
         ? `Project assigned to organization "${organization?.name}"` 
         : 'Project unassigned from organization',
       project: {
         id: params.id,
         name: config.name,
-        organisationId: config.organisationId,
+        organizationId: config.organizationId,
         organization: organization ? {
           _id: organization._id,
           name: organization.name,

@@ -214,8 +214,10 @@ All endpoints return consistent error responses:
 
 ## Time Format
 
-All timestamps are returned in ISO 8601 format with milliseconds:
-`2025-01-13T12:34:56.789Z`
+All timestamps are returned in ISO 8601 format with milliseconds in UTC:
+`YYYY-MM-DDTHH:MM:SS.sssZ`
+
+Example: `2025-01-13T12:34:56.789Z`
 
 ## Testing
 

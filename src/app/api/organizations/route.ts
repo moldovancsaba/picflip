@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
-import Organisation from '@/models/Organisation';
-import OrganisationMembership from '@/models/OrganisationMembership';
+// Note: We use American English spelling convention (e.g., 'Organization' not 'Organisation')
+import Organization from '@/models/Organization';
+import OrganizationMembership from '@/models/OrganizationMembership';
 import User from '@/models/User';
 
 // Force dynamic rendering
@@ -35,36 +36,36 @@ export async function GET(req: NextRequest) {
     const adminView = searchParams.get('admin') === 'true';
 
     if (adminView && isAdmin) {
-      // Admin view: fetch all organisations
-      const organisations = await Organisation.find({})
+      // Admin view: fetch all organizations
+      const organizations = await Organization.find({})
         .sort({ createdAt: -1 })
         .lean();
 
       return NextResponse.json({ 
-        organisations,
-        count: organisations.length
+        organizations,
+        count: organizations.length
       });
     } else {
-      // Regular user view: fetch user's organisations through memberships
-      const memberships = await OrganisationMembership.find({ userId: user._id })
-        .populate('organisationId')
+      // Regular user view: fetch user's organizations through memberships
+      const memberships = await OrganizationMembership.find({ userId: user._id })
+        .populate('organizationId')
         .sort({ createdAt: -1 })
         .lean() as any[];
 
-      const organisations = memberships.map(membership => ({
-        ...membership.organisationId,
+      const organizations = memberships.map(membership => ({
+        ...membership.organizationId,
         membershipRole: membership.role,
         joinedAt: membership.joinedAt
       }));
 
       return NextResponse.json({ 
-        organisations,
-        count: organisations.length
+        organizations,
+        count: organizations.length
       });
     }
 
   } catch (error) {
-    console.error('Error fetching organisations:', error);
+    console.error('Error fetching organizations:', error);
     return NextResponse.json(
       { 
         error: 'Internal server error',
@@ -91,7 +92,7 @@ export async function POST(req: NextRequest) {
     // Validation
     if (!name || typeof name !== 'string' || name.trim().length < 2) {
       return NextResponse.json(
-        { error: 'Organisation name is required and must be at least 2 characters' },
+        { error: 'Organization name is required and must be at least 2 characters' },
         { status: 400 }
       );
     }
@@ -114,47 +115,47 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Create organisation (slug is auto-generated)
-    const organisation = new Organisation({
+    // Create organization (slug is auto-generated)
+    const organization = new Organization({
       name: name.trim(),
       description: description?.trim() || ''
     });
 
-    await organisation.save();
+    await organization.save();
 
     // Create owner membership for the creator
-    const membership = new OrganisationMembership({
+    const membership = new OrganizationMembership({
       userId: user._id,
-      organisationId: organisation._id,
+      organizationId: organization._id,
       role: 'owner'
     });
 
     await membership.save();
 
-    // Return the created organisation with membership info
-    const organisationData = {
-      _id: organisation._id,
-      name: organisation.name,
-      slug: organisation.slug,
-      description: organisation.description,
-      createdAt: organisation.createdAt,
-      updatedAt: organisation.updatedAt,
+    // Return the created organization with membership info
+    const organizationData = {
+      _id: organization._id,
+      name: organization.name,
+      slug: organization.slug,
+      description: organization.description,
+      createdAt: organization.createdAt,
+      updatedAt: organization.updatedAt,
       membershipRole: 'owner',
       joinedAt: membership.joinedAt
     };
 
     return NextResponse.json({
-      message: 'Organisation created successfully',
-      organisation: organisationData
+      message: 'Organization created successfully',
+      organization: organizationData
     }, { status: 201 });
 
   } catch (error) {
-    console.error('Error creating organisation:', error);
+    console.error('Error creating organization:', error);
     
     // Handle MongoDB duplicate key error (unlikely due to auto-slug generation)
     if (error instanceof Error && 'code' in error && error.code === 11000) {
       return NextResponse.json(
-        { error: 'Organisation with this name already exists' },
+        { error: 'Organization with this name already exists' },
         { status: 409 }
       );
     }

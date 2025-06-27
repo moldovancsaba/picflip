@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import Settings from '@/models/Settings';
-import Organisation from '@/models/Organisation';
+import Organization from '@/models/Organization';
 import { z } from 'zod';
 
 // Force dynamic rendering

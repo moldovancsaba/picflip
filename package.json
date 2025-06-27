@@ -1,20 +1,15 @@
 {
   "name": "picito",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "private": true,
   "scripts": {
-    "test:e2e:dev": "start-server-and-test 'npm run dev' http://localhost:3000 'npm run test:e2e'",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:e2e": "playwright test",
-    "test:e2e:headed": "playwright test --headed",
-    "test:e2e:ui": "playwright test --ui",
-    "test:e2e:debug": "playwright test --debug",
-    "test:all": "npm run test && npm run test:e2e",
+    "test:all": "npm run test",
     "version:dev": "node scripts/bump-version.js dev",
     "version:commit": "node scripts/bump-version.js commit",
     "version:major": "node scripts/bump-version.js major",
@@ -30,6 +25,7 @@
     "next": "15.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "slugify": "^1.6.6",
     "styled-components": "^6.1.19",
     "zod": "^3.25.67"
   },
@@ -37,17 +33,16 @@
     "npm": ">=10.9.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.53.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^29.5.12",
+    "@types/lodash": "^4.17.19",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "start-server-and-test": "^2.0.12",
     "ts-jest": "^29.1.2",
     "typescript": "^5"
   }

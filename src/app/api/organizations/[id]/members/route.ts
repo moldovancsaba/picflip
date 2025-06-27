@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
-import Organisation from '@/models/Organisation';
-import OrganisationMembership, { hasPermission } from '@/models/OrganisationMembership';
+// Note: We use American English spelling convention (e.g., 'Organization' not 'Organisation')
+import Organization from '@/models/Organization';
+import OrganizationMembership, { hasPermission } from '@/models/OrganizationMembership';
 import User from '@/models/User';
 import mongoose from 'mongoose';
 
@@ -23,19 +24,19 @@ export async function GET(
 
     await dbConnect();
 
-    // Validate organisation ID
+    // Validate organization ID
     if (!mongoose.Types.ObjectId.isValid(params.id)) {
       return NextResponse.json(
-        { error: 'Invalid organisation ID' },
+        { error: 'Invalid organization ID' },
         { status: 400 }
       );
     }
 
-    // Check if organisation exists
-    const organisation = await Organisation.findById(params.id);
-    if (!organisation) {
+    // Check if organization exists
+    const organization = await Organization.findById(params.id);
+    if (!organization) {
       return NextResponse.json(
-        { error: 'Organisation not found' },
+        { error: 'Organization not found' },
         { status: 404 }
       );
     }
@@ -49,22 +50,22 @@ export async function GET(
       );
     }
 
-    // Check if user is a member of this organisation
-    const userMembership = await OrganisationMembership.findOne({
+    // Check if user is a member of this organization
+    const userMembership = await OrganizationMembership.findOne({
       userId: user._id,
-      organisationId: params.id
+      organizationId: params.id
     });
 
     if (!userMembership) {
       return NextResponse.json(
-        { error: 'Access denied - not a member of this organisation' },
+        { error: 'Access denied - not a member of this organization' },
         { status: 403 }
       );
     }
 
-    // Get all members of the organisation
-    const memberships = await OrganisationMembership.find({
-      organisationId: params.id
+    // Get all members of the organization
+    const memberships = await OrganizationMembership.find({
+      organizationId: params.id
     })
     .populate('userId', 'email createdAt lastLoginAt')
     .sort({ role: -1, createdAt: 1 }) // Sort by role hierarchy, then by join date
@@ -81,16 +82,16 @@ export async function GET(
     return NextResponse.json({
       members,
       count: members.length,
-      organisation: {
-        _id: organisation._id,
-        name: organisation.name,
-        slug: organisation.slug
+      organization: {
+        _id: organization._id,
+        name: organization.name,
+        slug: organization.slug
       },
       userRole: userMembership.role
     });
 
   } catch (error) {
-    console.error('Error fetching organisation members:', error);
+    console.error('Error fetching organization members:', error);
     return NextResponse.json(
       { 
         error: 'Internal server error',
@@ -135,19 +136,19 @@ export async function POST(
 
     await dbConnect();
 
-    // Validate organisation ID
+    // Validate organization ID
     if (!mongoose.Types.ObjectId.isValid(params.id)) {
       return NextResponse.json(
-        { error: 'Invalid organisation ID' },
+        { error: 'Invalid organization ID' },
         { status: 400 }
       );
     }
 
-    // Check if organisation exists
-    const organisation = await Organisation.findById(params.id);
-    if (!organisation) {
+    // Check if organization exists
+    const organization = await Organization.findById(params.id);
+    if (!organization) {
       return NextResponse.json(
-        { error: 'Organisation not found' },
+        { error: 'Organization not found' },
         { status: 404 }
       );
     }
@@ -161,14 +162,14 @@ export async function POST(
       );
     }
 
-    const currentUserMembership = await OrganisationMembership.findOne({
+    const currentUserMembership = await OrganizationMembership.findOne({
       userId: currentUser._id,
-      organisationId: params.id
+      organizationId: params.id
     });
 
     if (!currentUserMembership) {
       return NextResponse.json(
-        { error: 'Access denied - not a member of this organisation' },
+        { error: 'Access denied - not a member of this organization' },
         { status: 403 }
       );
     }
@@ -184,7 +185,7 @@ export async function POST(
     // Check if trying to add owner role (only owners can add owners)
     if (role === 'owner' && currentUserMembership.role !== 'owner') {
       return NextResponse.json(
-        { error: 'Only organisation owners can assign owner role' },
+        { error: 'Only organization owners can assign owner role' },
         { status: 403 }
       );
     }
@@ -202,22 +203,22 @@ export async function POST(
     }
 
     // Check if user is already a member
-    const existingMembership = await OrganisationMembership.findOne({
+    const existingMembership = await OrganizationMembership.findOne({
       userId: targetUser._id,
-      organisationId: params.id
+      organizationId: params.id
     });
 
     if (existingMembership) {
       return NextResponse.json(
-        { error: 'User is already a member of this organisation' },
+        { error: 'User is already a member of this organization' },
         { status: 409 }
       );
     }
 
     // Create new membership
-    const membership = new OrganisationMembership({
+    const membership = new OrganizationMembership({
       userId: targetUser._id,
-      organisationId: params.id,
+      organizationId: params.id,
       role: role
     });
 
@@ -243,7 +244,7 @@ export async function POST(
     }, { status: 201 });
 
   } catch (error) {
-    console.error('Error adding organisation member:', error);
+    console.error('Error adding organization member:', error);
     
     // Handle validation errors
     if (error instanceof Error && error.name === 'ValidationError') {

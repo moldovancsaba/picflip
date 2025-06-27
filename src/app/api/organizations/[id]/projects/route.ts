@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import Settings from '@/models/Settings';
-import Organisation from '@/models/Organisation';
-import OrganisationMembership from '@/models/OrganisationMembership';
+import Organization from '@/models/Organization';
+import OrganizationMembership from '@/models/OrganizationMembership';
 
 export async function GET(
   req: NextRequest,
@@ -24,7 +24,7 @@ export async function GET(
     await dbConnect();
 
     // Verify organization exists
-    const organization = await Organisation.findById(params.id) as any;
+    const organization = await Organization.findById(params.id) as any;
     if (!organization) {
       return NextResponse.json(
         { error: 'Organization not found' },
@@ -33,7 +33,7 @@ export async function GET(
     }
 
     // Check if user is a member of the organization
-    const membership = await OrganisationMembership.findOne({
+    const membership = await OrganizationMembership.findOne({
       userId: session.id,
       organisationId: params.id
     });

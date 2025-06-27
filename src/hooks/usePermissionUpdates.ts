@@ -3,6 +3,9 @@
 import { useEffect, useCallback } from 'react';
 import { type Role } from '@/lib/permissions/constants';
 
+// Re-export for backward compatibility
+export { usePermissionUpdates as usePermission };
+
 interface PermissionEvent {
   type: 'role_change';
   userId: string;
@@ -79,7 +82,7 @@ export function usePermissionUpdates({
  *   return (
  *     <div>
  *       Current role: {userRole}
- *       {/* Rest of dashboard UI */}
+*       // Rest of dashboard UI
  *     </div>
  *   );
  * }

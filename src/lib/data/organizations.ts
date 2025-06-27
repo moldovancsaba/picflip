@@ -1,7 +1,10 @@
-import { connectDB } from '@/lib/db';
+import connectDB from '@/lib/db';
 import Organization from '@/models/Organization';
-import OrganizationMembership from '@/models/OrganizationMembership';
+import OrganizationMembership, { type IOrganizationMembership } from '@/models/OrganizationMembership';
 import { type Role } from '@/lib/permissions/constants';
+import { type Document } from 'mongoose';
+
+type LeanDocument<T> = T & { _id: string };
 
 export async function getOrganization(id: string) {
   await connectDB();
@@ -20,7 +23,7 @@ export async function getMemberRole(organizationId: string, userId: string): Pro
   const membership = await OrganizationMembership.findOne({
     organizationId,
     userId
-  }).lean();
+  }).lean() as LeanDocument<IOrganizationMembership> | null;
   return membership?.role || null;
 }
 

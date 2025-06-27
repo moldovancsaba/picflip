@@ -1,5 +1,64 @@
 # Release Notes
 
+## Version 3.3.0 (2025-06-27T14:52:32.789Z)
+
+### Breaking Changes
+- Standardized American English spelling from "organisation" to "organization"
+  - Updated spelling across API endpoints, component props, and documentation
+  - Migration required for dependent code using old endpoint paths
+  - Error messages and validation updated to use "organization"
+
+### API Improvements
+- Updated endpoints from `/api/organisations` to `/api/organizations`
+- Standardized role-based access control terminology
+- Improved error messages for organization-related operations
+
+### Documentation
+- Updated all documentation to use consistent American English spelling
+- Added migration guide for endpoint changes
+- Improved clarity around organization-related features
+
+### Technical
+- Bumped MINOR version due to API endpoint changes (3.2.4 → 3.3.0)
+- Updated database model names for consistency
+- Maintained backward compatibility where possible
+- Test suite adjustments for new terminology
+
+## Version 3.2.3 (2025-06-27T14:52:04.762Z)
+
+### Development Build
+- **Development**: Successfully completed `npm run dev` testing
+- **Version Bump**: Patch version incremented from 3.2.2 to 3.2.3
+- **Status**: Development build ready for further testing
+
+### Technical Details
+- **Previous Version**: 3.2.2
+- **New Version**: 3.2.3
+- **Bump Type**: dev
+- **Timestamp**: 2025-06-27T14:52:04.762Z
+- **Auto-generated**: Yes
+
+
+## Version 3.2.2 (2025-06-27T14:28:43Z)
+
+### Breaking Changes
+- Removed all e2e tests and related configurations
+  - Removed Playwright configuration and tests
+  - Removed e2e test directory
+  - Updated test scripts to focus on unit tests only
+  - Removed e2e related dependencies
+
+### Documentation Updates
+- Added comprehensive testing documentation in `/docs/TESTING.md`
+- Updated test running instructions
+- Documented the rationale for removing e2e tests
+
+### Developer Experience
+- Simplified test running process
+- Faster test suite execution
+- Cleaner project structure
+- Reduced dependency footprint
+
 ## Version 3.2.1 (2025-06-25T12:34:56.000Z)
 
 ### New Features

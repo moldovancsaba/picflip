@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { type Role } from '@/lib/permissions/constants';
-import { usePermission } from '@/hooks/usePermissionUpdates';
+import { hasPermission } from '@/lib/permissions/constants';
 import { PERMISSIONS } from '@/lib/permissions/constants';
 
 interface Member {
@@ -134,10 +134,7 @@ export default function MemberList({ organizationId, userRole, userId }: MemberL
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const canManageMembers = usePermission({
-    userRole,
-    requiredPermission: PERMISSIONS.MANAGE_MEMBERS,
-  });
+  const canManageMembers = hasPermission(userRole, PERMISSIONS.MANAGE_MEMBERS);
 
   useEffect(() => {
     async function fetchMembers() {

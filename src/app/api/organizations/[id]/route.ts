@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
-import Organisation from '@/models/Organisation';
-import OrganisationMembership from '@/models/OrganisationMembership';
+import Organization from '@/models/Organization';
+import OrganizationMembership from '@/models/OrganizationMembership';
 import User from '@/models/User';
 
 export async function DELETE(
@@ -40,22 +40,22 @@ export async function DELETE(
     }
 
     // Find the organisation
-    const organisation = await Organisation.findById(id);
-    if (!organisation) {
+    const organization = await Organization.findById(id);
+    if (!organization) {
       return NextResponse.json(
-        { error: 'Organisation not found' },
+        { error: 'Organization not found' },
         { status: 404 }
       );
     }
 
     // Delete all memberships first
-    await OrganisationMembership.deleteMany({ organisationId: id });
+    await OrganizationMembership.deleteMany({ organizationId: id });
 
-    // Delete the organisation
-    await Organisation.findByIdAndDelete(id);
+    // Delete the organization
+    await Organization.findByIdAndDelete(id);
 
     return NextResponse.json({
-      message: 'Organisation deleted successfully',
+      message: 'Organization deleted successfully',
       timestamp: new Date().toISOString()
     });
 

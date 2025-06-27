@@ -412,7 +412,7 @@ export default function OrganizationDetailPage() {
         },
         body: JSON.stringify({
           memberships: [{
-            organisationId: id,
+            organizationId: id,
             role: newMemberRole,
             action: 'add'
           }]
@@ -456,7 +456,7 @@ export default function OrganizationDetailPage() {
         },
         body: JSON.stringify({
           memberships: [{
-            organisationId: id,
+            organizationId: id,
             role: newRole,
             action: 'add' // This will update existing membership
           }]
@@ -500,7 +500,7 @@ export default function OrganizationDetailPage() {
         },
         body: JSON.stringify({
           memberships: [{
-            organisationId: id,
+            organizationId: id,
             role: 'member', // Role doesn't matter for removal
             action: 'remove'
           }]

@@ -4,7 +4,7 @@
 
 This guide provides best practices, error prevention strategies, and safe implementation patterns for Picito development. It's based on lessons learned from previous API development challenges and establishes patterns for consistent, reliable feature development.
 
-**Last Updated:** 2025-06-24T11:15:53.000Z
+**Last Updated:** 2025-06-24T11:15:53.789Z
 
 **Recent Success:** Epic 2.2 - Organisation Membership completed successfully ahead of schedule with zero breaking changes to existing functionality.
 
@@ -169,7 +169,7 @@ membershipSchema.index({ userId: 1, organisationId: 1 }, { unique: true });
 #### Solutions
 ```typescript
 // ✅ Separate TypeScript interfaces from Mongoose schemas
-export interface IOrganisation {
+export interface IOrganization {
   name: string;
   slug: string;
   description?: string;
@@ -178,7 +178,7 @@ export interface IOrganisation {
 }
 
 // ✅ Clear schema definition
-const organisationSchema = new Schema<IOrganisation>({
+const organisationSchema = new Schema<IOrganization>({
   name: { 
     type: String, 
     required: true,

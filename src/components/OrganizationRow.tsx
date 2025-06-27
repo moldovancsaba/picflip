@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Organisation, OrganisationMembershipSummary, MembershipRole } from '@/lib/types';
+import { Organization, OrganizationMembershipSummary, MembershipRole } from '@/lib/types';
 
 const RowContainer = styled.div<{ isClickable?: boolean }>`
   background: white;
@@ -35,7 +35,7 @@ const RightSection = styled.div`
   align-items: flex-start;
 `;
 
-const OrganisationName = styled.h3`
+const OrganizationName = styled.h3`
   margin: 0 0 0.5rem 0;
   color: #111827;
   font-size: 1.125rem;
@@ -159,8 +159,8 @@ const DeleteButton = styled(ActionButton)`
   }
 `;
 
-interface OrganisationRowProps {
-  organisation: Organisation | OrganisationMembershipSummary;
+interface OrganizationRowProps {
+  organization: Organization | OrganizationMembershipSummary;
   onClick?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
@@ -169,8 +169,8 @@ interface OrganisationRowProps {
   className?: string;
 }
 
-// Type guard to check if organisation has membership info
-function isMembershipSummary(org: Organisation | OrganisationMembershipSummary): org is OrganisationMembershipSummary {
+// Type guard to check if organization has membership info
+function isMembershipSummary(org: Organization | OrganizationMembershipSummary): org is OrganizationMembershipSummary {
   return 'membershipRole' in org;
 }
 
@@ -180,18 +180,18 @@ function formatTimestamp(date: Date | string): string {
   return d.toISOString();
 }
 
-export default function OrganisationRow({
-  organisation,
+export default function OrganizationRow({
+  organization,
   onClick,
   onEdit,
   onDelete,
   showActions = false,
   showRole = false,
   className
-}: OrganisationRowProps) {
+}: OrganizationRowProps) {
   const [isLoading, setIsLoading] = useState(false);
   
-  const membershipInfo = isMembershipSummary(organisation) ? organisation : null;
+  const membershipInfo = isMembershipSummary(organization) ? organization : null;
 
   const handleAction = async (action: () => void) => {
     setIsLoading(true);
@@ -210,8 +210,8 @@ export default function OrganisationRow({
     >
       <Header>
         <LeftSection>
-          <OrganisationName>{organisation.name}</OrganisationName>
-          <SlugBadge>/{organisation.slug}</SlugBadge>
+          <OrganizationName>{organization.name}</OrganizationName>
+          <SlugBadge>/{organization.slug}</SlugBadge>
         </LeftSection>
         <RightSection>
           {showRole && membershipInfo && (
@@ -248,18 +248,18 @@ export default function OrganisationRow({
         </RightSection>
       </Header>
 
-      {organisation.description && (
-        <Description>{organisation.description}</Description>
+      {organization.description && (
+        <Description>{organization.description}</Description>
       )}
 
       <MetaInfo>
         <MetaItem>
           <MetaLabel>Created</MetaLabel>
-          <MetaValue>{formatTimestamp(organisation.createdAt)}</MetaValue>
+          <MetaValue>{formatTimestamp(organization.createdAt)}</MetaValue>
         </MetaItem>
         <MetaItem>
           <MetaLabel>Updated</MetaLabel>
-          <MetaValue>{formatTimestamp(organisation.updatedAt)}</MetaValue>
+          <MetaValue>{formatTimestamp(organization.updatedAt)}</MetaValue>
         </MetaItem>
         {membershipInfo && (
           <MetaItem>

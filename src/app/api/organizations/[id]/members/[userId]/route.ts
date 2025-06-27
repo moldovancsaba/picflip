@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
-import Organisation from '@/models/Organisation';
-import OrganisationMembership, { canManageRole } from '@/models/OrganisationMembership';
+import Organization from '@/models/Organization';
+import OrganizationMembership, { canManageRole } from '@/models/OrganizationMembership';
 import User from '@/models/User';
 import mongoose from 'mongoose';
 
@@ -26,16 +26,16 @@ export async function DELETE(
     // Validate IDs
     if (!mongoose.Types.ObjectId.isValid(params.id) || !mongoose.Types.ObjectId.isValid(params.userId)) {
       return NextResponse.json(
-        { error: 'Invalid organisation or user ID' },
+        { error: 'Invalid organization or user ID' },
         { status: 400 }
       );
     }
 
-    // Check if organisation exists
-    const organisation = await Organisation.findById(params.id);
-    if (!organisation) {
+    // Check if organization exists
+    const organization = await Organization.findById(params.id);
+    if (!organization) {
       return NextResponse.json(
-        { error: 'Organisation not found' },
+        { error: 'Organization not found' },
         { status: 404 }
       );
     }

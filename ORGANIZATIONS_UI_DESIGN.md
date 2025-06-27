@@ -16,7 +16,7 @@ OrganizationsPage (src/app/admin/organizations/page.tsx)
 
 ## Data Structure
 
-Based on the `IOrganisation` model, each organization record contains:
+Based on the `IOrganization` model, each organization record contains:
 - `_id`: string (MongoDB ObjectId)
 - `name`: string (required, 2-100 chars)
 - `slug`: string (auto-generated, unique)
