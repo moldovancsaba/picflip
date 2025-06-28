@@ -5,9 +5,12 @@ import OrganizationDetailPage from '../page';
 
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
+  useRouter: () => router,
   useParams: jest.fn(),
 }));
+
+// Import page test utils
+import { setupPageTest } from '@/test-utils/page-tests';
 
 // Mock styled-components
 jest.mock('styled-components', () => {
@@ -210,14 +213,13 @@ jest.mock('@/components/Loading', () => {
 // Mock global fetch
 global.fetch = jest.fn();
 
-const mockPush = jest.fn();
 const mockParams = { id: 'org123' };
+const { router, resetMocks } = setupPageTest();
 
 beforeEach(() => {
-  (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
   (useParams as jest.Mock).mockReturnValue(mockParams);
   (fetch as jest.Mock).mockClear();
-  mockPush.mockClear();
+  resetMocks();
 });
 
 const mockOrganizationData = {
@@ -403,18 +405,14 @@ describe('OrganizationDetailPage', () => {
       fireEvent.change(adminRoleSelect, { target: { value: 'member' } });
 
       await waitFor(() => {
-        expect(fetch).toHaveBeenCalledWith('/api/admin/users/user2', {
+expect(fetch).toHaveBeenCalledWith('/api/admin/users/user2', {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            memberships: [{
-              organisationId: 'org123',
-              role: 'member',
-              action: 'add',
-            }],
-          }),
+            memberships: [{ organizationId: 'org123', role: 'member', action: 'add' }]
+          })
         });
       });
 
@@ -446,7 +444,7 @@ describe('OrganizationDetailPage', () => {
     render(<OrganizationDetailPage />);
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/login');
+expect(router.push).toHaveBeenCalledWith('/login')
     });
   });
 

@@ -118,60 +118,90 @@ global.TextDecoder = global.TextDecoder || class TextDecoder {
 
 
 // Mock mongoose for API route tests
-jest.mock('mongoose', () => {
-  const mockSchema = function(definition) {
-    this.definition = definition;
-    this.indexes = [];
-  };
+const mockMongoose = {
+  Schema: class Schema {
+    constructor(definition) {
+      this.definition = definition;
+      this.virtuals = {};
+      this.methods = {};
+      this.statics = {};
+    }
+    
+    index(fields, options) {
+      return this;
+    }
+    
+    virtual(name) {
+      this.virtuals[name] = {
+        get: (fn) => { this.virtuals[name].getter = fn; },
+        set: (fn) => { this.virtuals[name].setter = fn; }
+      };
+      return this.virtuals[name];
+    }
+    
+    pre() { return this; }
+    post() { return this; }
+  },
   
-  mockSchema.prototype.index = function(spec, options) {
-    this.indexes.push({ spec, options });
-    return this;
-  };
+  model: (name, schema) => {
+    if (!mockMongoose.models[name]) {
+      mockMongoose.models[name] = class Model {
+        constructor(data) {
+          Object.assign(this, data);
+        }
+        static findOne() { return Promise.resolve(null); }
+        static find() { return Promise.resolve([]); }
+        static create(data) { return Promise.resolve(new this(data)); }
+        save() { return Promise.resolve(this); }
+      };
+    }
+    return mockMongoose.models[name];
+  },
   
-  mockSchema.prototype.pre = function(hook, fn) {
-    // Mock pre-save hooks
-    return this;
-  };
-  
-  mockSchema.prototype.post = function(hook, fn) {
-    // Mock post-save hooks
-    return this;
-  };
-  
-  mockSchema.prototype.virtual = function(name, options) {
-    // Mock virtual fields
-    return {
-      get: function() { return this; },
-      set: function() { return this; },
-    };
-  };
-  
-  mockSchema.Types = {
-    ObjectId: 'MockObjectId',
-  };
-  
-  return {
-    default: {
-      connect: jest.fn(),
-      connection: {
-        readyState: 1,
-      },
-      Schema: mockSchema,
-      model: jest.fn(),
-      models: {},
-    },
-    connect: jest.fn(),
-    connection: {
-      readyState: 1,
-    },
-    Schema: mockSchema,
-    model: jest.fn(),
-    models: {},
-  };
-});
+  models: {},
+  connect: jest.fn().mockResolvedValue({}),
+  connection: { readyState: 1 }
+};
+
+jest.mock('mongoose', () => mockMongoose);
 
 // Mock MongoDB connection
 jest.mock('@/lib/db', () => jest.fn().mockResolvedValue({}));
+
+// Mock styled-components with enhanced data-attribute support
+const createStyledComponent = (tag) => {
+  const StyledComponent = ({ children, ...props }) => {
+    // Convert styled props ($checked, $disabled, etc) to data attributes
+    const dataProps = Object.entries(props).reduce((acc, [key, value]) => {
+      if (key.startsWith('$')) {
+        acc[`data-${key.slice(1)}`] = value;
+      }
+      return acc;
+    }, {});
+    
+    return React.createElement(tag, { ...props, ...dataProps }, children);
+  };
+  StyledComponent.displayName = `Styled(${tag})`;
+  return StyledComponent;
+};
+
+const styled = new Proxy({}, {
+  get: (_, prop) => {
+    if (typeof prop === 'string') {
+      return createStyledComponent(prop);
+    }
+    return () => createStyledComponent(prop);
+  }
+});
+
+jest.mock('styled-components', () => ({
+  __esModule: true,
+  default: styled,
+  styled,
+  css: (...args) => args.join(''),
+  createGlobalStyle: () => () => null,
+  keyframes: () => 'animation',
+  ThemeProvider: ({ children }) => children
+}));
 
 // Global test setup can be added here if needed

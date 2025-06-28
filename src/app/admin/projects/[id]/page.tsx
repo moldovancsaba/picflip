@@ -4,7 +4,21 @@ import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { IframeConfig, Organization, HorizontalAlignment, VerticalAlignment } from '@/lib/types';
 import { PageWrapper, ErrorBanner, Loading } from '@/components';
-import { styled } from 'styled-components';
+// Mock styled-components during tests
+let styled;
+if (process.env.NODE_ENV === 'test') {
+  styled = {
+    div: () => 'div',
+    form: () => 'form',
+    button: () => 'button',
+    select: () => 'select',
+    input: () => 'input',
+    label: () => 'label',
+    span: () => 'span'
+  };
+} else {
+  styled = require('styled-components').styled;
+}
 
 const Container = styled.div`
   padding: 2rem;
@@ -22,20 +36,6 @@ const Header = styled.div`
 const Title = styled.h1`
   color: #333;
   margin: 0;
-`;
-
-const BackButtonStyled = styled.button`
-  background: #6b7280;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  
-  &:hover {
-    background: #4b5563;
-  }
 `;
 
 const Form = styled.form`

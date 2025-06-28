@@ -3,7 +3,7 @@ import { GET, PATCH } from '../route';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import Settings from '@/models/Settings';
-import Organisation from '@/models/Organisation';
+import Organization from '@/models/Organization';
 
 // Mock dependencies
 jest.mock('jose', () => ({
@@ -20,7 +20,7 @@ jest.mock('@/models/Settings', () => ({
     create: jest.fn(),
   }
 }));
-jest.mock('@/models/Organization'
+jest.mock('@/models/Organization', () => ({
   __esModule: true,
   default: {
     find: jest.fn(),
@@ -61,7 +61,7 @@ describe('/api/admin/projects/[id]', () => {
         horizontalAlignment: 'center',
         verticalAlignment: 'middle',
         isPublic: false,
-        organisationId: 'org-123'
+        organizationId: 'org-123'
       };
 
       const mockSettings = {
@@ -72,19 +72,19 @@ describe('/api/admin/projects/[id]', () => {
         lean: jest.fn().mockResolvedValue(mockSettings)
       });
 
-      const mockOrganisations = [
+      const mockOrganizations = [
         { _id: 'org-1', name: 'Org 1', slug: 'org-1', description: 'Description 1' },
         { _id: 'org-2', name: 'Org 2', slug: 'org-2', description: 'Description 2' }
       ];
 
-      Organisation.find = jest.fn().mockReturnValue({
+      Organization.find = jest.fn().mockReturnValue({
         sort: jest.fn().mockReturnThis(),
         select: jest.fn().mockReturnThis(),
-        lean: jest.fn().mockResolvedValue(mockOrganisations)
+        lean: jest.fn().mockResolvedValue(mockOrganizations)
       });
 
       const mockCurrentOrg = { _id: 'org-123', name: 'Current Org', slug: 'current-org', description: 'Current Description' };
-      Organisation.findById = jest.fn().mockReturnValue({
+      Organization.findById = jest.fn().mockReturnValue({
         select: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue(mockCurrentOrg)
       });
@@ -99,8 +99,8 @@ describe('/api/admin/projects/[id]', () => {
       expect(responseData.project).toBeDefined();
       expect(responseData.project.id).toBe(mockProjectId);
       expect(responseData.project.name).toBe('Test Project');
-      expect(responseData.project.organisations).toEqual(mockOrganisations);
-      expect(responseData.project.currentOrganisation).toEqual(mockCurrentOrg);
+      expect(responseData.project.organizations).toEqual(mockOrganizations);
+      expect(responseData.project.currentOrganization).toEqual(mockCurrentOrg);
     });
 
     it('should return 401 for non-admin user', async () => {
@@ -174,7 +174,7 @@ describe('/api/admin/projects/[id]', () => {
         horizontalAlignment: 'center',
         verticalAlignment: 'middle',
         isPublic: false,
-        organisationId: null
+        organizationId: null
       };
 
       const mockSettings = {

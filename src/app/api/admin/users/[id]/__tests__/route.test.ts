@@ -22,7 +22,7 @@ jest.mock('@/models/User', () => ({
     find: jest.fn(),
   }
 }));
-jest.mock('@/models/OrganizationMembership'
+jest.mock('@/models/OrganizationMembership', () => ({
   __esModule: true,
   default: {
     find: jest.fn(),
@@ -31,7 +31,7 @@ jest.mock('@/models/OrganizationMembership'
     deleteOne: jest.fn(),
   }
 }));
-jest.mock('@/models/Organisation', () => ({
+jest.mock('@/models/Organization', () => ({
   __esModule: true,
   default: {
     find: jest.fn(),

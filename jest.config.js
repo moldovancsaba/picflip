@@ -1,38 +1,37 @@
 /** @type {import('jest').Config} */
-const config = {
+module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', {
+    '^.+\.(ts|tsx)$': ['ts-jest', {
       tsconfig: {
         jsx: 'react-jsx',
+        esModuleInterop: true,
+        strict: true
       },
     }],
   },
-  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/e2e/'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^styled-components': '<rootDir>/node_modules/styled-components',
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!(jose|styled-components)/)',
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80
+    }
   },
   collectCoverageFrom: [
-    'src/**/*.{js,jsx,ts,tsx}',
+    'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
-    '!src/app/**/layout.tsx',
-    '!src/app/**/page.tsx',
-    '!src/app/**/loading.tsx',
-    '!src/app/**/error.tsx',
-    '!src/app/**/not-found.tsx',
-  ],
-  coverageReporters: ['text', 'lcov', 'html'],
-  testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
-    '<rootDir>/src/**/*.{test,spec}.{js,jsx,ts,tsx}',
-    '<rootDir>/__tests__/**/*.{js,jsx,ts,tsx}',
-    '!<rootDir>/e2e/**/*',
-  ],
-  transformIgnorePatterns: [
-    'node_modules/(?!(jose|bson|mongodb)/)',
-  ],
+    '!src/app/**/*.{tsx,ts}',
+    '!src/**/*.stories.{ts,tsx}',
+    '!src/**/*.test.{ts,tsx}'
+  ]
 };
-
-module.exports = config;

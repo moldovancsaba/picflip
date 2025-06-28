@@ -197,7 +197,7 @@ export async function PATCH(
       // Handle both Map and plain object formats
       if (configsMap instanceof Map) {
         for (const [projectId, config] of configsMap) {
-          if (config.organisationId && config.organisationId.toString() === id) {
+          if (config.organizationId && config.organizationId.toString() === id) {
             projects.push({
               id: projectId,
               name: config.name,
@@ -210,7 +210,7 @@ export async function PATCH(
         // Handle plain object (from .lean() query)
         for (const [projectId, config] of Object.entries(configsMap)) {
           const typedConfig = config as any;
-          if (typedConfig.organisationId && typedConfig.organisationId.toString() === id) {
+          if (typedConfig.organizationId && typedConfig.organizationId.toString() === id) {
             projects.push({
               id: projectId,
               name: typedConfig.name,

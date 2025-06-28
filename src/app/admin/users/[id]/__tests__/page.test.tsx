@@ -235,9 +235,9 @@ const mockUserData = {
     memberships: [
       {
         _id: 'membership1',
-        organisationId: 'org1',
-        organisationName: 'Test Organization',
-        organisationSlug: 'test-org',
+        organizationId: 'org1',
+        organizationName: 'Test Organization',
+        organizationSlug: 'test-org',
         role: 'member' as const,
         joinedAt: '2024-01-10T00:00:00.000Z'
       }
@@ -537,7 +537,7 @@ describe('UserDetailPage', () => {
           },
           body: JSON.stringify({
             memberships: [{
-              organisationId: 'org1',
+              organizationId: 'org1',
               role: 'member',
               action: 'remove'
             }]

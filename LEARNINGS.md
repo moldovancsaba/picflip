@@ -589,10 +589,9 @@ if (!response.ok) {
 - **Performance**: Pattern matching has minimal performance impact for admin interfaces
 
 #### 2. Component Reusability
-- **Success**: Leveraging existing DetailHeader and BackButton components
+- **Success**: Leveraging existing DetailHeader components
 - **Benefit**: Consistent behavior and styling without code duplication
-- **Anti-pattern**: Creating custom breadcrumb components when simpler solutions exist
-
+- **Anti-pattern**: Creating custom navigation components when simpler solutions exist
 #### 3. TypeScript Interface Evolution
 - **Challenge**: Adding `_id` field to existing interfaces for navigation
 - **Solution**: Optional fields (`_id?: string`) maintain backward compatibility
