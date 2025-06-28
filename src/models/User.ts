@@ -9,6 +9,7 @@ export interface IUser {
   updatedAt: Date;
   termsAcceptedAt: Date | null;
   privacyAcceptedAt: Date | null;
+  organizationId: mongoose.Schema.Types.ObjectId | null;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -35,6 +36,11 @@ const userSchema = new mongoose.Schema<IUser>({
   privacyAcceptedAt: {
     type: Date,
     default: null
+  },
+  organizationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organization',
+    required: false // Optional - null for personal projects
   }
 }, {
   timestamps: true

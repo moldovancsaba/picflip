@@ -6,6 +6,7 @@ export interface IVersion {
   description?: string;
   releaseDate: Date;
   isActive: boolean;
+  changeLog: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,6 +28,12 @@ const versionSchema = new mongoose.Schema<IVersion>({
     type: Date,
     default: Date.now,
     required: true
+  },
+  changeLog: {
+    type: String,
+    maxlength: [1000, 'Change log cannot exceed 1000 characters'],
+    default: '',
+    trim: true
   },
   isActive: {
     type: Boolean,

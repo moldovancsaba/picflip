@@ -24,7 +24,7 @@ export async function getMemberRole(organizationId: string, userId: string): Pro
     organizationId,
     userId
   }).lean() as LeanDocument<IOrganizationMembership> | null;
-  return membership?.role || null;
+  return membership?.role?.toLowerCase() as Role || null;
 }
 
 export async function getOrganizationProjects(organizationId: string) {

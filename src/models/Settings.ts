@@ -40,14 +40,18 @@ const iframeConfigSchema = new mongoose.Schema({
   }
 });
 
+// Validation for iframe config
+iframeConfigSchema.path('contentUrl').validate(function(url: string) {
+  return /^https?:\/\//.test(url);
+}, 'Content URL must be a valid URL');
 const settingsSchema = new mongoose.Schema({
   configs: {
     type: Map,
     of: new mongoose.Schema({
       id: String,
       name: String,
-      slug: { 
-        type: String, 
+      slug: {
+        type: String,
         required: false,
         lowercase: true,
         trim: true
@@ -59,13 +63,13 @@ const settingsSchema = new mongoose.Schema({
       aspectRatioY: Number,
       backgroundColor: String,
       backgroundImageUrl: { type: String, default: '' },
-      horizontalAlignment: { 
-        type: String, 
+      horizontalAlignment: {
+        type: String,
         enum: ['left', 'center', 'right'],
         default: 'center'
       },
-      verticalAlignment: { 
-        type: String, 
+      verticalAlignment: {
+        type: String,
         enum: ['top', 'middle', 'bottom'],
         default: 'middle'
       },

@@ -57,7 +57,7 @@ Picito is a React-based web application that perfectly scales project content wh
 - RESTful API endpoints for all major functionality
 
 ### Version Management
-- **Current Version**: 3.2.3
+- **Current Version**: 4.0.0
 - **Semantic Versioning**: Automatic MAJOR.MINOR.PATCH bumping
 - **Development Builds**: Auto-bump patch version after successful `npm run dev`
 - **GitHub Commits**: Auto-bump minor version after commits

@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { createApiResponse } from '@/middleware/responseHandler';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import Organization from '@/models/Organization';
@@ -14,10 +15,7 @@ export async function DELETE(
     const session = await getSession(req);
     
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return createApiResponse(null, 401, null, 'Unauthorized');
     }
 
     await dbConnect();
@@ -25,27 +23,18 @@ export async function DELETE(
     // Get user
     const user = await User.findOne({ email: session.email });
     if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
+      return createApiResponse(null, 404, null, 'User not found');
     }
 
     // Check if user has admin role for deletion
     if (user.role !== 'admin') {
-      return NextResponse.json(
-        { error: 'Forbidden: Admin access required' },
-        { status: 403 }
-      );
+      return createApiResponse(null, 403, null, 'Forbidden: Admin access required');
     }
 
     // Find the organisation
     const organization = await Organization.findById(id);
     if (!organization) {
-      return NextResponse.json(
-        { error: 'Organization not found' },
-        { status: 404 }
-      );
+      return createApiResponse(null, 404, null, 'Organization not found');
     }
 
     // Delete all memberships first
@@ -54,19 +43,13 @@ export async function DELETE(
     // Delete the organization
     await Organization.findByIdAndDelete(id);
 
-    return NextResponse.json({
+    return createApiResponse({
       message: 'Organization deleted successfully',
       timestamp: new Date().toISOString()
     });
 
   } catch (error) {
     console.error('Error deleting organisation:', error);
-    return NextResponse.json(
-      { 
-        error: 'Internal server error',
-        timestamp: new Date().toISOString()
-      },
-      { status: 500 }
-    );
+    return createApiResponse(null, 500, null, 'Internal server error');
   }
 }

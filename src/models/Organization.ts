@@ -13,23 +13,44 @@ export interface IOrganization {
 const organizationSchema = new mongoose.Schema<IOrganization>({
   name: { 
     type: String, 
-    required: true,
+    required: [true, 'Name is required'],
     trim: true,
-    maxlength: 100
+    maxlength: [100, 'Name cannot exceed 100 characters'],
+    minlength: [2, 'Name must be at least 2 characters']
   },
   slug: { 
     type: String, 
     required: true,
     lowercase: true,
-    match: /^[a-z0-9-]+$/
+    match: [/^[a-z0-9-]+$/, 'Slug can only contain lowercase letters, numbers, and hyphens'],
+    index: true
   },
   description: { 
     type: String, 
-    maxlength: 500,
-    default: ''
+    maxlength: [500, 'Description cannot exceed 500 characters'],
+    default: '',
+    trim: true
+  },
+  createdAt: { 
+    type: Date,
+    default: Date.now,
+    required: true
+  },
+  updatedAt: { 
+    type: Date,
+    default: Date.now,
+    required: true
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: { 
+    transform: function(doc, ret) {
+      // Ensure dates are properly formatted
+      ret.createdAt = ret.createdAt.toISOString();
+      ret.updatedAt = ret.updatedAt.toISOString();
+      return ret;
+    }
+  }
 });
 
 /**

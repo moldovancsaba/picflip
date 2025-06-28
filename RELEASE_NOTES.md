@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 4.0.0 (2025-06-28T17:30:45.789Z)
+
+### Major Release
+- **Major Version**: Incrementing from 3.5.0 to 4.0.0
+- **Status**: Major version update with significant changes
+
+### Technical Details
+- **Previous Version**: 3.5.0
+- **New Version**: 4.0.0
+- **Bump Type**: major
+- **Timestamp**: 2025-06-28T17:30:45.789Z
+- **Auto-generated**: Yes
+
 ## Version 3.5.1 (2025-06-28T16:53:55.312Z)
 
 ### Fixed

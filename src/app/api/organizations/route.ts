@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { createApiResponse } from '@/middleware/responseHandler';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 // Note: We use American English spelling convention (e.g., 'Organization' not 'Organisation')
@@ -14,20 +15,14 @@ export async function GET(req: NextRequest) {
     const session = await getSession(req);
     
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return createApiResponse(null, 401, null, 'Unauthorized');
     }
 
     await dbConnect();
 
     const user = await User.findOne({ email: session.email }).lean() as any;
     if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
+      return createApiResponse(null, 404, null, 'User not found');
     }
 
     // Check if admin is requesting all organizations
@@ -41,9 +36,11 @@ export async function GET(req: NextRequest) {
         .sort({ createdAt: -1 })
         .lean();
 
-      return NextResponse.json({ 
-        organizations,
-        count: organizations.length
+      const serializedOrgs = organizations.map(org => serializeDocument(org));
+      
+      return createApiResponse({
+        organizations: serializedOrgs,
+        count: serializedOrgs.length
       });
     } else {
       // Regular user view: fetch user's organizations through memberships
@@ -52,13 +49,16 @@ export async function GET(req: NextRequest) {
         .sort({ createdAt: -1 })
         .lean() as any[];
 
-      const organizations = memberships.map(membership => ({
-        ...membership.organizationId,
-        membershipRole: membership.role,
-        joinedAt: membership.joinedAt
-      }));
+      const organizations = memberships.map(membership => {
+        const org = serializeDocument({
+          ...membership.organizationId,
+          membershipRole: membership.role,
+          joinedAt: membership.joinedAt
+        });
+        return org;
+      });
 
-      return NextResponse.json({ 
+      return createApiResponse({
         organizations,
         count: organizations.length
       });
@@ -66,14 +66,42 @@ export async function GET(req: NextRequest) {
 
   } catch (error) {
     console.error('Error fetching organizations:', error);
-    return NextResponse.json(
-      { 
-        error: 'Internal server error',
-        timestamp: new Date().toISOString()
-      },
-      { status: 500 }
+    return createApiResponse(
+      null,
+      500,
+      null,
+      'Internal server error'
     );
   }
+}
+
+// Helper to safely serialize dates and ObjectIds
+function serializeDocument(doc: any) {
+  const serialized = { ...doc };
+  
+  // Handle dates
+  if (serialized.createdAt) {
+    serialized.createdAt = new Date(serialized.createdAt).toISOString();
+  }
+  if (serialized.updatedAt) {
+    serialized.updatedAt = new Date(serialized.updatedAt).toISOString();
+  }
+  if (serialized.joinedAt) {
+    serialized.joinedAt = new Date(serialized.joinedAt).toISOString();
+  }
+  
+  // Handle MongoDB ObjectIds
+  if (serialized._id) {
+    serialized._id = serialized._id.toString();
+  }
+  if (serialized.userId) {
+    serialized.userId = serialized.userId.toString();
+  }
+  if (serialized.organizationId) {
+    serialized.organizationId = serialized.organizationId.toString();
+  }
+  
+  return serialized;
 }
 
 export async function POST(req: NextRequest) {
@@ -81,26 +109,27 @@ export async function POST(req: NextRequest) {
     const session = await getSession(req);
     
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return createApiResponse(null, 401, null, 'Unauthorized');
     }
 
     const { name, description } = await req.json();
 
     // Validation
     if (!name || typeof name !== 'string' || name.trim().length < 2) {
-      return NextResponse.json(
-        { error: 'Organization name is required and must be at least 2 characters' },
-        { status: 400 }
+      return createApiResponse(
+        null,
+        400,
+        null,
+        'Organization name is required and must be at least 2 characters'
       );
     }
 
     if (description && (typeof description !== 'string' || description.length > 500)) {
-      return NextResponse.json(
-        { error: 'Description must be a string and cannot exceed 500 characters' },
-        { status: 400 }
+      return createApiResponse(
+        null,
+        400,
+        null,
+        'Description must be a string and cannot exceed 500 characters'
       );
     }
 
@@ -109,10 +138,7 @@ export async function POST(req: NextRequest) {
     // Get user
     const user = await User.findOne({ email: session.email });
     if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
+      return createApiResponse(null, 404, null, 'User not found');
     }
 
     // Create organization (slug is auto-generated)
@@ -133,7 +159,7 @@ export async function POST(req: NextRequest) {
     await membership.save();
 
     // Return the created organization with membership info
-    const organizationData = {
+    const organizationData = serializeDocument({
       _id: organization._id,
       name: organization.name,
       slug: organization.slug,
@@ -142,38 +168,32 @@ export async function POST(req: NextRequest) {
       updatedAt: organization.updatedAt,
       membershipRole: 'owner',
       joinedAt: membership.joinedAt
-    };
+    });
 
-    return NextResponse.json({
-      message: 'Organization created successfully',
-      organization: organizationData
-    }, { status: 201 });
+    return createApiResponse(
+      { organization: organizationData },
+      201,
+      'Organization created successfully'
+    );
 
   } catch (error) {
     console.error('Error creating organization:', error);
     
     // Handle MongoDB duplicate key error (unlikely due to auto-slug generation)
     if (error instanceof Error && 'code' in error && error.code === 11000) {
-      return NextResponse.json(
-        { error: 'Organization with this name already exists' },
-        { status: 409 }
+      return createApiResponse(
+        null,
+        409,
+        null,
+        'Organization with this name already exists'
       );
     }
 
     // Handle validation errors
     if (error instanceof Error && error.name === 'ValidationError') {
-      return NextResponse.json(
-        { error: error.message },
-        { status: 400 }
-      );
+      return createApiResponse(null, 400, null, error.message);
     }
 
-    return NextResponse.json(
-      { 
-        error: 'Internal server error',
-        timestamp: new Date().toISOString()
-      },
-      { status: 500 }
-    );
+    return createApiResponse(null, 500, null, 'Internal server error');
   }
 }

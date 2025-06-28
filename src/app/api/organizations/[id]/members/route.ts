@@ -3,7 +3,7 @@ import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 // Note: We use American English spelling convention (e.g., 'Organization' not 'Organisation')
 import Organization from '@/models/Organization';
-import OrganizationMembership, { hasPermission } from '@/models/OrganizationMembership';
+import OrganizationMembership, { hasPermission, MembershipRole } from '@/models/OrganizationMembership';
 import User from '@/models/User';
 import mongoose from 'mongoose';
 
@@ -175,7 +175,7 @@ export async function POST(
     }
 
     // Check permission to add members (admin or owner required)
-    if (!hasPermission(currentUserMembership.role, 'admin')) {
+    if (!hasPermission(currentUserMembership.role, 'admin' as MembershipRole)) {
       return NextResponse.json(
         { error: 'Insufficient permissions - admin role required to add members' },
         { status: 403 }
