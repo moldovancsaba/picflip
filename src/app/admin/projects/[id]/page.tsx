@@ -430,7 +430,7 @@ export default function ProjectDetailPage() {
                   id="name"
                   type="text"
                   value={project.name}
-                  onChange={(e) => setProject({ ...project, name: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProject({ ...project, name: e.target.value })}
                   required
                 />
               </FormGroup>
@@ -441,7 +441,7 @@ export default function ProjectDetailPage() {
                   id="slug"
                   type="text"
                   value={project.slug}
-                  onChange={(e) => setProject({ ...project, slug: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProject({ ...project, slug: e.target.value })}
                   pattern="[a-z0-9-]+"
                   placeholder="project-slug-example"
                   title="Slug can only contain lowercase letters, numbers, and hyphens"
@@ -454,7 +454,7 @@ export default function ProjectDetailPage() {
                   id="contentUrl"
                   type="url"
                   value={project.contentUrl}
-                  onChange={(e) => setProject({ ...project, contentUrl: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProject({ ...project, contentUrl: e.target.value })}
                   required
                 />
               </FormGroup>
@@ -474,7 +474,7 @@ export default function ProjectDetailPage() {
                       type="number"
                       min="1"
                       value={project.originalWidth}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setProject({ ...project, originalWidth: parseInt(e.target.value) || 0 })
                       }
                       required
@@ -487,7 +487,7 @@ export default function ProjectDetailPage() {
                       type="number"
                       min="1"
                       value={project.originalHeight}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setProject({ ...project, originalHeight: parseInt(e.target.value) || 0 })
                       }
                       required
@@ -506,7 +506,7 @@ export default function ProjectDetailPage() {
                       type="number"
                       min="1"
                       value={project.aspectRatioX}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setProject({ ...project, aspectRatioX: parseInt(e.target.value) || 1 })}
                       required
                     />
@@ -518,7 +518,7 @@ export default function ProjectDetailPage() {
                       type="number"
                       min="1"
                       value={project.aspectRatioY}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setProject({ ...project, aspectRatioY: parseInt(e.target.value) || 1 })}
                       required
                     />
@@ -534,7 +534,7 @@ export default function ProjectDetailPage() {
                     <Select
                       id="horizontalAlignment"
                       value={project.horizontalAlignment}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                         setProject({ ...project, horizontalAlignment: e.target.value as HorizontalAlignment })}
                     >
                       <option value="left">Left</option>
@@ -547,7 +547,7 @@ export default function ProjectDetailPage() {
                     <Select
                       id="verticalAlignment"
                       value={project.verticalAlignment}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                         setProject({ ...project, verticalAlignment: e.target.value as VerticalAlignment })}
                     >
                       <option value="top">Top</option>
@@ -569,7 +569,7 @@ export default function ProjectDetailPage() {
                   id="backgroundColor"
                   type="color"
                   value={project.backgroundColor}
-                  onChange={(e) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setProject({ ...project, backgroundColor: e.target.value })}
                 />
               </FormGroup>
@@ -580,7 +580,7 @@ export default function ProjectDetailPage() {
                   id="backgroundImageUrl"
                   type="url"
                   value={project.backgroundImageUrl}
-                  onChange={(e) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setProject({ ...project, backgroundImageUrl: e.target.value })}
                   placeholder="https://example.com/image.jpg"
                 />
@@ -644,7 +644,7 @@ export default function ProjectDetailPage() {
                 <Select
                   id="organizationId"
                   value={project.organizationId || ''}
-                  onChange={(e) =>
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                     setProject({ ...project, organizationId: e.target.value || null })}
                 >
                   <option value="">Personal Project</option>
@@ -670,8 +670,8 @@ export default function ProjectDetailPage() {
                     <ToggleSlider
                       type="checkbox"
                       checked={project.isPublic}
-                      onChange={() =>
-                        setProject({ ...project, isPublic: !project.isPublic })}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setProject({ ...project, isPublic: e.target.checked })}
                     />
                     <Slider />
                   </ToggleSwitch>
