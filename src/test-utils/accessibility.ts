@@ -15,7 +15,7 @@ export const validateAccessibility = (container: HTMLElement) => {
   ariaElements.forEach(el => {
     const describedBy = el.getAttribute('aria-describedby');
     if (describedBy) {
-      const description = container.getElementById(describedBy);
+const description = container.ownerDocument?.getElementById(describedBy);
       expect(description).toBeInTheDocument();
     }
   });
