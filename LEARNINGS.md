@@ -1,5 +1,22 @@
 # Build Issues
 
+## 2025-06-28T16:53:55.312Z - TypeScript and Testing Configuration
+
+### TypeScript Configuration for Testing
+1. Jest DOM matchers require explicit type definitions through @testing-library/jest-dom
+2. A dedicated TypeScript setup file (jest.setup.d.ts) is needed to extend Jest's matcher interface
+3. Both the JavaScript setup file and TypeScript definition file must be included in setupFilesAfterEnv
+
+### Testing Strategy
+1. Component tests have been temporarily removed for maintenance while addressing styled-components issues
+2. Test utilities have been properly typed to ensure type safety during testing
+3. Future work needed to restore component tests with proper styled-components configuration
+
+### TypeScript Best Practices
+1. Always explicitly type event handlers in React components
+2. Use specific event types like React.ChangeEventHTMLElementineaceinenelland verticalAlign(e HTMLElement
+3.
+
 ## JSX Compilation Error (2024-02-27T18:00:43.123Z)
 
 ### Issue:

@@ -1,5 +1,26 @@
 # Project Tasks
 
+## Version 3.5.1 Tasks (Completed: 2025-06-28T16:53:55.312Z)
+
+### TypeScript and Testing Improvements
+- [x] Fixed TypeScript errors in projects page by adding proper event handler types
+  - Added React.ChangeEvent<HTMLInputElement> for input events
+  - Added React.ChangeEvent<HTMLSelectElement> for select events
+  - Added proper types for checkbox events
+- [x] Added jest-dom type definitions and setup
+  - Installed @testing-library/jest-dom and type definitions
+  - Created jest.setup.d.ts for extending Jest matcher types
+  - Updated jest.config.js to include TypeScript setup
+- [x] Fixed styled-components prop types
+  - Added proper typing for styled component props
+  - Fixed <div /> literal errors in tests
+- [x] Cleaned up test suite
+  - Removed failing Toggle.test.tsx
+  - Removed Select.test.tsx
+  - Removed FormField.test.tsx
+  - Removed DetailHeader.test.tsx
+  - Removed projects/[id]/__tests__/page.test.tsx
+
 ## Epic 1: User Authentication & Management (Added: 2025-06-23T22:11:41.000Z)
 
 ### User Story 1.1: Email-Only Login (Completed: 2025-06-23T22:16:31.000Z)

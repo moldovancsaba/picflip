@@ -49,10 +49,10 @@ export async function getCurrentVersion(): Promise<string> {
       .sort({ releaseDate: -1 })
       .lean() as IVersion | null;
     
-    return currentVersion ? currentVersion.version : '3.4.0'; // fallback to current version
+    return currentVersion ? currentVersion.version : '3.5.0'; // fallback to current version
   } catch (error) {
     console.error('Error fetching current version:', error);
-    return '3.4.0'; // fallback version
+    return '3.5.0'; // fallback version
   }
 }
 

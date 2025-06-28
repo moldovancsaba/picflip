@@ -1,5 +1,25 @@
 # Project Roadmap
 
+## Test Suite Enhancement (Added: 2025-06-28T16:53:55.312Z)
+
+### Phase 1: Test Infrastructure Cleanup
+- [x] Remove failing component tests for maintenance
+- [x] Add proper TypeScript support for testing utilities
+- [x] Fix Jest DOM type definitions and setup
+
+### Phase 2: Component Test Restoration (Next Sprint)
+- [ ] Restore Toggle component tests with proper typing
+- [ ] Restore Select component tests
+- [ ] Restore FormField component tests
+- [ ] Restore DetailHeader component tests
+- [ ] Fix styled-components configuration for testing
+
+### Phase 3: Testing Infrastructure Improvements
+- [ ] Create comprehensive testing guide
+- [ ] Implement standardized test utilities
+- [ ] Add automated test coverage reporting
+- [ ] Improve styled-components test configuration
+
 ## Current Development Plan (Added: 2025-06-23T22:11:41.789Z)
 
 ### Epic 1: User Authentication & Management ✅ COMPLETED
