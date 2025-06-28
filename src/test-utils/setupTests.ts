@@ -30,7 +30,6 @@ const styled: any = new Proxy(
       if (typeof prop === 'string') {
         return () => createStyledComponent(prop);
       }
-      return (...args: any[]) => createStyledComponent(prop);
     },
     apply: (_, __, [Component]) => createStyledComponent(Component),
   }
@@ -39,7 +38,7 @@ const styled: any = new Proxy(
 const css = () => '';
 const createGlobalStyle = () => () => null;
 const keyframes = () => 'animation';
-const ThemeProvider = ({ children }: { children: React.ReactNode }) => <>{children}</>;
+const ThemeProvider = ({ children }: { children: React.ReactNode }) => React.createElement(React.Fragment, null, children);
 
 export {
   styled as default,
