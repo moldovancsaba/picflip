@@ -1,4 +1,6 @@
 // Verify proper HTML structure and accessibility attributes
+import '@testing-library/jest-dom';
+
 export const validateAccessibility = (container: HTMLElement) => {
   // Verify label-input associations
   const inputs = container.querySelectorAll('input, select, textarea');
