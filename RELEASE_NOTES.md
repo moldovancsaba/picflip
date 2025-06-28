@@ -1,5 +1,43 @@
 # Release Notes
 
+## Version 3.5.0 (2025-06-28T00:18:50.811Z)
+
+### Minor Release
+- **Release**: Code committed to GitHub repository
+- **Version Bump**: Minor version incremented from 3.4.0 to 3.5.0
+- **Status**: Ready for deployment
+
+### Technical Details
+- **Previous Version**: 3.4.0
+- **New Version**: 3.5.0
+- **Bump Type**: commit
+- **Timestamp**: 2025-06-28T00:18:50.811Z
+- **Auto-generated**: Yes
+
+
+## Version 3.4.0 (2025-06-28T07:15:32.891Z)
+
+### Admin Interface Enhancements
+- **Organization Management**:
+  - Enhanced organization detail views
+  - Added advanced permission controls
+  - Improved member management interface
+- **Project Controls**:
+  - Added project visibility toggle in admin panel
+  - Enhanced project assignment interface
+  - Improved organization project linking
+- **User Interface**:
+  - Updated admin navigation for better UX
+  - Streamlined member role management
+  - Enhanced error handling and feedback
+
+### Technical Details
+- **Previous Version**: 3.3.0
+- **New Version**: 3.4.0
+- **Bump Type**: minor
+- **Timestamp**: 2025-06-28T07:15:32.891Z
+- **Status**: Production-ready
+
 ## Version 3.3.0 (2025-06-27T14:52:32.789Z)
 
 ### Breaking Changes

@@ -1,5 +1,58 @@
 # Build Issues
 
+## JSX Compilation Error (2024-02-27T18:00:43.123Z)
+
+### Issue:
+- **Error**: Unexpected token `Container`. Expected jsx identifier
+- **Location**: ./src/app/admin/projects/[id]/page.tsx:372:1
+- **Root Cause**: JSX compilation issue in Next.js with styled-components
+
+### Investigation:
+1. Fixed TypeScript organization type errors
+2. Encountered JSX compilation issue
+3. Investigated styled-components integration
+4. Checked Next.js client/server component boundaries
+
+### Next Steps:
+1. Review styled-components setup with Next.js
+2. Verify client component compilation
+3. Check swc configuration
+4. Test with simpler component structure
+
+### Styled Components Investigation (2024-02-27T18:15:43.123Z)
+1. Modified styled-components import to { styled }
+2. Updated Next.js config for styled-components options
+3. Reviewed component compilation
+4. Verified client-side rendering setup
+
+Key findings:
+1. Import syntax needs to be { styled } from 'styled-components'
+2. Next.js config requires specific styled-components options
+3. Each styled component must be properly transpiled
+4. Client-side rendering requires consistent configuration
+
+Potential solutions:
+1. Ensure correct styled-components registration
+2. Verify client component boundaries
+3. Check for circular dependencies
+4. Review component compilation process
+
+## TypeScript Import Error (2024-02-27T17:45:43.123Z)
+
+### Issue:
+- **Error**: Type error: '@/lib/types' has no exported member named 'Organisation'. Did you mean 'Organization'?
+- **Location**: ./src/app/admin/page.tsx:4:24
+- **Root Cause**: British spelling 'Organisation' used instead of American spelling 'Organization'
+
+### Impact:
+- Production build failing due to TypeScript type checking
+- Inconsistent spelling across codebase (British vs American English)
+
+### Resolution Steps:
+1. Update import statement to use 'Organization' instead of 'Organisation'
+2. Search for and fix any other instances of British spelling in the codebase
+3. Document standardization on American spelling in LEARNINGS.md
+
 ## 2024-02-27T12:45:23.456Z
 
 Production build failed due to missing organization-related modules. The errors revealed two key issues:
@@ -35,7 +88,24 @@ The `PageProps` type does not satisfy the constraint from Next.js types. Specifi
 2. Ensure dynamic route parameter types are properly handled as Promise types
 3. Verify the fix by running the build process again
 
-# Development Learnings
+## Admin Interface Enhancement Learnings (2025-06-28T07:15:32.891Z)
+
+### Organization Management
+- Separate views for different organization aspects improve usability
+- Role-based controls need clear visual indicators
+- Member management benefits from batch operations
+
+### Project Controls
+- Visibility toggles should have clear status indicators
+- Project assignment needs proper error validation
+- Organization linking requires proper cascade handling
+
+### User Interface
+- Navigation changes should be consistent across all admin pages
+- Role management UI benefits from drag-and-drop functionality
+- Error handling should be both informative and actionable
+
+## Development Learnings
 
 This document captures key learnings and insights from developing Picito.
 
@@ -700,3 +770,42 @@ if (!response.ok) {
 No errors or issues were detected during the startup and initial functionality verification.
 
 Last Updated: 2024-02-27T12:30:36.789Z
+
+## Test Execution Results (2024-02-27T19:23:45.123Z)
+
+### Test Summary
+- Total Test Suites: 15
+- Passed: 9
+- Failed: 6
+- Total Tests: 186
+- Passed Tests: 180
+- Failed Tests: 6
+
+### Key Issues Identified
+
+1. **Organization Naming Inconsistency**
+   - Test files expect "Organisation" (British) but code uses "Organization" (American)
+   - Affected files:
+     - src/lib/__tests__/organizationHelpers.test.ts
+     - Multiple error messages
+
+2. **Styled Components Integration**
+   - Error in src/app/admin/projects/[id]/page.test.tsx
+   - Cannot read properties of undefined (reading 'div')
+   - Likely styled-components setup issue in test environment
+
+3. **Module Resolution**
+   - Configuration errors in module mapping
+   - Affected paths:
+     - @/models/Organisation
+     - @/models/OrganizationMembership
+
+4. **React Testing Issues**
+   - Updates not wrapped in act(...) in UserDetailPage tests
+   - Multiple state updates need proper act() wrapping
+
+### Required Actions
+1. Standardize on American spelling ("Organization") throughout codebase
+2. Fix styled-components configuration in test environment
+3. Correct module mapping in Jest configuration
+4. Update React tests to properly handle async state updates

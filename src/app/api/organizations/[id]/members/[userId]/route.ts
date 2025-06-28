@@ -49,27 +49,27 @@ export async function DELETE(
       );
     }
 
-    const currentUserMembership = await OrganisationMembership.findOne({
+    const currentUserMembership = await OrganizationMembership.findOne({
       userId: currentUser._id,
-      organisationId: params.id
+      organizationId: params.id
     });
 
     if (!currentUserMembership) {
       return NextResponse.json(
-        { error: 'Access denied - not a member of this organisation' },
+        { error: 'Access denied - not a member of this organization' },
         { status: 403 }
       );
     }
 
     // Find the target membership to remove
-    const targetMembership = await OrganisationMembership.findOne({
+    const targetMembership = await OrganizationMembership.findOne({
       userId: params.userId,
-      organisationId: params.id
+      organizationId: params.id
     });
 
     if (!targetMembership) {
       return NextResponse.json(
-        { error: 'User is not a member of this organisation' },
+        { error: 'User is not a member of this organization' },
         { status: 404 }
       );
     }
@@ -80,15 +80,15 @@ export async function DELETE(
     if (isSelfRemoval) {
       // Users can always remove themselves, but check if they're the last owner
       if (targetMembership.role === 'owner') {
-        const otherOwners = await OrganisationMembership.countDocuments({
-          organisationId: params.id,
+        const otherOwners = await OrganizationMembership.countDocuments({
+          organizationId: params.id,
           role: 'owner',
           _id: { $ne: targetMembership._id }
         });
 
         if (otherOwners === 0) {
           return NextResponse.json(
-            { error: 'Cannot leave organisation - you are the last owner. Transfer ownership first.' },
+            { error: 'Cannot leave organization - you are the last owner. Transfer ownership first.' },
             { status: 400 }
           );
         }
@@ -115,28 +115,28 @@ export async function DELETE(
     const membershipData = {
       _id: targetMembership._id,
       userId: targetMembership.userId,
-      organisationId: targetMembership.organisationId,
+      organizationId: targetMembership.organizationId,
       role: targetMembership.role,
       joinedAt: targetMembership.joinedAt
     };
 
     // Remove the membership
-    await OrganisationMembership.findByIdAndDelete(targetMembership._id);
+    await OrganizationMembership.findByIdAndDelete(targetMembership._id);
 
     return NextResponse.json({
       message: isSelfRemoval 
-        ? 'Successfully left the organisation' 
+        ? 'Successfully left the organization'
         : 'Member removed successfully',
       removedMembership: membershipData
     });
 
   } catch (error) {
-    console.error('Error removing organisation member:', error);
+    console.error('Error removing organization member:', error);
     
     // Handle specific mongoose errors
     if (error instanceof Error && error.message.includes('Cannot remove the last owner')) {
       return NextResponse.json(
-        { error: 'Cannot remove the last owner from an organisation' },
+        { error: 'Cannot remove the last owner from an organization' },
         { status: 400 }
       );
     }
@@ -181,16 +181,16 @@ export async function PATCH(
     // Validate IDs
     if (!mongoose.Types.ObjectId.isValid(params.id) || !mongoose.Types.ObjectId.isValid(params.userId)) {
       return NextResponse.json(
-        { error: 'Invalid organisation or user ID' },
+        { error: 'Invalid organization or user ID' },
         { status: 400 }
       );
     }
 
-    // Check if organisation exists
-    const organisation = await Organisation.findById(params.id);
-    if (!organisation) {
+    // Check if organization exists
+    const organization = await Organization.findById(params.id);
+    if (!organization) {
       return NextResponse.json(
-        { error: 'Organisation not found' },
+        { error: 'Organization not found' },
         { status: 404 }
       );
     }
@@ -204,27 +204,27 @@ export async function PATCH(
       );
     }
 
-    const currentUserMembership = await OrganisationMembership.findOne({
+    const currentUserMembership = await OrganizationMembership.findOne({
       userId: currentUser._id,
-      organisationId: params.id
+      organizationId: params.id
     });
 
     if (!currentUserMembership) {
       return NextResponse.json(
-        { error: 'Access denied - not a member of this organisation' },
+        { error: 'Access denied - not a member of this organization' },
         { status: 403 }
       );
     }
 
     // Find the target membership to update
-    const targetMembership = await OrganisationMembership.findOne({
+    const targetMembership = await OrganizationMembership.findOne({
       userId: params.userId,
-      organisationId: params.id
+      organizationId: params.id
     });
 
     if (!targetMembership) {
       return NextResponse.json(
-        { error: 'User is not a member of this organisation' },
+        { error: 'User is not a member of this organization' },
         { status: 404 }
       );
     }
@@ -249,7 +249,7 @@ export async function PATCH(
     // Only owners can assign owner role
     if (role === 'owner' && currentUserMembership.role !== 'owner') {
       return NextResponse.json(
-        { error: 'Only organisation owners can assign owner role' },
+        { error: 'Only organization owners can assign owner role' },
         { status: 403 }
       );
     }
@@ -267,7 +267,7 @@ export async function PATCH(
     await targetMembership.save();
 
     // Get updated membership with user info
-    const updatedMembership = await OrganisationMembership.findById(targetMembership._id)
+    const updatedMembership = await OrganizationMembership.findById(targetMembership._id)
       .populate('userId', 'email createdAt lastLoginAt')
       .lean() as any;
 
@@ -297,7 +297,7 @@ export async function PATCH(
     // Handle specific business logic errors
     if (error instanceof Error && error.message.includes('Cannot remove the last owner')) {
       return NextResponse.json(
-        { error: 'Cannot change role - this would remove the last owner from the organisation' },
+        { error: 'Cannot change role - this would remove the last owner from the organization' },
         { status: 400 }
       );
     }

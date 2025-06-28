@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import Settings from '@/models/Settings';
-import Organization from '@/models/Organization';
+import OrganizationModel from '@/models/Organization';
 import { z } from 'zod';
 
 // Force dynamic rendering
@@ -22,7 +22,7 @@ const projectUpdateSchema = z.object({
   horizontalAlignment: z.enum(['left', 'center', 'right']).optional(),
   verticalAlignment: z.enum(['top', 'middle', 'bottom']).optional(),
   isPublic: z.boolean().optional(),
-  organisationId: z.string().or(z.null()).optional()
+  organizationId: z.string().or(z.null()).optional()
 });
 
 export async function GET(
@@ -59,16 +59,16 @@ export async function GET(
       );
     }
 
-    // Fetch all organisations for the admin
-    const organisations = await Organisation.find({})
+    // Fetch all organizations for the admin
+    const organizations = await OrganizationModel.find({})
       .sort({ name: 1 })
       .select('_id name slug description')
       .lean();
 
-    // Fetch the current organisation if assigned
-    let currentOrganisation = null;
-    if (config.organisationId) {
-      currentOrganisation = await Organisation.findById(config.organisationId)
+    // Fetch the current organization if assigned
+    let currentOrganization = null;
+    if (config.organizationId) {
+      currentOrganization = await OrganizationModel.findById(config.organizationId)
         .select('_id name slug description')
         .lean();
     }
@@ -87,9 +87,9 @@ export async function GET(
       horizontalAlignment: config.horizontalAlignment || 'center',
       verticalAlignment: config.verticalAlignment || 'middle',
       isPublic: config.isPublic || false,
-      organisationId: config.organisationId || null,
-      currentOrganisation,
-      organisations,
+      organizationId: config.organizationId || null,
+      currentOrganization,
+      organizations,
       updatedAt: new Date().toISOString()
     };
 
@@ -140,12 +140,12 @@ export async function PATCH(
 
     await dbConnect();
 
-    // Validate organisation exists if provided
-    if (updateData.organisationId) {
-      const orgExists = await Organisation.findById(updateData.organisationId);
+    // Validate organization exists if provided
+    if (updateData.organizationId) {
+      const orgExists = await OrganizationModel.findById(updateData.organizationId);
       if (!orgExists) {
         return NextResponse.json(
-          { message: 'Organisation not found' },
+          { message: 'Organization not found' },
           { status: 404 }
         );
       }
@@ -193,7 +193,7 @@ export async function PATCH(
       horizontalAlignment: config.horizontalAlignment || 'center',
       verticalAlignment: config.verticalAlignment || 'middle',
       isPublic: config.isPublic || false,
-      organisationId: config.organisationId || null,
+      organizationId: config.organizationId || null,
       updatedAt: new Date().toISOString()
     };
 

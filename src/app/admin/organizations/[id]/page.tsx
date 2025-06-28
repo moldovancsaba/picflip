@@ -800,17 +800,17 @@ export default function OrganizationDetailPage() {
   // Show loading state while fetching data
   if (isLoading) {
     return (
-      <PageWrapper 
-        loadingProps={{ minHeight: '60vh', background: 'transparent' }}
-      >
-        <div>Loading organization details...</div>
-      </PageWrapper>
+      <PageWrapper
+          loadingProps={{ minHeight: '60vh', background: 'transparent' }}
+        >
+          <div>Loading organization details...</div>
+        </PageWrapper>
     );
   }
 
   // Return wrapped content with global error boundary and suspense
   return (
-    <PageWrapper 
+    <PageWrapper
       loadingProps={{ minHeight: '60vh', background: 'transparent' }}
     >
       <OrganizationPageContent />

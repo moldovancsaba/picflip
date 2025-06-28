@@ -160,22 +160,22 @@ export async function PATCH(
     // Handle membership changes
     if (updateData.memberships && updateData.memberships.length > 0) {
       for (const membershipAction of updateData.memberships) {
-        const { organisationId, role, action } = membershipAction;
+        const { organizationId, role, action } = membershipAction;
 
         // Verify organization exists
-        const orgExists = await Organisation.findById(organisationId);
+        const orgExists = await Organization.findById(organizationId);
         if (!orgExists) {
           return NextResponse.json(
-            { message: `Organisation ${organisationId} not found` },
+            { message: `Organization ${organizationId} not found` },
             { status: 404 }
           );
         }
 
         if (action === 'add') {
           // Check if membership already exists
-          const existingMembership = await OrganisationMembership.findOne({
+          const existingMembership = await OrganizationMembership.findOne({
             userId: id,
-            organisationId
+            organizationId
           });
 
           if (existingMembership) {
@@ -184,38 +184,38 @@ export async function PATCH(
             await existingMembership.save();
           } else {
             // Create new membership
-            await OrganisationMembership.create({
+            await OrganizationMembership.create({
               userId: id,
-              organisationId,
+              organizationId,
               role
             });
           }
         } else if (action === 'remove') {
           // Check if this is the last owner before removing
-          const membership = await OrganisationMembership.findOne({
+          const membership = await OrganizationMembership.findOne({
             userId: id,
-            organisationId
+            organizationId
           });
 
           if (membership && membership.role === 'owner') {
-            const otherOwners = await OrganisationMembership.countDocuments({
-              organisationId,
+            const otherOwners = await OrganizationMembership.countDocuments({
+              organizationId,
               role: 'owner',
               userId: { $ne: id }
             });
 
             if (otherOwners === 0) {
               return NextResponse.json(
-                { message: 'Cannot remove the last owner from an organisation' },
+                { message: 'Cannot remove the last owner from an organization' },
                 { status: 400 }
               );
             }
           }
 
           // Remove the membership
-          await OrganisationMembership.deleteOne({
+          await OrganizationMembership.deleteOne({
             userId: id,
-            organisationId
+            organizationId
           });
         }
       }
@@ -223,16 +223,16 @@ export async function PATCH(
 
     // Fetch updated user data with memberships
     const updatedUser = await User.findById(id).lean() as any;
-    const updatedMemberships = await OrganisationMembership.find({ userId: id })
-      .populate('organisationId', 'name slug description')
+    const updatedMemberships = await OrganizationMembership.find({ userId: id })
+      .populate('organizationId', 'name slug description')
       .sort({ role: -1, joinedAt: 1 })
       .lean();
 
     const membershipSummary = updatedMemberships.map((membership: any) => ({
       _id: membership._id,
-      organisationId: membership.organisationId._id,
-      organisationName: membership.organisationId.name,
-      organisationSlug: membership.organisationId.slug,
+      organizationId: membership.organizationId._id,
+      organizationName: membership.organizationId.name,
+      organizationSlug: membership.organizationId.slug,
       role: membership.role,
       joinedAt: membership.joinedAt.toISOString()
     }));

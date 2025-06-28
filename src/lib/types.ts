@@ -21,7 +21,7 @@ export interface IframeConfig {
 // Organization types
 export type MembershipRole = 'owner' | 'admin' | 'member';
 
-export interface Organization
+export interface Organization {
   _id?: string;
   name: string;
   slug: string;
@@ -40,7 +40,7 @@ export interface OrganizationMembership {
   updatedAt: Date | string;
 }
 
-export interface OrganizationMembershipSummary
+export interface OrganizationMembershipSummary {
   _id?: string;
   name: string;
   slug: string;
@@ -51,7 +51,7 @@ export interface OrganizationMembershipSummary
   joinedAt: Date | string;
 }
 
-export interface OrganizationFormData
+export interface OrganizationFormData {
   name: string;
   description: string;
 }

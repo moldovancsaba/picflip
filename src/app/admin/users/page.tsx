@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { UsersList } from '@/components/UsersList';
 import { IUser } from '@/models/User';
-import { Organisation } from '@/lib/types';
+import { Organization } from '@/lib/types';
 import Loading from '@/components/Loading';
 
 const UsersContainer = styled.div`

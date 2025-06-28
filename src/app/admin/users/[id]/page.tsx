@@ -552,17 +552,17 @@ export default function UserDetailPage() {
   // Show loading state while fetching data
   if (isLoading) {
     return (
-      <PageWrapper 
-        loadingProps={{ minHeight: '60vh', background: 'transparent' }}
-      >
-        <div>Loading user details...</div>
-      </PageWrapper>
+      <PageWrapper
+          loadingProps={{ minHeight: '60vh', background: 'transparent' }}
+        >
+          <div>Loading user details...</div>
+        </PageWrapper>
     );
   }
 
   // Return wrapped content with global error boundary and suspense
   return (
-    <PageWrapper 
+    <PageWrapper
       loadingProps={{ minHeight: '60vh', background: 'transparent' }}
     >
       <UserPageContent />

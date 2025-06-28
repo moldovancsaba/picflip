@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-import { IframeConfig, Organisation } from '@/lib/types';
+import { IframeConfig, Organization } from '@/lib/types';
 import Loading from '@/components/Loading';
 
 const ProjectsContainer = styled.div`
@@ -260,7 +260,7 @@ const StatLabel = styled.div`
 
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<IframeConfig[]>([]);
-  const [organizations, setOrganizations] = useState<Organisation[]>([]);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -304,7 +304,7 @@ export default function AdminProjectsPage() {
 
   const fetchOrganizations = async () => {
     try {
-      const response = await fetch('/api/organisations?admin=true');
+      const response = await fetch('/api/organizations?admin=true');
       
       if (response.status === 401) {
         router.push('/login');
@@ -316,7 +316,7 @@ export default function AdminProjectsPage() {
       }
       
       const data = await response.json();
-      setOrganizations(data.organisations);
+      setOrganizations(data.organizations);
     } catch (err) {
       console.error('Error fetching organizations:', err);
       // Don't show error for organizations fetching as it's not critical
@@ -381,7 +381,7 @@ export default function AdminProjectsPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ organisationId: organizationId }),
+        body: JSON.stringify({ organizationId: organizationId }),
       });
 
       if (response.status === 401) {
@@ -400,7 +400,7 @@ export default function AdminProjectsPage() {
       // Update local state
       setProjects(prev => prev.map(project => 
         project.id === projectId 
-          ? { ...project, organisationId: organizationId || undefined }
+          ? { ...project, organizationId: organizationId || undefined }
           : project
       ));
 
@@ -507,9 +507,9 @@ export default function AdminProjectsPage() {
               <OrganizationSection>
                 <div>
                   <strong>Organization:</strong>
-                  {project.organisationId ? (
+                  {project.organizationId ? (
                     <OrganizationTag style={{ marginLeft: '0.5rem' }}>
-                      {getOrganizationName(project.organisationId)}
+                      {getOrganizationName(project.organizationId)}
                     </OrganizationTag>
                   ) : (
                     <span style={{ marginLeft: '0.5rem', color: '#666', fontStyle: 'italic' }}>Personal Project</span>
@@ -517,7 +517,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                   <OrganizationSelect
-                    value={selectedOrganizations[project.id] ?? (project.organisationId || '')}
+                    value={selectedOrganizations[project.id] ?? (project.organizationId || '')}
                     onChange={(e) => setSelectedOrganizations(prev => ({
                       ...prev,
                       [project.id]: e.target.value
@@ -533,11 +533,11 @@ export default function AdminProjectsPage() {
                   </OrganizationSelect>
                   <AssignButton
                     onClick={() => {
-                      const newOrgId = selectedOrganizations[project.id] ?? (project.organisationId || '');
+                      const newOrgId = selectedOrganizations[project.id] ?? (project.organizationId || '');
                       assignToOrganization(project.id, newOrgId || null);
                     }}
                     disabled={updatingOrganization.has(project.id) || 
-                      (selectedOrganizations[project.id] ?? (project.organisationId || '')) === (project.organisationId || '')}
+                      (selectedOrganizations[project.id] ?? (project.organizationId || '')) === (project.organizationId || '')}
                   >
                     {updatingOrganization.has(project.id) ? 'Updating...' : 'Assign'}
                   </AssignButton>

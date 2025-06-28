@@ -1,7 +1,7 @@
 "use client";
 
 import { useSettings } from '@/lib/settings-context';
-import { IframeConfig, Organisation } from '@/lib/types';
+import { IframeConfig, Organization } from '@/lib/types';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -233,7 +233,7 @@ export default function AdminPage() {
     id: '',
     name: ''
   });
-  const [organizations, setOrganizations] = useState<Organisation[]>([]);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
   
   useEffect(() => {
     fetchOrganizations();
@@ -465,9 +465,9 @@ export default function AdminPage() {
         <FormGroup>
           <Label htmlFor="organisationId">Organization Assignment</Label>
           <select
-            id="organisationId"
-            value={formData.organisationId || ''}
-            onChange={(e) => handleChange('organisationId', e.target.value || null)}
+id="organizationId"
+value={formData.organizationId || ''}
+onChange={(e) => handleChange('organizationId', e.target.value || null)}
             style={{
               padding: '0.5rem',
               border: '1px solid #ccc',

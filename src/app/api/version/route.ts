@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       { 
         error: 'Failed to fetch version',
-        version: '3.2.3', // fallback
+        version: '3.5.0', // fallback
         timestamp: new Date().toISOString()
       },
       { status: 500 }

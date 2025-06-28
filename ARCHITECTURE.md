@@ -1,5 +1,11 @@
 # Project Architecture
 
+## Version 3.4.0 (Updated: 2025-06-28T07:15:32.891Z)
+
+Latest version includes enhanced admin interface with improved organization management,
+project controls, and user interface updates. All changes maintain backward compatibility
+while improving overall system usability and control.
+
 ## Technology Stack
 
 - **Framework**: Next.js 15.3.4
