@@ -14,7 +14,7 @@ const createStyledComponent = (Element: string | React.ComponentType) => {
       return React.createElement(Element, { ref, ...props, ...dataProps }, children);
     }
 
-    return <Element ref={ref} {...props} {...dataProps}>{children}</Element>;
+    return React.createElement(Element, { ref, ...props, ...dataProps }, children);
   });
 
   component.displayName = `Styled(${typeof Element === 'string' ? Element : Element.displayName || 'Component'})`;
