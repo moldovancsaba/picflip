@@ -3,8 +3,8 @@ import { GET, PATCH } from '../route';
 import { getSession } from '@/lib/auth';
 import dbConnect from '@/lib/db';
 import User from '@/models/User';
-import OrganisationMembership from '@/models/OrganisationMembership';
-import Organisation from '@/models/Organisation';
+import OrganizationMembership from '@/models/OrganizationMembership';
+import Organization from '@/models/Organization';
 
 // Mock dependencies
 jest.mock('jose', () => ({
@@ -22,7 +22,7 @@ jest.mock('@/models/User', () => ({
     find: jest.fn(),
   }
 }));
-jest.mock('@/models/OrganisationMembership', () => ({
+jest.mock('@/models/OrganizationMembership'
   __esModule: true,
   default: {
     find: jest.fn(),
@@ -42,8 +42,8 @@ jest.mock('@/models/Organisation', () => ({
 
 const mockGetSession = getSession as jest.MockedFunction<typeof getSession>;
 const mockDbConnect = dbConnect as jest.MockedFunction<typeof dbConnect>;
-const mockOrganisationMembership = OrganisationMembership as jest.Mocked<typeof OrganisationMembership>;
-const mockOrganisation = Organisation as jest.Mocked<typeof Organisation>;
+const mockOrganizationMembership = OrganizationMembership as jest.Mocked<typeof OrganizationMembership>;
+const mockOrganization = Organization as jest.Mocked<typeof Organization>;
 
 describe('/api/admin/users/[id]', () => {
   const mockUserId = 'user-123';
@@ -81,7 +81,7 @@ describe('/api/admin/users/[id]', () => {
       const mockMemberships = [
         {
           _id: 'mem-1',
-          organisationId: {
+          organizationId: {
             _id: 'org-1',
             name: 'Organization 1',
             slug: 'org-1',
@@ -92,7 +92,7 @@ describe('/api/admin/users/[id]', () => {
         },
         {
           _id: 'mem-2',
-          organisationId: {
+          organizationId: {
             _id: 'org-2',
             name: 'Organization 2',
             slug: 'org-2',
@@ -103,7 +103,7 @@ describe('/api/admin/users/[id]', () => {
         }
       ];
 
-      OrganisationMembership.find = jest.fn().mockReturnValue({
+      OrganizationMembership.find = jest.fn().mockReturnValue({
         populate: jest.fn().mockReturnThis(),
         sort: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue(mockMemberships)
@@ -116,7 +116,7 @@ describe('/api/admin/users/[id]', () => {
         { _id: 'org-3', name: 'Organization 3', slug: 'org-3', description: 'Org 3 description' }
       ];
 
-      Organisation.find = jest.fn().mockReturnValue({
+      Organization.find = jest.fn().mockReturnValue({
         sort: jest.fn().mockReturnThis(),
         select: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue(mockAllOrgs)
@@ -205,7 +205,7 @@ describe('/api/admin/users/[id]', () => {
         }); // Second call for response
 
       // Mock memberships
-      OrganisationMembership.find = jest.fn().mockReturnValue({
+      OrganizationMembership.find = jest.fn().mockReturnValue({
         populate: jest.fn().mockReturnThis(),
         sort: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue([])
@@ -283,17 +283,17 @@ describe('/api/admin/users/[id]', () => {
         }); // Second call for response
 
       // Mock organization exists
-      Organisation.findById = jest.fn().mockResolvedValue({
+      Organization.findById = jest.fn().mockResolvedValue({
         _id: 'org-123',
         name: 'Test Org'
       });
 
       // Mock no existing membership
-      OrganisationMembership.findOne = jest.fn().mockResolvedValue(null);
-      OrganisationMembership.create = jest.fn().mockResolvedValue(undefined);
+      OrganizationMembership.findOne = jest.fn().mockResolvedValue(null);
+      OrganizationMembership.create = jest.fn().mockResolvedValue(undefined);
 
       // Mock memberships for response
-      OrganisationMembership.find = jest.fn().mockReturnValue({
+      OrganizationMembership.find = jest.fn().mockReturnValue({
         populate: jest.fn().mockReturnThis(),
         sort: jest.fn().mockReturnThis(),
         lean: jest.fn().mockResolvedValue([])
@@ -302,7 +302,7 @@ describe('/api/admin/users/[id]', () => {
       const updateData = {
         memberships: [
           {
-            organisationId: 'org-123',
+            organizationId: 'org-123',
             role: 'member',
             action: 'add'
           }
@@ -320,9 +320,9 @@ describe('/api/admin/users/[id]', () => {
 
       expect(response.status).toBe(200);
       expect(responseData.message).toBe('User updated successfully');
-      expect(OrganisationMembership.create).toHaveBeenCalledWith({
+      expect(OrganizationMembership.create).toHaveBeenCalledWith({
         userId: mockUserId,
-        organisationId: 'org-123',
+        organizationId: 'org-123',
         role: 'member'
       });
     });

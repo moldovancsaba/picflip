@@ -20,7 +20,7 @@ jest.mock('@/models/Settings', () => ({
     create: jest.fn(),
   }
 }));
-jest.mock('@/models/Organisation', () => ({
+jest.mock('@/models/Organization'
   __esModule: true,
   default: {
     find: jest.fn(),

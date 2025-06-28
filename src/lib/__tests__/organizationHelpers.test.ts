@@ -147,28 +147,28 @@ describe('organizationHelpers', () => {
     it('should reject empty name', () => {
       expect(validateOrganizationName('')).toEqual({
         isValid: false,
-        error: 'Organisation name is required'
+        error: 'Organization name is required'
       });
     });
 
     it('should reject whitespace-only name', () => {
       expect(validateOrganizationName('   ')).toEqual({
         isValid: false,
-        error: 'Organisation name is required'
+        error: 'Organization name is required'
       });
     });
 
     it('should reject name that is too short', () => {
       expect(validateOrganizationName('A')).toEqual({
         isValid: false,
-        error: 'Organisation name must be at least 2 characters'
+        error: 'Organization name must be at least 2 characters'
       });
     });
 
     it('should reject name that is too long', () => {
       expect(validateOrganizationName('A'.repeat(101))).toEqual({
         isValid: false,
-        error: 'Organisation name cannot exceed 100 characters'
+        error: 'Organization name cannot exceed 100 characters'
       });
     });
 
