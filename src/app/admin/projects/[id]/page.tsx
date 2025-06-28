@@ -162,7 +162,7 @@ const Slider = styled.span`
 
 const VisibilityLabel = styled.span<{ $isPublic: boolean }>`
   font-weight: 500;
-  color: ${props => props.$isPublic ? '#059669' : '#dc2626'};
+  color: ${(props: { $isPublic: boolean }) => props.$isPublic ? '#059669' : '#dc2626'};
 `;
 
 const Button = styled.button`
